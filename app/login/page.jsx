@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { headers, cookies } from 'next/headers';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
-import ProviderAuth from '@/components/ProviderAuth';
+import ProviderAuth from '@/components/auth/ProviderAuth';
 
 export default function Login({ searchParams }) {
   const signIn = async (formData) => {
@@ -78,6 +78,8 @@ export default function Login({ searchParams }) {
         action={signIn}
       >
         <ProviderAuth provider={'facebook'} />
+        <ProviderAuth provider={'google'} />
+        <ProviderAuth provider={'linkedin_oidc'} />
         <label className="text-md" htmlFor="email">
           Email
         </label>
