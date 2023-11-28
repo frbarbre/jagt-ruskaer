@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/layout.jsx", "app/page.jsx", "utils/supabase/client.js", "utils/supabase/middleware.js", "utils/supabase/server.js", "app/login/page.jsx", "app/auth/callback/route.js", "components/AuthButton.jsx", "components/Code.jsx", "components/ConnectSupabaseSteps.jsx", "components/DeployButton.jsx", "components/Header.jsx", "components/NextLogo.jsx", "components/SignUpUserSteps.jsx", "components/Step.jsx", "components/SupabaseLogo.jsx", "middleware.js"],
   "exclude": ["node_modules"]
 }
