@@ -83,13 +83,14 @@ module.exports = {
       },
     },
     screens: {
+      xs: '430px',
       sm: '640px',
       md: '1024px',
       lg: '1400px',
     },
     height: {
-      "nav": "calc(100svh - 92px)"
-    }
+      nav: 'calc(100svh - 92px)',
+    },
   },
   plugins: [require('tailwindcss-animate')],
 };

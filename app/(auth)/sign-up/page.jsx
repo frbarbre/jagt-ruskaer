@@ -100,7 +100,7 @@ export default function SignUp() {
         Opret dig med din foretrukne loginmetode.
       </p>
       <Form {...form}>
-        <div className="flex justify-between gap-[11px]">
+        <div className="flex justify-between gap-[11px] flex-col xs:flex-row">
           <ProviderAuth provider={'facebook'} />
           <ProviderAuth provider={'google'} />
           <ProviderAuth provider={'linkedin_oidc'} />
