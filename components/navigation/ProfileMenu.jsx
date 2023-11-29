@@ -40,7 +40,10 @@ export default function ProfileMenu({ user }) {
 
   return (
     <>
-      <Avatar onClick={() => setIsMenuOpen(!isMenuOpen)}>
+      <Avatar
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        className="cursor-pointer self-center justify-self-end"
+      >
         <AvatarImage src={user.avatar_url} />
         <AvatarFallback>
           {user.first_name?.[0]}
@@ -49,7 +52,7 @@ export default function ProfileMenu({ user }) {
       </Avatar>
       {isMenuOpen && (
         <>
-          <div className="absolute z-50 right-6 md:right-12 top-[110px] bg-white shadow-shad rounded-md p-6 border border-zinc-200 w-nav md:max-w-[302px]">
+          <div className="absolute z-50 right-6 md:right-12 top-[110px] md:top-[92px] bg-white shadow-shad rounded-md p-6 border border-zinc-200 w-nav md:max-w-[302px]">
             <HoverCard>
               <div className="flex gap-3.5 items-center">
                 <Avatar className="w-16 h-16">

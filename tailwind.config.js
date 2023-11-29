@@ -19,7 +19,7 @@ module.exports = {
     },
     extend: {
       width: {
-        nav: "calc(100% - 48px)"
+        nav: 'calc(100% - 48px)',
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -82,6 +82,14 @@ module.exports = {
         shad: '0px 4px 4px 0px rgba(174, 174, 174, 0.25)',
       },
     },
+    screens: {
+      sm: '640px',
+      md: '1024px',
+      lg: '1400px',
+    },
+    height: {
+      "nav": "calc(100svh - 92px)"
+    }
   },
   plugins: [require('tailwindcss-animate')],
 };
