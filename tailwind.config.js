@@ -1,4 +1,4 @@
-const { fontFamily } = require("tailwindcss/defaultTheme")
+const { fontFamily } = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -18,6 +18,9 @@ module.exports = {
       },
     },
     extend: {
+      width: {
+        nav: "calc(100% - 48px)"
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -74,6 +77,9 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],
+      },
+      boxShadow: {
+        shad: '0px 4px 4px 0px rgba(174, 174, 174, 0.25)',
       },
     },
   },
