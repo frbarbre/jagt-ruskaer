@@ -25,7 +25,7 @@ export default function UploadImage({
         {!loading && (
           <>
             {image === '' && images.length === 0 ? (
-              <div className="text-center absolute inset-0 flex items-center justify-center flex-col gap-[8px]">
+              <div className="text-center absolute inset-0 flex items-center justify-center flex-col gap-[8px] pointer-events-none">
                 <img
                   src="/image.png"
                   alt="upload-image"
@@ -37,7 +37,7 @@ export default function UploadImage({
                 </p>
               </div>
             ) : (
-              <div className="absolute inset-0 bg-black/20 rounded-full flex items-center justify-center flex-col gap-[8px]">
+              <div className="absolute inset-0 bg-black/20 rounded-full flex items-center justify-center flex-col gap-[8px] pointer-events-none">
                 <img
                   src="/image.png"
                   alt="upload-image"

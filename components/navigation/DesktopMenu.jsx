@@ -15,12 +15,14 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 
+
+//
 const components = [
   {
     title: 'Bestyrelsen',
     href: '/',
     description:
-      'A modal dialog that interrupts the user with important content and expects a response.',
+      'Bestyrelser er flotte i tøjet og har styr på det hele.',
   },
   {
     title: 'Riffeludvalget',
@@ -91,18 +93,19 @@ export default function DesktopMenu() {
           <NavigationMenuTrigger>Aktiviteter</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-4">
+              <li className="row-span-4 relative flex items-end">
                 <NavigationMenuLink asChild>
                   <a
-                    className="flex h-full w-full select-none flex-col justify-end rounded-md relative p-6 no-underline outline-none focus:shadow-md"
+                    className="flex select-none flex-col justify-end rounded-md p-6 no-underline outline-none focus:shadow-md"
                     href="/"
                   >
-                    <img
-                      src={`/${activeActivity}.png`}
-                      alt={activeActivity}
-                      className="absolute inset-0 object-cover h-full rounded-sm w-full"
+                    <div
+                      className="absolute inset-0 rounded-sm h-full flex items-center justify-center bg-cover bg-center"
+                      style={{
+                        backgroundImage: `url('/${activeActivity}.png')`,
+                      }}
                     />
-                    <div className="absolute inset-0 bg-black/20 rounded-sm" />
+                    <div className="bg-black/20 inset-0 absolute rounded-sm" />
                     <div className="relative z-10">
                       {activeActivity === 'jagt' ? (
                         <Rabbit className="h-6 w-6" color="#FFF" />

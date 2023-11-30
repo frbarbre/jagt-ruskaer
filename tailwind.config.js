@@ -21,6 +21,9 @@ module.exports = {
       width: {
         nav: 'calc(100% - 48px)',
       },
+      gridTemplateColumns: {
+        fluid: 'repeat(auto-fit, minmax(280px, 1fr))',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -81,6 +84,9 @@ module.exports = {
       boxShadow: {
         shad: '0px 4px 4px 0px rgba(174, 174, 174, 0.25)',
       },
+      height: {
+        nav: 'calc(100svh - 92px)',
+      },
     },
     screens: {
       xs: '430px',
@@ -88,9 +94,6 @@ module.exports = {
       md: '1024px',
       lg: '1400px',
     },
-    height: {
-      nav: 'calc(100svh - 92px)',
-    },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate', 'flowbite/plugin')],
 };
