@@ -14,11 +14,12 @@ import {
 import { createClient } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useStore } from '@/store';
 
 export const columns = [
   {
     accessorKey: 'avatar',
-    header: 'Avatar',
+    header: '',
     cell: ({ row }) => {
       const user = row.original;
 
@@ -86,7 +87,7 @@ export const columns = [
     header: 'Telefon',
   },
   {
-    accessorKey: 'admin',
+    accessorKey: 'nyhedsbrev',
     header: ({ column }) => {
       return (
         <Button
@@ -94,16 +95,38 @@ export const columns = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           className="-translate-x-[17px]"
         >
-          Admin
+          Nyhedsbrev
           <ChevronsUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
+
+  {
+    accessorKey: 'rolle',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="-translate-x-[17px]"
+        >
+          Rolle
+          <ChevronsUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+
   {
     id: 'valg',
     cell: ({ row }) => {
       const user = row.original;
+      const setIsRoleModalOpen = useStore((state) => state.setIsRoleModalOpen);
+      const setSelectedUserId = useStore((state) => state.setSelectedUserId);
+      const setSelectedUserRole = useStore(
+        (state) => state.setSelectedUserRole
+      );
 
       const router = useRouter();
       const supabase = createClient(
@@ -126,6 +149,16 @@ export const columns = [
         }
       }
 
+      function handleRoleChange() {
+        setIsRoleModalOpen(true);
+        setSelectedUserId(user.id);
+        setSelectedUserRole(user.rolle);
+      }
+
+      function editUser() {
+        router.push(`/admin/medlemmer/${user.id}`);
+      }
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -139,13 +172,18 @@ export const columns = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(user.id)}
             >
-              Copy payment ID
+              Kopier bruger ID
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleRoleChange}>
+              Skift rolle
             </DropdownMenuItem>
             <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={editUser}>
+              Rediger bruger
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={deleteUser}>
               Slet bruger
             </DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

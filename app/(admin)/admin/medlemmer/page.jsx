@@ -11,7 +11,10 @@ async function getData() {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
-  const { data } = await supabase.from('profiles').select();
+  const { data } = await supabase
+    .from('profiles')
+    .select()
+    .order('created_at', { ascending: false });
 
   return data.map((user) => {
     return {
@@ -22,6 +25,8 @@ async function getData() {
       efternavn: user.last_name,
       telefon: user.phone_number,
       admin: user.isSuperAdmin,
+      rolle: user.role,
+      nyhedsbrev: user.wantNewsletter,
     };
   });
 }

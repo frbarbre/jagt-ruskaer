@@ -43,6 +43,7 @@ export default function ProfileForm({
   lastN,
   phoneN,
   hasNewsletter,
+  isAdminPage,
 }) {
   // Initializing SupaBase client
   const supabase = createClient();
@@ -86,7 +87,11 @@ export default function ProfileForm({
       })
       .eq('id', user_id);
     if (!error) {
-      router.push('/');
+      if (isAdminPage) {
+        router.push('/admin/medlemmer');
+      } else {
+        router.push('/');
+      }
       console.log(values);
     } else {
       console.log(error);
@@ -108,7 +113,8 @@ export default function ProfileForm({
       </div>
 
       <p className="text-zinc-700 my-5">
-        Indtast oplysninger for at redigere din profil.
+        Indtast oplysninger for at redigere{' '}
+        {isAdminPage ? firstN + ' ' + lastN + 's' : 'din'} profil.
       </p>
       <UploadImage
         image={avatar || '/avatar-default.png'}

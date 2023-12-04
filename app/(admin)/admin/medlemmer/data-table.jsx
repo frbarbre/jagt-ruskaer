@@ -29,11 +29,22 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
+import { useStore } from '@/store';
+import RoleMenu from '@/components/admin-members/RoleMenu';
+import Modal from '@/components/shared/Modal';
+import { shallow } from 'zustand/shallow';
 
 export function DataTable({ columns, data }) {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
+
+  const [isRoleModalOpen, setIsRoleModalOpen] = useStore(
+    (state) => [state.isRoleModalOpen, state.setIsRoleModalOpen],
+    shallow
+  );
+  const selectedUserId = useStore((state) => state.selectedUserId);
+
   const table = useReactTable({
     data,
     columns,
@@ -51,17 +62,20 @@ export function DataTable({ columns, data }) {
     },
   });
 
-  function setFilters(e) {
-    table.getColumn('email')?.setFilterValue(e.target.value);
-  }
-
   return (
     <div>
+      {isRoleModalOpen && (
+        <Modal setActive={setIsRoleModalOpen} maxWidth={'max-w-[350px]'}>
+          <RoleMenu user_id={selectedUserId} setActive={setIsRoleModalOpen} />
+        </Modal>
+      )}
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
+          placeholder="Søg efter emails..."
           value={table.getColumn('email')?.getFilterValue() ?? ''}
-          onChange={(e) => setFilters(e)}
+          onChange={(event) =>
+            table.getColumn('email')?.setFilterValue(event.target.value)
+          }
           className="max-w-sm"
         />
         <DropdownMenu>
