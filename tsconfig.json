@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(client)/layout.jsx", "app/(client)/page.jsx", "utils/supabase/client.js", "utils/supabase/middleware.js", "utils/supabase/server.js", "app/(auth)/login/page.jsx", "app/auth/callback/route.js", "components/auth/AuthButton.jsx", "components/Code.jsx", "components/ConnectSupabaseSteps.jsx", "components/DeployButton.jsx", "components/Header.jsx", "components/NextLogo.jsx", "components/SignUpUserSteps.jsx", "components/Step.jsx", "components/SupabaseLogo.jsx", "middleware.js", "app/(auth)/layout.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(client)/layout.jsx", "app/(client)/page.jsx", "utils/supabase/client.js", "utils/supabase/middleware.js", "utils/supabase/server.js", "app/(auth)/login/page.jsx", "app/auth/callback/route.js", "components/auth/AuthButton.jsx", "components/Code.jsx", "components/ConnectSupabaseSteps.jsx", "components/DeployButton.jsx", "components/Header.jsx", "components/NextLogo.jsx", "components/SignUpUserSteps.jsx", "components/Step.jsx", "components/SupabaseLogo.jsx", "middleware.js", "app/(auth)/layout.jsx", "email/plaid-verify-identity.jsx", "email/notion-magic-link.jsx", "email/stripe-welcome.jsx", "email/vercel-invite-user.jsx", "app/(admin)/admin/medlemmer/page.jsx"],
   "exclude": ["node_modules"]
 }

@@ -24,7 +24,6 @@ export default async function AdminActivities({ searchParams }) {
   }
 
   const today = getToday();
-  console.log(today);
 
   let query = supabase.from('activities').select();
 

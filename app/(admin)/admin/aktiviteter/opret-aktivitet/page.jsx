@@ -380,7 +380,7 @@ export default function CreateActivity() {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Bio</FormLabel>
+                  <FormLabel>Beskrivelse</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Skriv beskrivelse her..."

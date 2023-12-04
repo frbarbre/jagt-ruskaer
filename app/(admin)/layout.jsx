@@ -3,6 +3,9 @@ import { Inter as FontSans } from 'next/font/google';
 
 import { cn } from '@/lib/utils';
 import Nav from '@/components/navigation/Nav';
+import { cookies } from 'next/headers';
+import { createClient } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -19,7 +22,27 @@ export const metadata = {
   description: 'The fastest way to build apps with Next.js and Supabase',
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (session) {
+    const { data } = await supabase
+      .from('profiles')
+      .select('isSuperAdmin')
+      .eq('id', session.user.id);
+
+    if (!data[0].isSuperAdmin) {
+      redirect('/');
+    }
+  } else {
+    redirect('/');
+  }
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
