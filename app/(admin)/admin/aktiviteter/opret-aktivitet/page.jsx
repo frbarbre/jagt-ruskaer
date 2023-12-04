@@ -36,6 +36,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Textarea } from '@/components/ui/textarea';
 import { useRouter } from 'next/navigation';
+import ActivityPreview from '@/components/admin-activities/ActivityPreview';
 
 const numberRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([\s]?[0-9])+$/
@@ -133,7 +134,7 @@ export default function CreateActivity() {
     },
   });
 
-  const currentValues = form.getValues();
+  const currentValues = form.watch();
 
   // 2. Define a submit handler - Will run AFTER the zodResolver has validated the form (OPTIMUS FORM)
   // NOTICE - Async function
@@ -167,8 +168,8 @@ export default function CreateActivity() {
   }
 
   return (
-    <section>
-      <Box maxWidth={'max-w-[822px]'}>
+    <section className="flex gap-5">
+      <Box maxWidth={'lg:max-w-[822px] w-full'}>
         <Heading title={'Opret Aktivitet'} icon={<CalendarPlus />} />
         <p className="opacity-70 my-5">Her kan der oprettes en aktivitet</p>
         <Form {...form}>
@@ -436,6 +437,9 @@ export default function CreateActivity() {
             </div>
           </form>
         </Form>
+      </Box>
+      <Box maxWidth={'w-full hidden max-w-[570px] lg:block'}>
+        <ActivityPreview currentValues={currentValues} image={image} />
       </Box>
     </section>
   );

@@ -100,6 +100,11 @@ export const columns = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      return (
+        <p className="capitalize">{row.original.nyhedsbrev ? 'ja' : 'nej'}</p>
+      );
+    },
   },
 
   {
@@ -115,6 +120,9 @@ export const columns = [
           <ChevronsUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      return <p className="capitalize">{row.original.rolle}</p>;
     },
   },
 
@@ -174,10 +182,10 @@ export const columns = [
             >
               Kopier bruger ID
             </DropdownMenuItem>
+            <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleRoleChange}>
               Skift rolle
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
             <DropdownMenuItem onClick={editUser}>
               Rediger bruger
             </DropdownMenuItem>
