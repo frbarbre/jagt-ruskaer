@@ -22,7 +22,7 @@ export default function AdminDesktopMenu() {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link href="admin/aktiviteter" legacyBehavior passHref>
+          <Link href="/admin/aktiviteter" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Aktiviteter
             </NavigationMenuLink>

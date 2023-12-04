@@ -5,7 +5,7 @@ import Heading from '@/components/shared/Heading';
 import { createClient } from '@/utils/supabase/client';
 import { CalendarPlus, CalendarIcon, Loader2 } from 'lucide-react';
 import { useState } from 'react';
-import { format } from 'date-fns';
+import { format, set } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Calendar } from '@/components/ui/calendar';
 import { Button } from '@/components/ui/button';
@@ -82,14 +82,31 @@ const formSchema = z.object({
   image: z.string(),
 });
 
-export default function CreateActivity() {
+export default function EditActivityForm({ activity }) {
   const [image, setImage] = useState(null);
-  const [imageError, setImageError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const supabase = createClient();
   const router = useRouter();
 
   const timeStamp = new Date().getTime();
+
+  const timeFrom =
+    activity.timeFrom[0] +
+    activity.timeFrom[1] +
+    activity.timeFrom[2] +
+    activity.timeFrom[3] +
+    activity.timeFrom[4];
+
+  let timeTo;
+
+  if (activity.timeTo) {
+    timeTo =
+      activity.timeTo[0] +
+      activity.timeTo[1] +
+      activity.timeTo[2] +
+      activity.timeTo[3] +
+      activity.timeTo[4];
+  }
 
   async function handleUpload(e) {
     let file;
@@ -98,9 +115,8 @@ export default function CreateActivity() {
       file = e.target.files[0];
     }
 
-    setImageError(null);
     setIsSubmitting(true);
-    const { data, error } = await supabase.storage
+    const { error } = await supabase.storage
       .from('images')
       .upload(timeStamp + file?.name, e.target.files[0]);
     if (error) {
@@ -119,17 +135,19 @@ export default function CreateActivity() {
     // zodResolver will validate your form values against your schema - hover on it... Bish..
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: '',
-      date: '',
-      category: '',
-      timeFrom: '',
-      timeTo: '',
-      participants: '',
-      dogs: '',
-      price: '',
-      location: '',
-      description: '',
-      image: '',
+      title: activity.title,
+      date: new Date(activity.date),
+      category: activity.category,
+      timeFrom: timeFrom,
+      timeTo: timeTo ? timeTo : '',
+      participants: activity.participants
+        ? activity.participants.toString()
+        : '',
+      dogs: activity.dogs ? activity.dogs.toString() : '',
+      price: activity.price ? activity.price.toString() : '',
+      location: activity.location,
+      description: activity.description,
+      image: activity.image,
     },
   });
 
@@ -137,10 +155,11 @@ export default function CreateActivity() {
   // NOTICE - Async function
   async function onSubmit(values) {
     // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    if (image) {
-      setIsSubmitting(true);
-      const { error } = await supabase.from('activities').insert({
+    // ✅ This will be type-safe and validated
+    setIsSubmitting(true);
+    const { error } = await supabase
+      .from('activities')
+      .update({
         title: values.title,
         date: values.date,
         category: values.category,
@@ -151,24 +170,22 @@ export default function CreateActivity() {
         price: values.price === '' ? null : values.price,
         location: values.location,
         description: values.description,
-        image: image,
-      });
+        image: image ? image : activity.image,
+      })
+      .eq('id', activity.id);
 
-      if (!error) {
-        router.push('/admin/aktiviteter');
-      } else {
-        console.log(error);
-      }
+    if (!error) {
+      router.push('/admin/aktiviteter');
     } else {
-      setImageError('Du skal uploade et billede');
+      console.log(error);
     }
   }
 
   return (
     <section>
       <Box maxWidth={'max-w-[822px]'}>
-        <Heading title={'Opret Aktivitet'} icon={<CalendarPlus />} />
-        <p className="opacity-70 my-5">Her kan der oprettes en aktivitet</p>
+        <Heading title={'Rediger Aktivitet'} icon={<CalendarPlus />} />
+        <p className="opacity-70 my-5">Her kan der redigeres en aktivitet</p>
         <Form {...form}>
           {/* form.handleSubmit() is from the 'React Hook Form' library */}
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
@@ -406,13 +423,8 @@ export default function CreateActivity() {
                     />
                   </FormControl>
                   <FormMessage />
-                  {imageError && (
-                    <p className="text-[0.8rem] font-medium text-destructive max-w-[360px]">
-                      {imageError}
-                    </p>
-                  )}
                   <FormDescription>
-                    Vælg et billede der er under 6mb, billeder i 16:9 format
+                    Vælg et billede der er under 6mb, og billede i 16:9 format
                     virker bedst.
                   </FormDescription>
                 </FormItem>
@@ -429,7 +441,7 @@ export default function CreateActivity() {
                 ) : (
                   <CalendarPlus className="mr-2 h-4 w-4" />
                 )}
-                <span>Opret Aktivitet</span>
+                <span>Opdater Aktivitet</span>
               </Button>
             </div>
           </form>

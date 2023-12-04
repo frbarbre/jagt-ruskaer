@@ -9,8 +9,10 @@ import {
   Clock,
 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { Button } from '../ui/button';
+import Link from 'next/link';
 
-export default function ActivityCard({ activity }) {
+export default function ActivityCard({ activity, isOnAdminPage }) {
   const icon =
     activity.category === 'jagt' ? (
       <Rabbit />
@@ -26,13 +28,17 @@ export default function ActivityCard({ activity }) {
 
   function formatDate(dateString) {
     const date = new Date(dateString);
-    return date.toLocaleString('da-DK', {
-      weekday: 'long',
-      day: 'numeric',
-      month: 'long',
+    let formattedDate = date.toLocaleString('da-DK', {
+      weekday: 'short',
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
     });
+    let words = formattedDate.split(' ');
+    words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1) + ' d.';
+    words[2] = words[2].charAt(0).toUpperCase() + words[2].slice(1);
+    return words.join(' ');
   }
-
   const timeFromSplit = activity.timeFrom.split(':');
   const timeFrom = timeFromSplit[0] + ':' + timeFromSplit[1];
 
@@ -51,16 +57,27 @@ export default function ActivityCard({ activity }) {
       <p className="text-[14px] h-[40px] overflow-hidden mt-2 mb-3">
         {activity.description}
       </p>
-      <div className="flex gap-1 items-center opacity-70 mb-2">
-        <CalendarDays className="w-4 h-4" />
-        <p className="capitalize text-[12px]">{formatDate(activity.date)}</p>
-      </div>
-      <div className="flex gap-1 items-center opacity-70">
-        <Clock className="w-4 h-4" />
-        <p className="capitalize text-[12px]">
-          {timeFrom}
-          {timeTo && ` - ${timeTo}`}
-        </p>
+      <div className="flex justify-between items-end">
+        <div>
+          <div className="flex gap-1 items-center opacity-70 mb-2">
+            <CalendarDays className="w-4 h-4" />
+            <p className="text-[12px]">{formatDate(activity.date)}</p>
+          </div>
+          <div className="flex gap-1 items-center opacity-70">
+            <Clock className="w-4 h-4" />
+            <p className="capitalize text-[12px]">
+              {timeFrom}
+              {timeTo && ` - ${timeTo}`}
+            </p>
+          </div>
+        </div>
+        {isOnAdminPage ? (
+          <Link href={`/admin/aktiviteter/rediger-aktivitet/${activity.id}`}>
+            <Button>Se mere</Button>
+          </Link>
+        ) : (
+          <Button>Læs mere</Button>
+        )}
       </div>
     </Box>
   );
