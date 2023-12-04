@@ -133,6 +133,8 @@ export default function CreateActivity() {
     },
   });
 
+  const currentValues = form.getValues();
+
   // 2. Define a submit handler - Will run AFTER the zodResolver has validated the form (OPTIMUS FORM)
   // NOTICE - Async function
   async function onSubmit(values) {
