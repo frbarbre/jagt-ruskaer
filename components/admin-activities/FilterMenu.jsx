@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { Menubar, MenubarMenu, MenubarTrigger } from '@/components/ui/menubar';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '../ui/input';
+import { Menubar, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "../ui/input";
 
-export default function FilterMenu({ searchParams }) {
+export default function FilterMenu({ searchParams, isCalender }) {
   const filter = searchParams.filter;
   const past = searchParams.past;
   const search = searchParams.search;
   const [activeFilter, setActiveFilter] = useState(filter);
-  const [searchValue, setSearchValue] = useState(search || '');
-  const baseUrl = '/admin/aktiviteter';
+  const [searchValue, setSearchValue] = useState(search || "");
+  const baseUrl = isCalender ? "/kalender" : "/admin/aktiviteter";
   const router = useRouter();
 
   function getFilterParams() {
@@ -25,7 +25,7 @@ export default function FilterMenu({ searchParams }) {
     if (search) {
       return `&search=${search}`;
     }
-    return '';
+    return "";
   }
 
   const filterParams = getFilterParams();
@@ -40,7 +40,7 @@ export default function FilterMenu({ searchParams }) {
     if (search) {
       return `&search=${search}`;
     }
-    return '';
+    return "";
   }
 
   const pastParams = getPastParams();
@@ -55,42 +55,42 @@ export default function FilterMenu({ searchParams }) {
     if (past) {
       return `&past=${past}`;
     }
-    return '';
+    return "";
   }
 
   const searchValueParams = getSearchParams();
 
   function handlePastChange() {
-    const query = '?past=';
+    const query = "?past=";
     router.push(
       `${baseUrl}${query}${
-        !past ? 'true' : past === 'true' ? 'false' : 'true'
+        !past ? "true" : past === "true" ? "false" : "true"
       }${pastParams}`
     );
   }
 
   function handleFilterChange(filter) {
-    const query = '?filter=';
+    const query = "?filter=";
     setActiveFilter(filter);
-    router.push(`${baseUrl}${query}${!filter ? '' : filter}${filterParams}`);
+    router.push(`${baseUrl}${query}${!filter ? "" : filter}${filterParams}`);
   }
 
   function handleSearchChange(e) {
     e.preventDefault();
-    const query = '?search=';
+    const query = "?search=";
     router.push(`${baseUrl}${query}${searchValue}${searchValueParams}`);
     console.log(searchValue);
   }
 
   return (
     <div className="flex justify-between items-center my-5 flex-wrap gap-5">
-      <Menubar className="w-max">
+      <Menubar className="w-max flex-wrap">
         <MenubarMenu>
           <MenubarTrigger
             className={`data-[state=open]:bg-white ${
-              activeFilter === 'alle' || !activeFilter
-                ? 'bg-accent data-[state=open]:bg-accent'
-                : 'bg-white'
+              activeFilter === "alle" || !activeFilter
+                ? "bg-accent data-[state=open]:bg-accent"
+                : "bg-white"
             }`}
             onClick={() => handleFilterChange()}
           >
@@ -100,11 +100,11 @@ export default function FilterMenu({ searchParams }) {
         <MenubarMenu>
           <MenubarTrigger
             className={`data-[state=open]:bg-white ${
-              activeFilter === 'jagt'
-                ? 'bg-accent data-[state=open]:bg-accent'
-                : 'bg-white'
+              activeFilter === "jagt"
+                ? "bg-accent data-[state=open]:bg-accent"
+                : "bg-white"
             }`}
-            onClick={() => handleFilterChange('jagt')}
+            onClick={() => handleFilterChange("jagt")}
           >
             Jagt
           </MenubarTrigger>
@@ -112,11 +112,11 @@ export default function FilterMenu({ searchParams }) {
         <MenubarMenu>
           <MenubarTrigger
             className={`data-[state=open]:bg-white ${
-              activeFilter === 'flugtskydning'
-                ? 'bg-accent data-[state=open]:bg-accent'
-                : 'bg-white'
+              activeFilter === "flugtskydning"
+                ? "bg-accent data-[state=open]:bg-accent"
+                : "bg-white"
             }`}
-            onClick={() => handleFilterChange('flugtskydning')}
+            onClick={() => handleFilterChange("flugtskydning")}
           >
             Flugtskydning
           </MenubarTrigger>
@@ -124,11 +124,11 @@ export default function FilterMenu({ searchParams }) {
         <MenubarMenu>
           <MenubarTrigger
             className={`data-[state=open]:bg-white ${
-              activeFilter === 'riffelskydning'
-                ? 'bg-accent data-[state=open]:bg-accent'
-                : 'bg-white'
+              activeFilter === "riffelskydning"
+                ? "bg-accent data-[state=open]:bg-accent"
+                : "bg-white"
             }`}
-            onClick={() => handleFilterChange('riffelskydning')}
+            onClick={() => handleFilterChange("riffelskydning")}
           >
             Riffelskydning
           </MenubarTrigger>
@@ -136,11 +136,11 @@ export default function FilterMenu({ searchParams }) {
         <MenubarMenu>
           <MenubarTrigger
             className={`data-[state=open]:bg-white ${
-              activeFilter === 'hundetræning'
-                ? 'bg-accent data-[state=open]:bg-accent'
-                : 'bg-white'
+              activeFilter === "hundetræning"
+                ? "bg-accent data-[state=open]:bg-accent"
+                : "bg-white"
             }`}
-            onClick={() => handleFilterChange('hundetræning')}
+            onClick={() => handleFilterChange("hundetræning")}
           >
             Hundetræning
           </MenubarTrigger>
@@ -150,7 +150,7 @@ export default function FilterMenu({ searchParams }) {
         <div className="flex items-center gap-2">
           <Checkbox
             id="terms"
-            checked={past === 'true' ? true : false}
+            checked={past === "true" ? true : false}
             onClick={handlePastChange}
           />
           <label

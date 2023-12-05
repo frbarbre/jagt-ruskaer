@@ -455,7 +455,7 @@ export default function EditActivityForm({ activity, placeId }) {
                   </FormControl>
                   <FormMessage />
                   <FormDescription>
-                    Vælg et billede der er under 6mb, og billede i 16:9 format
+                    Vælg et billede, der er under 6mb. Billeder i 16:9 format
                     virker bedst.
                   </FormDescription>
                 </FormItem>

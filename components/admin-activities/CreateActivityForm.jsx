@@ -457,7 +457,7 @@ export default function CreateActivityForm({ position, placeId }) {
                       </p>
                     )}
                     <FormDescription>
-                      Vælg et billede der er under 6mb, billeder i 16:9 format
+                      Vælg et billede, der er under 6mb. Billeder i 16:9 format
                       virker bedst.
                     </FormDescription>
                   </FormItem>

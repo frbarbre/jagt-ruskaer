@@ -26,7 +26,7 @@ export default function GoogleMaps({ position }) {
   }
 
   return (
-    <GoogleMap mapContainerStyle={mapContainerStyle} zoom={10} center={center}>
+    <GoogleMap mapContainerStyle={mapContainerStyle} zoom={11} center={center}>
       <Marker position={center} />
     </GoogleMap>
   );

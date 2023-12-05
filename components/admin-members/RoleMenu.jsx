@@ -31,32 +31,32 @@ import { useRouter } from 'next/navigation';
 const formMessages = [
   {
     role: 'bruger',
-    message: 'Bruger rolen har ingen specielle beføjelser',
+    message: 'Brugerrollen har ingen specielle beføjelser',
   },
   {
     role: 'jagt',
     message:
-      'Jagt rolen, kan giver adgang til at lave vigtige beskeder på jagt undersiden',
+      'Jagtrollen giver adgang til at lave vigtige beskeder på jagtundersiden',
   },
   {
     role: 'flugtskydning',
     message:
-      'Flugtskydnings rolen, kan giver adgang til at lave vigtige beskeder på flugtskydning undersiden',
+      'Flugtskydningsrollen giver adgang til at lave vigtige beskeder på flugtskydningsundersiden',
   },
   {
     role: 'riffelskydning',
     message:
-      'Riffelskydning rolen, kan giver adgang til at lave vigtige beskeder på Riffelskydning undersiden',
+      'Riffelskydningsrollen giver adgang til at lave vigtige beskeder på riffelskydningsundersiden',
   },
   {
     role: 'hundetræning',
     message:
-      'Hundetræning rolen, kan giver adgang til at lave vigtige beskeder på hundetræning undersiden',
+      'Hundetræningsrollen giver adgang til at lave vigtige beskeder på hundetræningsundersiden',
   },
   {
     role: 'admin',
     message:
-      'Admin rollen giver adgang til admin panelet, og alt hvad der følger med det.',
+      'Adminrollen giver adgang til adminpanelet, og alt hvad der følger med det.',
   },
 ];
 
@@ -176,7 +176,7 @@ export default function RoleMenu({ user_id, setActive }) {
             />
             <div className="flex items-center justify-end w-full gap-2">
               <Button onClick={() => setActive(false)} variant="outline">
-                Annuler
+                Annuller
               </Button>
               <Button type="submit">
                 <UserCog className="h-4 w-4 mr-2" /> Skift
