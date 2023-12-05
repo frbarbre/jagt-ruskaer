@@ -1,10 +1,9 @@
 import { createClient } from '@/utils/supabase/server';
-import AuthButton from '../../components/auth/AuthButton';
 import { cookies } from 'next/headers';
 import User from '@/components/User';
 import { redirect } from 'next/navigation';
 
-export default async function Home() {
+export default async function Home({ searchParams }) {
   // Initializing SupaBase with cookies to authorize the user from the server
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);

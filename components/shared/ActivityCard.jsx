@@ -12,7 +12,7 @@ import { Separator } from '@/components/ui/separator';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 
-export default function ActivityCard({ activity, isOnAdminPage }) {
+export default function ActivityCard({ activity, isOnAdminPage, position }) {
   const icon =
     activity.category === 'jagt' ? (
       <Rabbit />

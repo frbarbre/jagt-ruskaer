@@ -36,6 +36,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Textarea } from '@/components/ui/textarea';
 import { useRouter } from 'next/navigation';
+import { Autocomplete, useLoadScript } from '@react-google-maps/api';
 
 const numberRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([\s]?[0-9])+$/
@@ -44,6 +45,11 @@ const numberRegex = new RegExp(
 const timeRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([:]?[\s]?[0-9])+$/
 );
+
+const scriptOptions = {
+  googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
+  libraries: ['places'],
+};
 
 const formSchema = z.object({
   title: z.string().min(2),
@@ -82,13 +88,19 @@ const formSchema = z.object({
   image: z.string(),
 });
 
-export default function EditActivityForm({ activity }) {
+export default function EditActivityForm({ activity, placeId }) {
   const [image, setImage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const supabase = createClient();
   const router = useRouter();
+  const { isLoaded, loadError } = useLoadScript(scriptOptions);
+  const [autocomplete, setAutocomplete] = useState(null);
 
   const timeStamp = new Date().getTime();
+
+  const onLoad = (autocompleteObj) => {
+    setAutocomplete(autocompleteObj);
+  };
 
   const timeFrom =
     activity.timeFrom[0] +
@@ -151,6 +163,16 @@ export default function EditActivityForm({ activity }) {
     },
   });
 
+  const onPlaceChanged = (e) => {
+    if (autocomplete) {
+      const place = autocomplete.getPlace();
+      if ('place_id' in place) {
+        router.push(`?place_id=${place.place_id}`);
+        form.setValue('location', place.formatted_address);
+      }
+    }
+  };
+
   // 2. Define a submit handler - Will run AFTER the zodResolver has validated the form (OPTIMUS FORM)
   // NOTICE - Async function
   async function onSubmit(values) {
@@ -171,6 +193,7 @@ export default function EditActivityForm({ activity }) {
         location: values.location,
         description: values.description,
         image: image ? image : activity.image,
+        place_id: placeId,
       })
       .eq('id', activity.id);
 
@@ -383,7 +406,15 @@ export default function EditActivityForm({ activity }) {
                 <FormItem>
                   <FormLabel>Lokation</FormLabel>
                   <FormControl>
-                    <Input placeholder="Adresse" {...field} />
+                    {isLoaded && (
+                      <Autocomplete
+                        onLoad={onLoad}
+                        fields={['place_id', 'formatted_address']}
+                        onPlaceChanged={onPlaceChanged}
+                      >
+                        <Input placeholder="Adresse" {...field} />
+                      </Autocomplete>
+                    )}
                   </FormControl>
                   <FormMessage />
                 </FormItem>

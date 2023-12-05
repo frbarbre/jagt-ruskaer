@@ -26,6 +26,7 @@
     "@react-email/font": "0.0.3",
     "@react-email/html": "0.0.4",
     "@react-email/render": "0.0.9",
+    "@react-google-maps/api": "^2.19.2",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
     "@tanstack/match-sorter-utils": "^8.8.4",

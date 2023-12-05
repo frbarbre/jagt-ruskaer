@@ -1,6 +1,6 @@
 import Box from '../shared/Box';
 import Heading from '../shared/Heading';
-import { ScanEye } from 'lucide-react';
+import { Coins, DogIcon, ScanEye, User } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   Rabbit,
@@ -10,8 +10,9 @@ import {
   CalendarDays,
   Clock,
 } from 'lucide-react';
+import GoogleMaps from '../shared/GoogleMaps';
 
-export default function ActivityPreview({ currentValues, image }) {
+export default function ActivityPreview({ currentValues, image, position }) {
   const category =
     currentValues.category === 'jagt' ? (
       <Rabbit className="w-4 h-4" />
@@ -72,7 +73,7 @@ export default function ActivityPreview({ currentValues, image }) {
         ) : (
           <Skeleton className="w-full h-[258px] object-cover" />
         )}
-        <section>
+        <section className="flex justify-between items-end">
           <article className="flex flex-col gap-2">
             {category ? (
               <Heading
@@ -118,8 +119,53 @@ export default function ActivityPreview({ currentValues, image }) {
               <Skeleton className="h-[18px] w-[130px]" />
             )}
           </article>
-          <article></article>
+          <article className="flex flex-col gap-2">
+            {currentValues.dogs !== '' ? (
+              <article>
+                <div className="flex items-center opacity-70 justify-end">
+                  <h4 className="text-[10px]">Hunde</h4>
+                  <DogIcon className="w-4 h-4 ml-1" />
+                </div>
+                <p className="font-semibold text-[10px] text-right mt-1">
+                  0/{currentValues.dogs}
+                </p>
+              </article>
+            ) : (
+              <Skeleton className="h-[35px] w-[72px]" />
+            )}
+            {currentValues.participants !== '' ? (
+              <article>
+                <div className="flex items-center opacity-70 justify-end">
+                  <h4 className="text-[10px]">Deltagere</h4>
+                  <User className="w-4 h-4 ml-1" />
+                </div>
+                <p className="font-semibold text-[10px] text-right mt-1">
+                  0/{currentValues.participants}
+                </p>
+              </article>
+            ) : (
+              <Skeleton className="h-[35px] w-[72px]" />
+            )}
+            <article>
+              <div className="flex items-center opacity-70 justify-end">
+                <h4 className="text-[10px]">Pris</h4>
+                <Coins className="w-4 h-4 ml-1" />
+              </div>
+              <p className="font-semibold text-[10px] text-right mt-1">
+                {currentValues.price === ''
+                  ? 'Gratis'
+                  : `${currentValues.price} kr. pr. person`}
+              </p>
+            </article>
+          </article>
         </section>
+      </Box>
+      <Box maxWidth={'h-full'}>
+        {position ? (
+          <GoogleMaps position={position} />
+        ) : (
+          <Skeleton className="h-[150px] w-full" />
+        )}
       </Box>
     </section>
   );
