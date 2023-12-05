@@ -28,7 +28,7 @@ export default async function Nav({ isAdminPage }) {
 
   return (
     <header className="shadow-shad fixed top-0 right-0 left-0 z-50 bg-white px-6 md:px-12 py-4 md:py-6 ">
-      <section className="grid grid-cols-3 md:flex md:items-center md:justify-between">
+      <section className="grid grid-cols-3 md:flex md:items-center md:justify-between max-w-[1420px] mx-auto">
         {isAdminPage ? <AdminMobileMenu /> : <MobileMenu />}
         <div className="flex items-center gap-12">
           <Link href={"/"} className="mx-auto md:mx-0">

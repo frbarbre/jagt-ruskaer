@@ -58,7 +58,7 @@ export default function ActivityWindow({ values, position }) {
     timeTo = timeToSplit[0] + ":" + timeToSplit[1];
   }
   return (
-    <section className="flex gap-5 flex-col">
+    <section className="flex gap-5 flex-col w-full lg:max-w-[866px]">
       <Box className="flex gap-5 flex-col">
         <img
           src={values?.image}

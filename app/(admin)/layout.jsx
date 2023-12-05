@@ -52,7 +52,6 @@ export default async function RootLayout({ children }) {
         )}
       >
         <Nav isAdminPage={true} />
-
         <main className="mt-[92px] md:mt-[108px] p-6 md:pb-6 md:p-12">
           <section className="max-w-[1440px] mx-auto ">{children}</section>
         </main>

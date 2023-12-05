@@ -29,11 +29,28 @@ export default function Rss({ xml }) {
       const pubDate = item[i].querySelector("pubDate").textContent;
       const guid = item[i].querySelector("guid").textContent;
       const image = item[i].querySelector("enclosure").getAttribute("url");
+      
 
+      //----------------- DATE --------------------
 
       // formatting the date
       const pubDateObject = new Date(pubDate);
-      const formattedPubDate = pubDateObject.toLocaleDateString('da-DK', { year: 'numeric', month: 'long', day: 'numeric' })
+      let formattedPubDate = pubDateObject.toLocaleDateString('da-DK', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+      
+      // splitting the formatted date - parts is now an array
+      let parts = formattedPubDate.split(' ')
+
+      // capitalizing the first letter of 'weekday' and 'month'
+      parts[0] = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+      parts[3] = parts[3].charAt(0).toUpperCase() + parts[3].slice(1);
+
+      // changing 'den' to 'd.'
+      parts[1] = 'd.';
+
+      // joining the parts back together
+      formattedPubDate = parts.join(' ');
+
+      //----------------- DATE END --------------------
 
 
       // pushing the article to our articles array
@@ -67,7 +84,7 @@ export default function Rss({ xml }) {
                   <p className="text-slate-500 text-sm h-20 overflow-hidden">
                     {article.description}
                   </p>
-                  <p className="text-xs">{article.pubDate}</p>
+                  <p className="text-xs">{article.formattedPubDate}</p>
                 </div>
               </a>
               <Separator className="last:hidden" />
