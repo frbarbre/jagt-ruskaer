@@ -2,7 +2,7 @@
 
 import { useEffect, useState, Fragment } from "react";
 import Heading from "../shared/Heading";
-import { Newspaper } from "lucide-react";
+import { Newspaper, CalendarDays } from "lucide-react";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 
@@ -35,7 +35,7 @@ export default function Rss({ xml }) {
 
       // formatting the date
       const pubDateObject = new Date(pubDate);
-      let formattedPubDate = pubDateObject.toLocaleDateString('da-DK', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+      let formattedPubDate = pubDateObject.toLocaleDateString('da-DK', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' })
       
       // splitting the formatted date - parts is now an array
       let parts = formattedPubDate.split(' ')
@@ -81,10 +81,13 @@ export default function Rss({ xml }) {
                   <h2 className="font-semibold leading-none">
                     {article.title}
                   </h2>
-                  <p className="text-slate-500 text-sm h-20 overflow-hidden">
+                  <p className="text-zinc-500 text-sm h-20 overflow-hidden">
                     {article.description}
                   </p>
-                  <p className="text-xs">{article.formattedPubDate}</p>
+                  <p className="flex items-center opacity-70 text-xs">
+                    <CalendarDays className="h-4 opacity-70 -ml-1"/>
+                    {article.formattedPubDate}
+                  </p>
                 </div>
               </a>
               <Separator className="last:hidden" />

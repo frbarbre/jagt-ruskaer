@@ -77,7 +77,7 @@ export default function MobileNav() {
             initial={{ y: -10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -10, opacity: 0 }}
-            className=" absolute top-[92px] w-full md:hidden"
+            className=" absolute top-[92px] left-0 right-0 md:hidden"
           >
             <Accordion
               type="single"

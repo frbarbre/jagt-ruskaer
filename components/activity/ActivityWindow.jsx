@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Box from "../shared/Box";
-import Heading from "../shared/Heading";
+import Box from '../shared/Box';
+import Heading from '../shared/Heading';
 import {
   Coins,
   DogIcon,
@@ -13,49 +13,61 @@ import {
   Crosshair,
   CalendarDays,
   Clock,
-} from "lucide-react";
-import GoogleMaps from "../shared/GoogleMaps";
+} from 'lucide-react';
+import GoogleMaps from '../shared/GoogleMaps';
 
 export default function ActivityWindow({ values, position }) {
+  let participants = 0;
+
+  for (let i = 0; i < values.registrations.length; i++) {
+    participants += values.registrations[i].participants;
+  }
+
+  let dogs = 0;
+
+  for (let i = 0; i < values.registrations.length; i++) {
+    dogs += values.registrations[i].dogs;
+  }
+
   const category =
-    values.category === "jagt" ? (
+    values.category === 'jagt' ? (
       <Rabbit className="w-4 h-4" />
-    ) : values.category === "flugtskydning" ? (
+    ) : values.category === 'flugtskydning' ? (
       <Target className="w-4 h-4" />
-    ) : values.category === "hundetræning" ? (
+    ) : values.category === 'hundetræning' ? (
       <Dog className="w-4 h-4" />
-    ) : values.category === "riffelskydning" ? (
+    ) : values.category === 'riffelskydning' ? (
       <Crosshair className="w-4 h-4" />
     ) : null;
 
   function formatDate(dateString) {
     if (dateString) {
       const date = new Date(dateString);
-      let formattedDate = date.toLocaleString("da-DK", {
-        weekday: "short",
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
+      let formattedDate = date.toLocaleString('da-DK', {
+        weekday: 'short',
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
       });
-      let words = formattedDate.split(" ");
-      words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1) + " d.";
+      let words = formattedDate.split(' ');
+      words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1) + ' d.';
       words[2] = words[2].charAt(0).toUpperCase() + words[2].slice(1);
-      return words.join(" ");
+      return words.join(' ');
     } else return null;
   }
 
   let timeFrom = null;
 
   if (values.timeFrom) {
-    const timeFromSplit = values.timeFrom.split(":");
-    timeFrom = timeFromSplit[0] + ":" + timeFromSplit[1];
+    const timeFromSplit = values.timeFrom.split(':');
+    timeFrom = timeFromSplit[0] + ':' + timeFromSplit[1];
   }
 
   let timeTo = null;
 
   if (values.timeTo) {
-    const timeToSplit = values.timeTo.split(":");
-    timeTo = timeToSplit[0] + ":" + timeToSplit[1];
+    const timeToSplit = values.timeTo.split(':');
+    timeTo = timeToSplit[0] + ':' + timeToSplit[1];
   }
   return (
     <section className="flex gap-5 flex-col w-full lg:max-w-[866px]">
@@ -90,14 +102,14 @@ export default function ActivityWindow({ values, position }) {
             </div>
           </article>
           <article className="flex flex-col gap-2">
-            {values.dog && (
+            {values.dogs && (
               <article>
                 <div className="flex items-center opacity-70 justify-end">
                   <h4 className="text-[10px]">Hunde</h4>
                   <DogIcon className="w-4 h-4 ml-1" />
                 </div>
                 <p className="font-semibold text-[10px] text-right mt-1">
-                  0/{values.dogs}
+                  {dogs}/{values.dogs}
                 </p>
               </article>
             )}
@@ -108,7 +120,7 @@ export default function ActivityWindow({ values, position }) {
                   <User className="w-4 h-4 ml-1" />
                 </div>
                 <p className="font-semibold text-[10px] text-right mt-1">
-                  0/{values.participants}
+                  {participants}/{values.participants}
                 </p>
               </article>
             )}
@@ -119,16 +131,16 @@ export default function ActivityWindow({ values, position }) {
                 <Coins className="w-4 h-4 ml-1" />
               </div>
               <p className="font-semibold text-[10px] text-right mt-1">
-                {values.price === "" || values.price === "0"
-                  ? "Gratis"
+                {values.price === '' || values.price === '0'
+                  ? 'Gratis'
                   : `${values.price} kr. pr. person`}
               </p>
             </article>
           </article>
         </section>
       </Box>
-      <Box maxWidth={"h-full flex flex-col gap-5"}>
-        <Heading icon={<MapPinned />} title={"Kort"} />
+      <Box maxWidth={'h-full flex flex-col gap-5'}>
+        <Heading icon={<MapPinned />} title={'Kort'} />
         <GoogleMaps position={position} />
       </Box>
     </section>

@@ -33,8 +33,8 @@ export default async function Home({ searchParams }) {
   // keep activities with date > new Date()
   // show activity with lowest date value
 
-  // const { data: activitydata } = await supabase.from("activities").select()
-  // console.log(activitydata)
+  const activityData = await supabase.from("activities").select()
+  // console.log(activityData)
 
   //----------------------------------------------
 
