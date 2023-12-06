@@ -85,7 +85,7 @@ module.exports = {
         shad: '0px 4px 4px 0px rgba(174, 174, 174, 0.25)',
       },
       height: {
-        nav: 'calc(100dvh - 92px)',
+        nav: 'calc(100vh - 92px)',
         container: 'calc(100% - 94px)',
       },
     },
