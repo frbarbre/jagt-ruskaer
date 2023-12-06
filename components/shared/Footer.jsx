@@ -6,7 +6,7 @@ import { Separator } from '../ui/separator';
 export default function Footer() {
   return (
     <footer className="bg-zinc-900 px-6 md:px-28">
-      <div className="max-w-[404px] md:max-w-[1320px] mx-auto flex md:justify-between py-[48px] flex-col md:flex-row md:text-left text-cen">
+      <div className="max-w-[404px] md:max-w-[1320px] mx-auto flex md:justify-between py-[48px] flex-col md:flex-row md:text-left text-center">
         <section className="text-white">
           <img
             className="w-[84px] h-[60px] mb-[12px]"
