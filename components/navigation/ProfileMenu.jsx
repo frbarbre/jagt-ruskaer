@@ -11,7 +11,7 @@ import { CalendarIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { AnimatePresence, motion as m } from 'framer-motion';
 
-export default function ProfileMenu({ user }) {
+export default function ProfileMenu({ user, isAdminPage }) {
   const supabase = createClient();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -90,11 +90,21 @@ export default function ProfileMenu({ user }) {
                 </div>
                 <div className="flex flex-col pt-8 gap-3">
                   {user.isSuperAdmin && (
-                    <Link href="/admin">
-                      <Button variant="outline" className="w-full">
-                        Admin Panel
-                      </Button>
-                    </Link>
+                    <>
+                      {isAdminPage ? (
+                        <Link href="/">
+                          <Button variant="outline" className="w-full">
+                            Til forsiden
+                          </Button>
+                        </Link>
+                      ) : (
+                        <Link href="/admin">
+                          <Button variant="outline" className="w-full">
+                            Admin Panel
+                          </Button>
+                        </Link>
+                      )}
+                    </>
                   )}
                   <Link href={'/mine-aktiviteter'}>
                     <Button variant="outline" className="w-full">

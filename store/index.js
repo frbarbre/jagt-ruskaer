@@ -11,11 +11,17 @@ export const useStore = createWithEqualityFn()(
     setIsRoleModalOpen: (isRoleModalOpen) =>
       set(() => ({ isRoleModalOpen: isRoleModalOpen })),
     selectedUserId: '',
+    
     setSelectedUserId: (selectedUserId) =>
       set(() => ({ selectedUserId: selectedUserId })),
+
     selectedUserRol: '',
     setSelectedUserRole: (selectedUserRole) =>
       set(() => ({ selectedUserRole: selectedUserRole })),
+
+    currentGuest: null,
+    setCurrentGuest: (currentGuest) =>
+      set(() => ({ currentGuest: currentGuest })),
   }),
   Object.is
 );

@@ -1,7 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import Box from './Box';
-import { Dog, User } from 'lucide-react';
+import { Dog, Edit, Trash, Trash2, User, X } from 'lucide-react';
 import RegistrationDropDown from '../admin-activities/RegistrationDropdown';
+import { Button } from '../ui/button';
 
 export default function UserCard({
   avatar,
@@ -14,11 +15,26 @@ export default function UserCard({
   isRegistration,
   registration_id,
   user_id,
+  isGuest,
+  clients,
+  setClients,
+  setIsGuestsOpen,
 }) {
   const formattedPhone = phone.replace(
     /(\d{2})(\d{2})(\d{2})(\d{2})/,
     '$1 $2 $3 $4'
   );
+
+  function removeGuest() {
+    const newClients = clients.filter((client) => !client.isGuest);
+    setClients([...newClients]);
+  }
+
+  function editGuest() {
+    const newClients = clients.filter((client) => !client.isGuest);
+    setClients([...newClients]);
+    setIsGuestsOpen(true);
+  }
 
   return (
     <Box className="flex justify-between items-center">
@@ -39,25 +55,35 @@ export default function UserCard({
         </article>
       </div>
       <div className="flex items-center gap-3">
-        {isRegistration && (
-          <div className="flex items-center gap-3">
-            {dogs && (
-              <div className="flex gap-1 items-center">
-                <p className="text-[14px] font-semibold">{dogs}</p>
-                <Dog />
-              </div>
-            )}
+        <div className="flex items-center gap-3">
+          {dogs !== 0 && dogs && (
+            <div className="flex gap-1 items-center">
+              <p className="text-[14px] font-semibold">{dogs}</p>
+              <Dog />
+            </div>
+          )}
+          {isRegistration && (
             <div className="flex gap-1 items-center">
               <p className="text-[14px] font-semibold">{participants}</p>
               <User />
             </div>
-          </div>
-        )}
+          )}
+        </div>
         {isRegistration && (
           <RegistrationDropDown
             user_id={user_id}
             registration_id={registration_id}
           />
+        )}
+        {isGuest && (
+          <div className="flex items-center gap-2">
+            <Button variant="outline" onClick={editGuest} className="px-2.5">
+              <Edit className="w-4 h-4" />
+            </Button>
+            <Button variant="outline" onClick={removeGuest} className="px-2.5">
+              <Trash2 className="w-4 h-4" />
+            </Button>
+          </div>
         )}
       </div>
     </Box>

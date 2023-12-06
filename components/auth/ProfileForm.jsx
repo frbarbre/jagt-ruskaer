@@ -92,7 +92,6 @@ export default function ProfileForm({
       } else {
         router.push('/');
       }
-      console.log(values);
     } else {
       console.log(error);
     }

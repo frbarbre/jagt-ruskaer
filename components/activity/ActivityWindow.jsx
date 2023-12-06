@@ -131,7 +131,7 @@ export default function ActivityWindow({ values, position }) {
                 <Coins className="w-4 h-4 ml-1" />
               </div>
               <p className="font-semibold text-[10px] text-right mt-1">
-                {values.price === '' || values.price === '0'
+                {!values.price || values.price === '0'
                   ? 'Gratis'
                   : `${values.price} kr. pr. person`}
               </p>

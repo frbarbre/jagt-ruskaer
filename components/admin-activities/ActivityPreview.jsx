@@ -42,7 +42,6 @@ export default function ActivityPreview({ currentValues, image, position }) {
 
   const date = formatDate(currentValues.date);
 
-  console.log(currentValues);
   let timeFrom = null;
 
   if (currentValues.timeFrom) {

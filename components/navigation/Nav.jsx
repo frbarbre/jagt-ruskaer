@@ -1,12 +1,12 @@
-import Link from "next/link";
-import { Button } from "../ui/button";
-import { cookies } from "next/headers";
-import { createClient } from "@/utils/supabase/server";
-import ProfileMenu from "./ProfileMenu";
-import DesktopMenu from "./DesktopMenu";
-import MobileMenu from "./MobileMenu";
-import AdminMobileMenu from "./AdminMobileMenu";
-import AdminDesktopMenu from "./AdminDesktopMenu";
+import Link from 'next/link';
+import { Button } from '../ui/button';
+import { cookies } from 'next/headers';
+import { createClient } from '@/utils/supabase/server';
+import ProfileMenu from './ProfileMenu';
+import DesktopMenu from './DesktopMenu';
+import MobileMenu from './MobileMenu';
+import AdminMobileMenu from './AdminMobileMenu';
+import AdminDesktopMenu from './AdminDesktopMenu';
 
 export default async function Nav({ isAdminPage }) {
   const cookieStore = cookies();
@@ -20,9 +20,9 @@ export default async function Nav({ isAdminPage }) {
 
   if (session) {
     const { data } = await supabase
-      .from("profiles")
+      .from('profiles')
       .select()
-      .eq("id", session.user.id);
+      .eq('id', session.user.id);
     user = data[0];
   }
 
@@ -31,7 +31,7 @@ export default async function Nav({ isAdminPage }) {
       <section className="grid grid-cols-3 md:flex md:items-center md:justify-between max-w-[1420px] mx-auto">
         {isAdminPage ? <AdminMobileMenu /> : <MobileMenu />}
         <div className="flex items-center gap-12">
-          <Link href={"/"} className="mx-auto md:mx-0">
+          <Link href={'/'} className="mx-auto md:mx-0">
             <img
               src="/logo.png"
               alt="ruskær logo"
@@ -42,13 +42,13 @@ export default async function Nav({ isAdminPage }) {
         </div>
 
         {session ? (
-          <ProfileMenu user={user} />
+          <ProfileMenu user={user} isAdminPage={isAdminPage} />
         ) : (
           <div className="flex gap-5 items-center justify-end">
-            <Link href={"/sign-up"} className="hidden md:block">
+            <Link href={'/sign-up'} className="hidden md:block">
               <Button>Bliv medlem</Button>
             </Link>
-            <Link href={"/login"}>
+            <Link href={'/login'}>
               <Button variant="outline" className="border-zinc-600">
                 Login
               </Button>

@@ -15,6 +15,7 @@ export default async function AdminActivities({ searchParams }) {
   let filter = searchParams.filter;
   let showPast = searchParams.past;
   let search = searchParams.search;
+  
   function getToday() {
     const date = new Date();
     const year = date.getFullYear();
