@@ -16,7 +16,7 @@ export default async function Activity({ params }) {
     .eq('id', params.id)
     .single();
 
-  if (data.place_id) {
+  if (data?.place_id) {
     const mapUrl = `https://maps.googleapis.com/maps/api/place/details/json?key=${process.env.GOOGLE_API_KEY}&place_id=${data.place_id}`;
     const mapData = await fetch(mapUrl);
     mapJSON = await mapData.json();
