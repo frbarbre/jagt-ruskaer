@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import Box from '../shared/Box';
-import Heading from '../shared/Heading';
+import Box from "../shared/Box";
+import Heading from "../shared/Heading";
 import {
   Coins,
   DogIcon,
@@ -13,8 +13,9 @@ import {
   Crosshair,
   CalendarDays,
   Clock,
-} from 'lucide-react';
-import GoogleMaps from '../shared/GoogleMaps';
+  MapPin,
+} from "lucide-react";
+import GoogleMaps from "../shared/GoogleMaps";
 
 export default function ActivityWindow({ values, position }) {
   let participants = 0;
@@ -30,44 +31,44 @@ export default function ActivityWindow({ values, position }) {
   }
 
   const category =
-    values.category === 'jagt' ? (
+    values.category === "jagt" ? (
       <Rabbit className="w-4 h-4" />
-    ) : values.category === 'flugtskydning' ? (
+    ) : values.category === "flugtskydning" ? (
       <Target className="w-4 h-4" />
-    ) : values.category === 'hundetræning' ? (
+    ) : values.category === "hundetræning" ? (
       <Dog className="w-4 h-4" />
-    ) : values.category === 'riffelskydning' ? (
+    ) : values.category === "riffelskydning" ? (
       <Crosshair className="w-4 h-4" />
     ) : null;
 
   function formatDate(dateString) {
     if (dateString) {
       const date = new Date(dateString);
-      let formattedDate = date.toLocaleString('da-DK', {
-        weekday: 'short',
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric',
+      let formattedDate = date.toLocaleString("da-DK", {
+        weekday: "short",
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
       });
-      let words = formattedDate.split(' ');
-      words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1) + ' d.';
+      let words = formattedDate.split(" ");
+      words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1) + " d.";
       words[2] = words[2].charAt(0).toUpperCase() + words[2].slice(1);
-      return words.join(' ');
+      return words.join(" ");
     } else return null;
   }
 
   let timeFrom = null;
 
   if (values.timeFrom) {
-    const timeFromSplit = values.timeFrom.split(':');
-    timeFrom = timeFromSplit[0] + ':' + timeFromSplit[1];
+    const timeFromSplit = values.timeFrom.split(":");
+    timeFrom = timeFromSplit[0] + ":" + timeFromSplit[1];
   }
 
   let timeTo = null;
 
   if (values.timeTo) {
-    const timeToSplit = values.timeTo.split(':');
-    timeTo = timeToSplit[0] + ':' + timeToSplit[1];
+    const timeToSplit = values.timeTo.split(":");
+    timeTo = timeToSplit[0] + ":" + timeToSplit[1];
   }
   return (
     <section className="flex gap-5 flex-col w-full lg:max-w-[866px]">
@@ -84,21 +85,28 @@ export default function ActivityWindow({ values, position }) {
 
             <h1 className="text-[20px] font-semibold">{values.title}</h1>
 
-            <p className="text-[12px] opacity/70 h-[40px] w-[150px] overflow-hidden break-before-right mb-1">
+            <p className="text-[12px] opacity/70 h-[40px] max-w-[300px] w-full overflow-hidden break-before-right mb-1">
               {values.description}
             </p>
 
-            <div className="flex gap-1 items-center opacity-70 mb-2">
-              <CalendarDays className="w-4 h-4" />
-              <p className="text-[12px]">{formatDate(values.date)}</p>
-            </div>
+            <div>
+              <div className="flex gap-1 items-center opacity-70 mb-2">
+                <MapPin className="w-4 h-4" />
+                <p className="text-[12px]">{values.location}</p>
+              </div>
 
-            <div className="flex gap-1 items-center opacity-70">
-              <Clock className="w-4 h-4" />
-              <p className="capitalize text-[12px]">
-                {timeFrom}
-                {timeTo && ` - ${timeTo}`}
-              </p>
+              <div className="flex gap-1 items-center opacity-70 mb-2">
+                <CalendarDays className="w-4 h-4" />
+                <p className="text-[12px]">{formatDate(values.date)}</p>
+              </div>
+
+              <div className="flex gap-1 items-center opacity-70">
+                <Clock className="w-4 h-4" />
+                <p className="capitalize text-[12px]">
+                  {timeFrom}
+                  {timeTo && ` - ${timeTo}`}
+                </p>
+              </div>
             </div>
           </article>
           <article className="flex flex-col gap-2">
@@ -131,16 +139,16 @@ export default function ActivityWindow({ values, position }) {
                 <Coins className="w-4 h-4 ml-1" />
               </div>
               <p className="font-semibold text-[10px] text-right mt-1">
-                {!values.price || values.price === '0'
-                  ? 'Gratis'
+                {!values.price || values.price === "0"
+                  ? "Gratis"
                   : `${values.price} kr. pr. person`}
               </p>
             </article>
           </article>
         </section>
       </Box>
-      <Box maxWidth={'h-full flex flex-col gap-5'}>
-        <Heading icon={<MapPinned />} title={'Kort'} />
+      <Box maxWidth={"h-full flex flex-col gap-5"}>
+        <Heading icon={<MapPinned />} title={"Kort"} />
         <GoogleMaps position={position} />
       </Box>
     </section>

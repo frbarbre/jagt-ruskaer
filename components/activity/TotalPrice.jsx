@@ -9,6 +9,7 @@ export default function TotalPrice({
   participants,
   clients,
   activityId,
+  currentUserId,
 }) {
   const router = useRouter();
 
@@ -22,6 +23,7 @@ export default function TotalPrice({
     localStorage.setItem("currentActivityId", activityId);
     localStorage.setItem("currentClients", JSON.stringify(clients));
     localStorage.setItem("currentPrice", totalPrice);
+    localStorage.setItem("currentUser", currentUserId);
     router.push("/betaling");
   }
 

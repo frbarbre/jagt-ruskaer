@@ -1,8 +1,9 @@
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import Box from './Box';
-import { Dog, Edit, Trash, Trash2, User, X } from 'lucide-react';
-import RegistrationDropDown from '../admin-activities/RegistrationDropdown';
-import { Button } from '../ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import Box from "./Box";
+import { Dog, Edit, Trash, Trash2, User, X } from "lucide-react";
+import RegistrationDropDown from "../admin-activities/RegistrationDropdown";
+import { Button } from "../ui/button";
+import { useStore } from "@/store";
 
 export default function UserCard({
   avatar,
@@ -20,14 +21,16 @@ export default function UserCard({
   setClients,
   setIsGuestsOpen,
 }) {
+  const setCurrentGuest = useStore((state) => state.setCurrentGuest);
   const formattedPhone = phone.replace(
     /(\d{2})(\d{2})(\d{2})(\d{2})/,
-    '$1 $2 $3 $4'
+    "$1 $2 $3 $4"
   );
 
   function removeGuest() {
     const newClients = clients.filter((client) => !client.isGuest);
     setClients([...newClients]);
+    setCurrentGuest(null);
   }
 
   function editGuest() {

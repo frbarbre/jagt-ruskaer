@@ -56,7 +56,9 @@ export default function DogForm({
     <Box>
       <div className="flex gap-1 items-center mb-4">
         <img src="/dog-plus.svg" alt="" />
-        <h4 className="text-[14px] font-semibold">Tilføj hund(e)</h4>
+        <h4 className="text-[14px] font-semibold">
+          {clients[0].dogs === 0 ? "Tilføj" : "Rediger antal"} hund(e)
+        </h4>
       </div>
       <Form {...form}>
         <form

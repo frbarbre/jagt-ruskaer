@@ -1,10 +1,11 @@
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
-
-const libraries = ['places'];
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import { Skeleton } from "../ui/skeleton";
+const libraries = ["places"];
 const mapContainerStyle = {
-  width: '100%',
-  height: '150px',
-  borderRadius: '4px',
+  width: "100%",
+  height: "100%",
+  minHeight: "190px",
+  borderRadius: "4px",
 };
 
 export default function GoogleMaps({ position }) {
@@ -18,11 +19,15 @@ export default function GoogleMaps({ position }) {
   });
 
   if (loadError) {
-    return <div>Error loading maps</div>;
+    return (
+      <div className={"w-full h-[190px] flex items-center justify-center"}>
+        Error loading maps
+      </div>
+    );
   }
 
   if (!isLoaded) {
-    return <div>Loading maps</div>;
+    return <Skeleton className={"w-full h-[190px]"} />;
   }
 
   return (
