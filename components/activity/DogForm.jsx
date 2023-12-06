@@ -1,32 +1,31 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import Box from '../shared/Box';
+} from "@/components/ui/select";
+import Box from "../shared/Box";
 
 const FormSchema = z.object({
   dogs: z.string({
-    required_error: 'Vælg et antal hunde',
+    required_error: "Vælg et antal hunde",
   }),
 });
 
@@ -34,6 +33,8 @@ export default function DogForm({
   clients,
   setClients,
   setIsDogsOpen,
+  currentDogs,
+  maxDogs,
 }) {
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -53,9 +54,9 @@ export default function DogForm({
 
   return (
     <Box>
-      <div className='flex gap-1 items-center mb-4'>
+      <div className="flex gap-1 items-center mb-4">
         <img src="/dog-plus.svg" alt="" />
-        <h4 className='text-[14px] font-semibold'>Tilføj hund(e)</h4>
+        <h4 className="text-[14px] font-semibold">Tilføj hund(e)</h4>
       </div>
       <Form {...form}>
         <form
@@ -79,10 +80,18 @@ export default function DogForm({
                   </FormControl>
                   <SelectContent>
                     <SelectItem value="0">0</SelectItem>
-                    <SelectItem value="1">1</SelectItem>
-                    <SelectItem value="2">2</SelectItem>
-                    <SelectItem value="3">3</SelectItem>
-                    <SelectItem value="4">4</SelectItem>
+                    <SelectItem value="1" disabled={currentDogs + 1 > maxDogs}>
+                      1
+                    </SelectItem>
+                    <SelectItem value="2" disabled={currentDogs + 2 > maxDogs}>
+                      2
+                    </SelectItem>
+                    <SelectItem value="3" disabled={currentDogs + 3 > maxDogs}>
+                      3
+                    </SelectItem>
+                    <SelectItem value="4" disabled={currentDogs + 4 > maxDogs}>
+                      4
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />

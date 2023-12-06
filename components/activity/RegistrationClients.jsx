@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import UserCard from '../shared/UserCard';
-import { Button } from '../ui/button';
-import DogForm from './DogForm';
-import GuestForm from './GuestForm';
-import TotalPrice from './TotalPrice';
+import { useState } from "react";
+import UserCard from "../shared/UserCard";
+import { Button } from "../ui/button";
+import DogForm from "./DogForm";
+import GuestForm from "./GuestForm";
+import TotalPrice from "./TotalPrice";
 
 export default function RegistrationClients({
   currentUser,
@@ -73,7 +73,12 @@ export default function RegistrationClients({
             />
           )}
           {!isGuestsOpen && clients.length < 2 && (
-            <Button variant="outline" className="w-full" onClick={openGuests}>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={openGuests}
+              disabled={maxParticipants - 1 === currentParticipants}
+            >
               Tilføj gæst
             </Button>
           )}
@@ -82,6 +87,8 @@ export default function RegistrationClients({
               clients={clients}
               setClients={setClients}
               setIsDogsOpen={setIsDogsOpen}
+              currentDogs={currentDogs}
+              maxDogs={maxDogs}
             />
           )}
           {!isDogsOpen && maxDogs && (

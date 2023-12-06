@@ -1,8 +1,8 @@
 // Programmed in Collaboration by: Dennis Russell, Lean Hansen & Frederik Barbré
 
-'use client';
+"use client";
 
-import { createWithEqualityFn } from 'zustand/traditional';
+import { createWithEqualityFn } from "zustand/traditional";
 
 // creating store
 export const useStore = createWithEqualityFn()(
@@ -10,12 +10,12 @@ export const useStore = createWithEqualityFn()(
     isRoleModalOpen: false,
     setIsRoleModalOpen: (isRoleModalOpen) =>
       set(() => ({ isRoleModalOpen: isRoleModalOpen })),
-    selectedUserId: '',
-    
+    selectedUserId: "",
+
     setSelectedUserId: (selectedUserId) =>
       set(() => ({ selectedUserId: selectedUserId })),
 
-    selectedUserRol: '',
+    selectedUserRol: "",
     setSelectedUserRole: (selectedUserRole) =>
       set(() => ({ selectedUserRole: selectedUserRole })),
 

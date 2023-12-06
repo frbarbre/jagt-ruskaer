@@ -1,8 +1,8 @@
-import { cookies } from 'next/headers';
-import Heading from '../shared/Heading';
-import { CalendarPlus } from 'lucide-react';
-import { createClient } from '@/utils/supabase/server';
-import RegistrationClients from './RegistrationClients';
+import { cookies } from "next/headers";
+import Heading from "../shared/Heading";
+import { CalendarPlus } from "lucide-react";
+import { createClient } from "@/utils/supabase/server";
+import RegistrationClients from "./RegistrationClients";
 
 export default async function RegistrationForm({
   pricePerPerson,
@@ -20,15 +20,15 @@ export default async function RegistrationForm({
   } = await supabase.auth.getSession();
 
   const { data } = await supabase
-    .from('profiles')
+    .from("profiles")
     .select()
-    .eq('id', user.id)
+    .eq("id", user.id)
     .single();
 
   const registrations = await supabase
-    .from('registrations')
-    .select('dogs, participants')
-    .eq('activity_id', activityId);
+    .from("registrations")
+    .select("dogs, participants")
+    .eq("activity_id", activityId);
 
   const currentDogs = registrations.data.reduce((acc, curr) => {
     return acc + curr.dogs;
@@ -40,16 +40,20 @@ export default async function RegistrationForm({
 
   return (
     <>
-      <Heading title={'Tilmelding'} icon={<CalendarPlus />} />
-      <RegistrationClients
-        currentUser={data}
-        currentDogs={currentDogs}
-        currentParticipants={currentParticipants}
-        pricePerPerson={pricePerPerson}
-        maxDogs={maxDogs}
-        maxParticipants={maxParticipants}
-        activityId={activityId}
-      />
+      <Heading title={"Tilmelding"} icon={<CalendarPlus />} />
+      {currentParticipants < maxParticipants ? (
+        <RegistrationClients
+          currentUser={data}
+          currentDogs={currentDogs}
+          currentParticipants={currentParticipants}
+          pricePerPerson={pricePerPerson}
+          maxDogs={maxDogs}
+          maxParticipants={maxParticipants}
+          activityId={activityId}
+        />
+      ) : (
+        <p className="text-s">Der er ikke flere ledige pladser</p>
+      )}
     </>
   );
 }
