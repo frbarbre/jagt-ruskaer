@@ -1,10 +1,10 @@
-import { cookies } from 'next/headers';
-import Heading from '../shared/Heading';
-import { CalendarPlus, LogIn, SmilePlus } from 'lucide-react';
-import { createClient } from '@/utils/supabase/server';
-import RegistrationClients from './RegistrationClients';
-import { Button } from '../ui/button';
-import Link from 'next/link';
+import { cookies } from "next/headers";
+import Heading from "../shared/Heading";
+import { CalendarPlus, LogIn, SmilePlus, CreditCard } from "lucide-react";
+import { createClient } from "@/utils/supabase/server";
+import RegistrationClients from "./RegistrationClients";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 export default async function RegistrationForm({
   pricePerPerson,
@@ -20,15 +20,26 @@ export default async function RegistrationForm({
   } = await supabase.auth.getSession();
 
   const { data } = await supabase
-    .from('profiles')
+    .from("profiles")
     .select()
-    .eq('id', session?.user?.id)
+    .eq("id", session?.user?.id)
     .single();
 
   const registrations = await supabase
-    .from('registrations')
-    .select('dogs, participants, user_id')
-    .eq('activity_id', activityId);
+    .from("registrations")
+    .select("dogs, participants, user_id")
+    .eq("activity_id", activityId)
+    .eq("isPayed", true);
+
+  const currentRegistration = await supabase
+    .from("registrations")
+    .select()
+    .eq("activity_id", activityId)
+    .eq("user_id", session?.user?.id)
+    .is("isPayed", false)
+    .single();
+
+  console.log(currentRegistration.data);
 
   const currentDogs = registrations.data.reduce((acc, curr) => {
     return acc + curr.dogs;
@@ -42,47 +53,65 @@ export default async function RegistrationForm({
     (registration) => registration.user_id
   );
 
-  console.log(currentUsers);
-
   return (
     <>
-      <Heading title={'Tilmelding'} icon={<CalendarPlus />} />
+      <Heading title={"Tilmelding"} icon={<CalendarPlus />} />
       {session ? (
         <>
-          {!currentUsers.includes(session.user.id) ? (
-            <>
-              {currentParticipants < maxParticipants ? (
-                <RegistrationClients
-                  currentUser={data}
-                  currentDogs={currentDogs}
-                  currentParticipants={currentParticipants}
-                  pricePerPerson={pricePerPerson}
-                  maxDogs={maxDogs}
-                  maxParticipants={maxParticipants}
-                  activityId={activityId}
-                />
-              ) : (
-                <div className="flex h-pay items-center justify-center">
-                  <p className="text-s my-6">
-                    Der er ikke flere ledige pladser 😥
-                  </p>
-                </div>
-              )}
-            </>
-          ) : (
+          {currentRegistration.data ? (
             <div className="flex h-pay items-center justify-center">
               <div className="flex flex-col items-center my-6 gap-5">
                 <p className="text-s ">
-                  Du er allerede tilmeldt denne aktivitet 😎
+                  Du er igang med at betale for aktiviteten
                 </p>
-                <Link href="/mine-aktiviteter">
+                <Link
+                  href={`/betaling?activity_id=${currentRegistration.data.id}`}
+                >
                   <Button className="w-max">
-                    <CalendarPlus className="h-4 w-4 mr-2" />
-                    Vis tilmeldinger
+                    <CreditCard className="h-4 w-4 mr-2" />
+                    Til betaling
                   </Button>
                 </Link>
               </div>
             </div>
+          ) : (
+            <>
+              {!currentUsers.includes(session.user.id) ? (
+                <>
+                  {currentParticipants < maxParticipants ? (
+                    <RegistrationClients
+                      currentUser={data}
+                      currentDogs={currentDogs}
+                      currentParticipants={currentParticipants}
+                      pricePerPerson={pricePerPerson}
+                      maxDogs={maxDogs}
+                      maxParticipants={maxParticipants}
+                      activityId={activityId}
+                    />
+                  ) : (
+                    <div className="flex h-pay items-center justify-center">
+                      <p className="text-s my-6">
+                        Der er ikke flere ledige pladser 😥
+                      </p>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="flex h-pay items-center justify-center">
+                  <div className="flex flex-col items-center my-6 gap-5">
+                    <p className="text-s ">
+                      Du er allerede tilmeldt denne aktivitet 😎
+                    </p>
+                    <Link href="/mine-aktiviteter">
+                      <Button className="w-max">
+                        <CalendarPlus className="h-4 w-4 mr-2" />
+                        Vis tilmeldinger
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </>
       ) : (
@@ -91,7 +120,7 @@ export default async function RegistrationForm({
             <p className="text-s ">
               Du skal logge ind for at tilmelde dig en aktivitet 🫡
             </p>
-            <div className='flex gap-3 flex-wrap justify-center'>
+            <div className="flex gap-3 flex-wrap justify-center">
               <Link href="/login">
                 <Button className="w-max">
                   <LogIn className="h-4 w-4 mr-2" />

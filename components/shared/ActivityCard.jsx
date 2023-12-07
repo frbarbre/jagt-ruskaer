@@ -12,7 +12,11 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "../ui/button";
 import Link from "next/link";
 
-export default function ActivityCard({ activity, isOnAdminPage }) {
+export default function ActivityCard({
+  activity,
+  isOnAdminPage,
+  isOnFrontPage,
+}) {
   const icon =
     activity.category === "jagt" ? (
       <Rabbit />
@@ -74,7 +78,7 @@ export default function ActivityCard({ activity, isOnAdminPage }) {
   const date = formatDateToArray(activity.date);
 
   return (
-    <Box maxWidth={"flex items-center gap-5"}>
+    <Box maxWidth={`${isOnFrontPage ? 'min-w-[335px]' : ''} flex items-center gap-5`}>
       {!isOnAdminPage && (
         <article className="text-center font-bold w-[45px]">
           <h3 className="text-[12px] translate-y-1">{date[0]}</h3>
@@ -114,7 +118,11 @@ export default function ActivityCard({ activity, isOnAdminPage }) {
               </p>
             </div>
           </div>
-          {isOnAdminPage ? (
+          {isOnFrontPage ? (
+            <Link href={`/aktiviteter/${activity.id}`}>
+              <Button>Læs mere</Button>
+            </Link>
+          ) : isOnAdminPage ? (
             <Link href={`/admin/aktiviteter/rediger-aktivitet/${activity.id}`}>
               <Button>Se mere</Button>
             </Link>

@@ -1,42 +1,36 @@
-'use client';
+import PaymentClient from "@/components/payment/PaymentClient";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
-import { createClient } from '@/utils/supabase/client';
+export default async function Payment({ searchParams }) {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
 
-export default function Payment() {
-  const supabase = createClient();
-  let clients = [];
-  let price = 0;
-  let activityId = '';
-  let user = null;
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  if (typeof window !== 'undefined') {
-    clients = JSON.parse(localStorage.getItem('currentClients'));
-    price = localStorage.getItem('currentPrice');
-    activityId = localStorage.getItem('currentActivityId');
-    user = localStorage.getItem('currentUser');
+  if (!session) {
+    redirect("/");
   }
 
-  async function onSubmit() {
-    const { error } = await supabase.from('registrations').insert({
-      activity_id: activityId,
-      user_id: user,
-      dogs: clients[0].dogs,
-      participants: clients.length,
-      total_price: price,
-    });
-    if (error) {
-      console.log(error);
-    } else {
-      localStorage.removeItem('currentClients');
-      localStorage.removeItem('currentPrice');
-      localStorage.removeItem('currentActivityId');
-      localStorage.removeItem('currentUser');
-    }
+  const { data, error } = await supabase
+    .from("registrations")
+    .select("activity_id, id")
+    .eq("user_id", session.user.id);
+
+  if (error) {
+    console.log(error);
   }
+  const currentUserActivityRegistrations = data.map((item) => item.activity_id);
 
   return (
-    <div>
-      <h1 onClick={onSubmit}>Payment</h1>
-    </div>
+    <>
+      <PaymentClient
+        currentUserActivityRegistrations={currentUserActivityRegistrations}
+        searchParams={searchParams}
+      />
+    </>
   );
 }

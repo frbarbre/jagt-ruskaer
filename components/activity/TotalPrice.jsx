@@ -24,7 +24,7 @@ export default function TotalPrice({
     localStorage.setItem("currentClients", JSON.stringify(clients));
     localStorage.setItem("currentPrice", totalPrice);
     localStorage.setItem("currentUser", currentUserId);
-    router.push("/betaling");
+    router.push(`/betaling?activity_id=${activityId}`);
   }
 
   return (

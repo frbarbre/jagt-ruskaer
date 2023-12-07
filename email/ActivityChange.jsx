@@ -19,7 +19,7 @@ import {
 
 import * as React from "react";
 
-export const Newsletter = ({
+export const ActivityChange = ({
   title = "Fællesjagt Flyvestation Karup Vest 18. dec 2023",
   subtitle = "Klik her for at se aktiviteten",
   image = "https://rujagt.dk/2023/20231203karupvest/album/slides/karupvest20231203001.jpg",
@@ -109,4 +109,4 @@ export const Newsletter = ({
   );
 };
 
-export default Newsletter;
+export default ActivityChange;

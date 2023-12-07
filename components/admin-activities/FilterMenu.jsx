@@ -2,7 +2,7 @@
 
 import { Menubar, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "../ui/input";
 
@@ -75,12 +75,15 @@ export default function FilterMenu({ searchParams, isCalender }) {
     router.push(`${baseUrl}${query}${!filter ? "" : filter}${filterParams}`);
   }
 
-  function handleSearchChange(e) {
-    e.preventDefault();
-    const query = "?search=";
-    router.push(`${baseUrl}${query}${searchValue}${searchValueParams}`);
-    console.log(searchValue);
-  }
+  //Dynamisk søgning
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const query = "?search=";
+      router.push(`${baseUrl}${query}${searchValue}${searchValueParams}`);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchValue]);
 
   return (
     <div className="flex justify-between items-center my-5 flex-wrap gap-5">
@@ -160,14 +163,13 @@ export default function FilterMenu({ searchParams, isCalender }) {
             Vis afsluttede aktiviteter
           </label>
         </div>
-        <form onSubmit={handleSearchChange} className="w-full max-w-[320px]">
-          <Input
-            placeholder="Søg efter en aktivitet"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            className="w-full"
-          />
-        </form>
+
+        <Input
+          placeholder="Søg efter en aktivitet"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          className="w-full max-w-[320px]"
+        />
       </div>
     </div>
   );

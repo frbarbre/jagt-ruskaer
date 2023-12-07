@@ -1,15 +1,16 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import UserCard from '../shared/UserCard';
-import { Button } from '../ui/button';
-import DogForm from './DogForm';
-import GuestForm from './GuestForm';
-import TotalPrice from './TotalPrice';
-import { useStore } from '@/store';
-import { Loader2 } from 'lucide-react';
-import { Skeleton } from '../ui/skeleton';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from "react";
+import UserCard from "../shared/UserCard";
+import { Button } from "../ui/button";
+import DogForm from "./DogForm";
+import GuestForm from "./GuestForm";
+import TotalPrice from "./TotalPrice";
+import { useStore } from "@/store";
+import { Loader2 } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
 
 export default function RegistrationClients({
   currentUser,
@@ -24,10 +25,10 @@ export default function RegistrationClients({
   let storageUser = null;
   let storageActivityId = null;
 
-  if (typeof window !== 'undefined') {
-    clientsStorage = JSON.parse(localStorage.getItem('currentClients'));
-    storageUser = localStorage.getItem('currentUser');
-    storageActivityId = localStorage.getItem('currentActivityId');
+  if (typeof window !== "undefined") {
+    clientsStorage = JSON.parse(localStorage.getItem("currentClients"));
+    storageUser = localStorage.getItem("currentUser");
+    storageActivityId = localStorage.getItem("currentActivityId");
   }
 
   const defaultClient = {
@@ -48,13 +49,14 @@ export default function RegistrationClients({
 
   const router = useRouter();
   const setCurrentGuest = useStore((state) => state.setCurrentGuest);
+  const supabase = createClient();
 
   useEffect(() => {
     if (storageUser !== currentUser.id || storageActivityId !== activityId) {
-      localStorage.removeItem('currentClients');
-      localStorage.removeItem('currentPrice');
-      localStorage.removeItem('currentActivityId');
-      localStorage.removeItem('currentUser');
+      localStorage.removeItem("currentClients");
+      localStorage.removeItem("currentPrice");
+      localStorage.removeItem("currentActivityId");
+      localStorage.removeItem("currentUser");
       setClients([defaultClient]);
       setCurrentGuest(null);
     }
@@ -62,7 +64,6 @@ export default function RegistrationClients({
 
   useEffect(() => {
     setIsClient(true);
-    router.refresh();
   }, []);
 
   function openDogs() {
@@ -134,7 +135,7 @@ export default function RegistrationClients({
                   onClick={openDogs}
                   disabled={maxDogs === currentDogs}
                 >
-                  {clients[0].dogs === 0 ? 'Tilføj' : 'Rediger antal'} hund(e)
+                  {clients[0].dogs === 0 ? "Tilføj" : "Rediger antal"} hund(e)
                 </Button>
               )}
             </div>
