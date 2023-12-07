@@ -1,3 +1,5 @@
+'use client'
+
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Box from "./Box";
 import { Dog, Edit, Trash, Trash2, User, X } from "lucide-react";

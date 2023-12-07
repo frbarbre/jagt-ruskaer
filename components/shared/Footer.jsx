@@ -2,6 +2,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '../ui/separator';
 import { cookies } from 'next/headers';
 import { createClient } from '@/utils/supabase/server';
+import SubmitFooter from './SubmitFooter';
 
 export default async function Footer() {
   const cookieStore = cookies();
@@ -10,7 +11,27 @@ export default async function Footer() {
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  
+
+  const { data } = await supabase
+    .from('profiles')
+    .select()
+    .eq('id', session?.user?.id)
+    .single();
+
+  async function setNewsletter(FormData) {
+    'use server';
+    const cookieStore = cookies();
+    const supabase = createClient(cookieStore);
+    const checkBox = FormData.get('newsletter');
+    const { error } = await supabase
+      .from('profiles')
+      .update({ wantNewsletter: checkBox === 'on' ? true : false })
+      .eq('id', session?.user?.id);
+    if (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <footer className="bg-zinc-900 px-6 md:px-28">
       <div className="max-w-[404px] md:max-w-[1320px] mx-auto flex md:justify-between py-[48px] flex-col md:flex-row md:text-left text-center gap-11">
@@ -45,16 +66,28 @@ export default async function Footer() {
           <div className="flex items-center space-x-2 justify-center md:justify-start">
             {session ? (
               <>
-                <Checkbox id="terms" className="bg-white" />
-                <label
-                  htmlFor="terms"
-                  className="leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-xs"
-                >
-                  Tilmeld nyhedsbrev
-                </label>
+                <form className="flex gap-5 flex-col items-center md:items-start" action={setNewsletter}>
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      name="newsletter"
+                      id="newsletter"
+                      className="bg-white"
+                      defaultChecked={data.wantNewsletter}
+                    />
+                    <label
+                      htmlFor="newsletter"
+                      className="leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-xs"
+                    >
+                      Tilmeld nyhedsbrev
+                    </label>
+                  </div>
+                  <SubmitFooter />
+                </form>
               </>
             ) : (
-              <p className='text-s'>Du bedes logge ind for at modtage nyhedsbrev</p>
+              <p className="text-s">
+                Du bedes logge ind for at modtage nyhedsbrev
+              </p>
             )}
           </div>
         </section>

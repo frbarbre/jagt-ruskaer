@@ -58,7 +58,7 @@ export default function ProfileMenu({ user, isAdminPage }) {
               initial={{ scale: 0, transformOrigin: 'top right', opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
-              className="absolute z-50 right-6 md:right-12 top-[110px] md:top-[92px] bg-white shadow-shad rounded-md p-6 border border-zinc-200 w-nav md:max-w-[302px]"
+              className="absolute z-50 right-0 w-full top-[92px] bg-white shadow-shad rounded-md p-6 border border-zinc-200 md:max-w-[302px]"
             >
               <HoverCard>
                 <div className="flex gap-3.5 items-center">

@@ -1,22 +1,23 @@
-import "@/styles/globals.css";
-import { Inter as FontSans } from "next/font/google";
-import Nav from "@/components/navigation/Nav";
-import { cn } from "@/lib/utils";
-import Footer from "@/components/shared/Footer";
+import '@/styles/globals.css';
+import { Inter as FontSans } from 'next/font/google';
+import Nav from '@/components/navigation/Nav';
+import { cn } from '@/lib/utils';
+import Footer from '@/components/shared/Footer';
 
 const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
+  subsets: ['latin'],
+  variable: '--font-sans',
 });
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+  : 'http://localhost:3000';
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: 'Next.js and Supabase Starter Kit',
+  description: 'The fastest way to build apps with Next.js and Supabase',
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({ children }) {
@@ -24,7 +25,7 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen flex flex-col justify-between bg-background font-sans antialiased",
+          'min-h-screen flex flex-col justify-between bg-background font-sans antialiased',
           fontSans.variable
         )}
       >
