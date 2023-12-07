@@ -49,8 +49,8 @@ export default async function Home({ searchParams }) {
   // -------------- RSS FEED FROM DJ ----------------
 
   // fetching the rss feed - using rssData and not data as in example
-  const rssData = await fetch('https://jaegerforbundet.dk/rss/', {
-    cache: 'no-store',
+  const rssData = await fetch('https://www.jaegerforbundet.dk/rss?t=1223', {
+    next: { revalidate: 3600 },
   });
 
   const xml = await rssData.text();

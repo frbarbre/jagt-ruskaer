@@ -86,6 +86,7 @@ module.exports = {
       },
       height: {
         nav: 'calc(100vh - 92px)',
+        navDesktop: 'calc(100vh - 108px)',
         container: 'calc(100% - 94px)',
         pay: 'calc(100% - 50px)',
       },
