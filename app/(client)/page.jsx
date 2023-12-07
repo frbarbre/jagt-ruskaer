@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import Rss from '@/components/home/Rss';
 import Box from '@/components/shared/Box';
 import Current from '@/components/home/Current';
+import { Suspense } from 'react';
 
 export default async function Home({ searchParams }) {
   // Initializing SupaBase with cookies to authorize the user from the server
@@ -46,17 +47,6 @@ export default async function Home({ searchParams }) {
 
   //----------------------------------------------
 
-  // -------------- RSS FEED FROM DJ ----------------
-
-  // fetching the rss feed - using rssData and not data as in example
-  const rssData = await fetch('https://www.jaegerforbundet.dk/rss?t=1223', {
-    next: { revalidate: 3600 },
-  });
-
-  const xml = await rssData.text();
-
-  // ------------------ RSS END ------------------
-
   let isSuperAdmin = null;
 
   // Checking if the user is logged in
@@ -80,8 +70,25 @@ export default async function Home({ searchParams }) {
         <Current query={query} />
       </div>
       <Box className="flex w-full lg:max-w-[526px] min-h-screen flex-col items-center justify-between p-5">
-        <Rss xml={xml} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <RssFeed />
+        </Suspense>
       </Box>
     </div>
   );
+}
+
+async function RssFeed() {
+  // -------------- RSS FEED FROM DJ ----------------
+
+  // fetching the rss feed - using rssData and not data as in example
+  const rssData = await fetch('https://www.jaegerforbundet.dk/rss?t=1223', {
+    next: { revalidate: 3600 },
+  });
+
+  const xml = await rssData.text();
+
+  // ------------------ RSS END ------------------
+
+  return <Rss xml={xml} />;
 }
