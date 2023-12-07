@@ -7,7 +7,6 @@
     "email": "email dev --dir email"
   },
   "dependencies": {
-    "@ducanh2912/next-pwa": "^9.7.2",
     "@hookform/resolvers": "^3.3.2",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -39,10 +38,8 @@
     "date-fns": "^2.30.0",
     "flowbite": "^2.2.0",
     "framer-motion": "^10.16.7",
-    "geist": "^1.0.0",
     "lucide-react": "^0.294.0",
     "next": "^14.0.4-canary.47",
-    "next-pwa": "^5.6.0",
     "postcss": "^8.4.31",
     "react": "18.2.0",
     "react-day-picker": "^8.9.1",
