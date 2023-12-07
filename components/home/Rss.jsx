@@ -71,7 +71,7 @@ export default function Rss({ xml }) {
           </div>
           {articles?.map((article) => (
             <Fragment key={article.guid}>
-              <a className="flex gap-5" href={article.link} target="_blank">
+              <a className="flex gap-5 flex-col sm:flex-row" href={article.link} target="_blank">
                 <img
                   src={article.image}
                   alt=""

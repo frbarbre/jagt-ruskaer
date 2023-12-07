@@ -75,11 +75,11 @@ export default async function Home({ searchParams }) {
   }
 
   return (
-    <div className="flex gap-6">
+    <div className="flex gap-6 flex-col lg:flex-row">
       <div className="flex-1 w-full flex flex-col gap-20 items-center">
         <Current query={query} />
       </div>
-      <Box className="flex w-full max-w-[526px] min-h-screen flex-col items-center justify-between p-5">
+      <Box className="flex w-full lg:max-w-[526px] min-h-screen flex-col items-center justify-between p-5">
         <Rss xml={xml} />
       </Box>
     </div>
