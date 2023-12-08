@@ -87,6 +87,7 @@ export default async function Home({ searchParams }) {
         <NewArticles />
       </div>
       <Box className="flex w-full lg:max-w-[526px] min-h-screen flex-col items-center justify-between p-5">
+        
         <Suspense fallback={<div>Loading...</div>}>
           <RssFeed />
         </Suspense>

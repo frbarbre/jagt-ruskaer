@@ -27,17 +27,16 @@ export default function UpcomingEvents({ comingEvents }) {
 
 	
   return (
-		// TODO - add prop 'noPaddingRight' to Box component - if 'true' remove right side padding
-    <Box className="w-full flex flex-col gap-3 overflow-auto lg:max-w-[890px]">
-      <div className="flex justify-between">
+    <Box className="w-full flex flex-col gap-3 overflow-auto lg:max-w-[890px] pr-0">
+      <div className="flex justify-between pr-5">
         <Heading title={"Kommende begivenheder"} icon={<CalendarDays />} />
         <Button variant={"outline"}>Se alle</Button>
       </div>
       <ScrollArea>
-				<div className="flex gap-5 py-4">
+				<div className="flex gap-5 py-4 pr-5">
 					{activities}
 				</div>
-				<ScrollBar orientation='horizontal' />
+				<ScrollBar orientation='horizontal' className='pr-5' />
       </ScrollArea>
     </Box>
   );

@@ -14,11 +14,11 @@ import { Button } from '@/components/ui/button'
 export default function Article({ article }) {
     return (
         // TODO - copy the styling of the ActivityCard - remember to grab the styling for 'isOnAdminPage' set to 'true'
-        <Box className='min-w-[335px] flex justify-between items-end'>
-            <section className='w-full'>
+        <Box className='min-w-[335px]'>
+            <section className='w-full flex flex-col gap-3'>
                 <Heading isTiny={true} title={article.category} icon={article.icon} />
                 <Separator className='my-3' />
-                <img className='w-full object-cover' src={article.img} alt={article.title} />
+                <img className='w-full object-cover rounded-[5px]' src={article.img} alt={article.title} />
                 <h2 className='font-semibold text-sm mb-1 '>
                     {article.title}
                 </h2>
