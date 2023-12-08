@@ -1,8 +1,8 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -11,25 +11,26 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
-import Box from '../shared/Box';
-import { CreditCard } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Skeleton } from '../ui/skeleton';
-import { createClient } from '@/utils/supabase/client';
+import Box from "../shared/Box";
+import { CreditCard } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Skeleton } from "../ui/skeleton";
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 
 const numberRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([\s]?[0-9])+$/
 );
 
 const FormSchema = z.object({
-  cardNumber: z.string().regex(numberRegex, 'Skal være tal').min(16).max(16),
+  cardNumber: z.string().regex(numberRegex, "Skal være tal").min(16).max(16),
   name: z.string().min(2).max(50),
-  expireDate: z.string().regex(numberRegex, 'Skal være tal').min(2).max(2),
-  expireYear: z.string().regex(numberRegex, 'Skal være tal').min(2).max(2),
-  cvc: z.string().regex(numberRegex, 'Skal være tal').min(3).max(3),
+  expireDate: z.string().regex(numberRegex, "Skal være tal").min(2).max(2),
+  expireYear: z.string().regex(numberRegex, "Skal være tal").min(2).max(2),
+  cvc: z.string().regex(numberRegex, "Skal være tal").min(3).max(3),
 });
 
 export default function PayDetails({
@@ -40,6 +41,7 @@ export default function PayDetails({
 }) {
   const [isClient, setIsClient] = useState(false);
   const supabase = createClient();
+  const router = useRouter();
 
   useEffect(() => {
     setIsClient(true);
@@ -48,30 +50,34 @@ export default function PayDetails({
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      cardNumber: '',
-      name: '',
-      expireDate: '',
-      expireYear: '',
-      cvc: '',
+      cardNumber: "",
+      name: "",
+      expireDate: "",
+      expireYear: "",
+      cvc: "",
     },
   });
 
-  async function onSubmit(values) {
-    console.log(values);
+  async function onSubmit() {
     const { error } = await supabase
-      .from('registrations')
+      .from("registrations")
       .update({
         isPayed: true,
         expireDate: null,
       })
-      .eq('user_id', userId)
-      .eq('activity_id', activityId);
+      .eq("user_id", userId)
+      .eq("activity_id", activityId);
+    if (error) {
+      console.log(error);
+    } else {
+      router.push(`/ordre-bekraeftelse?activity_id=${activityId}`);
+    }
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Box className={'mb-9'}>
+        <Box className={"mb-9"}>
           <h3 className="text-[16px] font-semibold mb-3">
             Betalingsoplysninger
           </h3>
@@ -179,7 +185,7 @@ export default function PayDetails({
               {totalPrice},00 dkk
             </h2>
           ) : (
-            <Skeleton className={'h-[30px] w-[100px] mb-4'} />
+            <Skeleton className={"h-[30px] w-[100px] mb-4"} />
           )}
           <Button type="submit" className="w-full">
             <CreditCard className="w-4 h-4 mr-2" />

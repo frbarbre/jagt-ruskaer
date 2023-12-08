@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -12,13 +12,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import Box from '../shared/Box';
-import { Checkbox } from '@/components/ui/checkbox';
-import { UserPlus } from 'lucide-react';
-import { useStore } from '@/store';
-import { shallow } from 'zustand/shallow';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import Box from "../shared/Box";
+import { Checkbox } from "@/components/ui/checkbox";
+import { UserPlus } from "lucide-react";
+import { useStore } from "@/store";
+import { shallow } from "zustand/shallow";
 
 const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
@@ -31,12 +31,17 @@ const FormSchema = z.object({
     .string()
     .min(8)
     .max(8)
-    .regex(phoneRegex, 'Ikke et gyldigt telefonnummer'),
+    .regex(phoneRegex, "Ikke et gyldigt telefonnummer"),
   email: z.string().email(),
   hasDiscount: z.boolean().optional().default(false),
 });
 
-export default function GuestForm({ clients, setClients, setIsGuestsOpen }) {
+export default function GuestForm({
+  clients,
+  setClients,
+  setIsGuestsOpen,
+  pricePerPerson,
+}) {
   const [currentGuest, setCurrentGuest] = useStore(
     (state) => [state.currentGuest, state.setCurrentGuest],
     shallow
@@ -45,10 +50,10 @@ export default function GuestForm({ clients, setClients, setIsGuestsOpen }) {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      firstName: currentGuest?.firstName || '',
-      lastName: currentGuest?.lastName || '',
-      phoneNumber: currentGuest?.phoneNumber || '',
-      email: currentGuest?.email || '',
+      firstName: currentGuest?.firstName || "",
+      lastName: currentGuest?.lastName || "",
+      phoneNumber: currentGuest?.phoneNumber || "",
+      email: currentGuest?.email || "",
       hasDiscount: currentGuest?.hasDiscount || false,
     },
   });
@@ -62,6 +67,7 @@ export default function GuestForm({ clients, setClients, setIsGuestsOpen }) {
       email: values.email,
       discount: values.hasDiscount,
       isGuest: true,
+      price: values.hasDiscount ? pricePerPerson / 2 : pricePerPerson,
       dogs: 0,
     };
     setCurrentGuest(values);

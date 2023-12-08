@@ -15,6 +15,10 @@ export default async function Payment({ searchParams }) {
     redirect("/");
   }
 
+  if (!searchParams.activity_id) {
+    redirect("/");
+  }
+
   const { data, error } = await supabase
     .from("registrations")
     .select("activity_id, id")
@@ -25,11 +29,18 @@ export default async function Payment({ searchParams }) {
   }
   const currentUserActivityRegistrations = data.map((item) => item.activity_id);
 
+  const activity = await supabase
+    .from("activities")
+    .select()
+    .eq("id", searchParams.activity_id)
+    .single();
+
   return (
     <>
       <PaymentClient
         currentUserActivityRegistrations={currentUserActivityRegistrations}
         searchParams={searchParams}
+        activity={activity.data}
       />
     </>
   );

@@ -2,6 +2,7 @@
 
 import { Resend } from "resend";
 import Newsletter from "../email/NewsLetter";
+import OrderConfirmation from "../email/OrderConfirmation";
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 
@@ -29,6 +30,32 @@ export async function sendNewsletter({ title, subtitle, message, image }) {
         title: title,
         subtitle: subtitle,
         message: message,
+      }),
+    });
+    console.log("Email sent");
+  } catch (error) {
+    console.log("Error sending email", error);
+  }
+}
+
+export async function sendOrderConfirmation({
+  activity,
+  clients,
+  price,
+  name,
+  email,
+}) {
+  try {
+    await resend.emails.send({
+      from: "Ruskær Jagtforening <contact@ruskaer.frederikbarbre.dk>",
+      to: email,
+      subject: "Ordrebekræftelse",
+      reply_to: "fr.barbre@gmail.com",
+      react: OrderConfirmation({
+        activity: activity,
+        clients: clients,
+        price: price,
+        name: name,
       }),
     });
     console.log("Email sent");

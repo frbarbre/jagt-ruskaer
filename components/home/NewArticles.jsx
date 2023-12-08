@@ -46,15 +46,15 @@ export default function NewArticles() {
         )
     })
     return (
-        <Box className="w-full flex flex-col gap-3 overflow-auto pr-0 lg:max-w-[890px]">
-            <div>
-            <Heading title={'Nyeste indlæg'} icon={<Mails />} />
+        <Box className="w-full flex flex-col gap-3 pb-1 overflow-auto px-0 lg:max-w-[890px]">
+            <div className='px-5'>
+                <Heading title={'Nyeste indlæg'} icon={<Mails />} />
             </div>
             <ScrollArea>
-                <div className="flex gap-5 py-4 pr-5">
+                <div className="flex gap-5 pb-4 px-5">
                     {articles}
                 </div>
-                <ScrollBar orientation='horizontal' className='pr-5' />
+                <ScrollBar orientation='horizontal' className='px-5' />
             </ScrollArea>
         </Box>
     )

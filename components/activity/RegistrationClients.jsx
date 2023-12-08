@@ -40,6 +40,7 @@ export default function RegistrationClients({
     dogs: 0,
     discount: false,
     isGuest: false,
+    price: pricePerPerson,
   };
 
   const [clients, setClients] = useState(clientsStorage || [defaultClient]);
@@ -82,7 +83,7 @@ export default function RegistrationClients({
         <div className="mt-5 flex flex-col justify-between h-pay gap-6">
           <div>
             <p className="text-[12px] font-semibold pb-2">
-              Mine tilmeldte deltagere
+              Du er ved at tilmeldede følgende
             </p>
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-3">
@@ -104,6 +105,7 @@ export default function RegistrationClients({
               </div>
               {isGuestsOpen && (
                 <GuestForm
+                  pricePerPerson={pricePerPerson}
                   clients={clients}
                   setClients={setClients}
                   setIsGuestsOpen={setIsGuestsOpen}

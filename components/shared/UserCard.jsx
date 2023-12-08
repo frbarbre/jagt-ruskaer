@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Box from "./Box";
@@ -22,6 +22,8 @@ export default function UserCard({
   clients,
   setClients,
   setIsGuestsOpen,
+  isInCart,
+  price,
 }) {
   const setCurrentGuest = useStore((state) => state.setCurrentGuest);
   const formattedPhone = phone.replace(
@@ -60,7 +62,11 @@ export default function UserCard({
         </article>
       </div>
       <div className="flex items-center gap-3">
-        <div className="flex items-center gap-3">
+        <div
+          className={`flex gap-3 ${
+            isInCart ? "flex-col items-end" : "items-center"
+          }`}
+        >
           {dogs !== 0 && dogs && (
             <div className="flex gap-1 items-center">
               <p className="text-[14px] font-semibold">{dogs}</p>
@@ -72,6 +78,9 @@ export default function UserCard({
               <p className="text-[14px] font-semibold">{participants}</p>
               <User />
             </div>
+          )}
+          {isInCart && (
+            <p className="text-[14px] font-semibold">{price},00 dkk</p>
           )}
         </div>
         {isRegistration && (

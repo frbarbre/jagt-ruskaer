@@ -16,15 +16,19 @@ export default function Article({ article }) {
         // TODO - copy the styling of the ActivityCard - remember to grab the styling for 'isOnAdminPage' set to 'true'
         <Box className='min-w-[335px]'>
             <section className='w-full flex flex-col gap-3'>
-                <Heading isTiny={true} title={article.category} icon={article.icon} />
-                <Separator className='my-3' />
-                <img className='w-full object-cover rounded-[5px]' src={article.img} alt={article.title} />
-                <h2 className='font-semibold text-sm mb-1 '>
-                    {article.title}
-                </h2>
-                <p className=''>
-                    {article.description}
-                </p>
+                <div>
+                    <Heading isTiny={true} title={article.category} icon={article.icon} />
+                    <Separator className='my-3' />
+                    <img className='w-full object-cover rounded-[5px]' src={article.img} alt={article.title} />
+                </div>
+                <div className='flex flex-col gap-2'>
+                    <h2 className='font-semibold text-sm mb-1 '>
+                        {article.title}
+                    </h2>
+                    <p className='text-[14px] h-[40px] overflow-hidden mt-2 mb-3'>
+                        {article.description}
+                    </p>
+                </div>
                 <Button>
                     Læs mere
                 </Button>

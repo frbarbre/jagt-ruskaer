@@ -5,9 +5,15 @@ import { redirect } from "next/navigation";
 import Rss from "@/components/home/Rss";
 import Box from "@/components/shared/Box";
 import Current from "@/components/home/Current";
-import { Suspense } from "react";
+import { Fragment, Suspense } from "react";
 import UpcomingEvents from "@/components/home/UpcomingEvents";
-import NewArticles from '@/components/home/NewArticles'
+import NewArticles from "@/components/home/NewArticles";
+import Heading from "@/components/shared/Heading";
+import { Button } from "@/components/ui/button";
+import { Newspaper } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 
 export default async function Home({ searchParams }) {
   // Initializing SupaBase with cookies to authorize the user from the server
@@ -81,17 +87,52 @@ export default async function Home({ searchParams }) {
 
   return (
     <div className="flex gap-6 flex-col lg:flex-row max-w-screen">
+      {/* The left-hand side of the Home page - 'Aktuelt', 'Kommende begivenheder', 'Nyeste indlæg' */}
       <div className="flex-1 w-full flex flex-col gap-6 items-center">
         <Current currentEvent={currentEvent} />
         <UpcomingEvents comingEvents={comingEvents} />
         <NewArticles />
       </div>
-      <Box className="flex w-full lg:max-w-[526px] min-h-screen flex-col items-center justify-between p-5">
-        
-        <Suspense fallback={<div>Loading...</div>}>
+      {/* The whole RSS feed on the right-hand side of the Home page */}
+      <Box className="flex w-full lg:max-w-[526px] min-h-screen flex-col items-center gap-3 pr-1 pb-0">
+        <div className="flex justify-between items-center w-full pr-4">
+          <Heading title={"Sidste nyt fra DJ"} icon={<Newspaper />} />
+          <Button variant={"outline"}>Se alle</Button>
+        </div>
+        <Suspense fallback={<RssSkeleton />}>
           <RssFeed />
         </Suspense>
       </Box>
+    </div>
+  );
+}
+
+function RssSkeleton() {
+  return (
+    <div className="flex flex-col gap-5 h-[1294px] w-full">
+      <ScrollArea>
+        <div className="flex flex-col gap-5 pr-4 pb-5">
+          {Array.from({ length: 10 }).map((_, index) => (
+            <Fragment key={index}>
+              <div className="flex sm:flex-row flex-col gap-5 lg:flex-col xl:flex-row">
+                <Skeleton
+                  className={
+                    "h-[176px] w-full sm:max-w-[270px] lg:max-w-none xl:max-w-[270px]"
+                  }
+                />
+                <div className="flex flex-col gap-5 mt-5 sm:mt-0 w-full sm:justify-between xl:w-[193px]">
+                  <Skeleton
+                    className={"h-[16px] w-[260px] xl:w-full xl:h-[32px]"}
+                  />
+                  <Skeleton className={"h-[80px] w-full"} />
+                  <Skeleton className={"h-[16px] w-[180px]"} />
+                </div>
+              </div>
+              <Separator className="last:hidden" />
+            </Fragment>
+          ))}
+        </div>
+      </ScrollArea>
     </div>
   );
 }
