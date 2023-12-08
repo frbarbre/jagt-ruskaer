@@ -7,7 +7,6 @@ import DogForm from "./DogForm";
 import GuestForm from "./GuestForm";
 import TotalPrice from "./TotalPrice";
 import { useStore } from "@/store";
-import { Loader2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
@@ -20,6 +19,7 @@ export default function RegistrationClients({
   currentDogs,
   currentParticipants,
   activityId,
+  activityCategory,
 }) {
   let clientsStorage = null;
   let storageUser = null;
@@ -109,6 +109,7 @@ export default function RegistrationClients({
                   clients={clients}
                   setClients={setClients}
                   setIsGuestsOpen={setIsGuestsOpen}
+                  activityCategory={activityCategory}
                 />
               )}
               {!isGuestsOpen && clients.length < 2 && (

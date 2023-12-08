@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Box from "./Box";
-import { Dog, Edit, Trash, Trash2, User, X } from "lucide-react";
+import { Dog, Edit, Trash2, User, X } from "lucide-react";
 import RegistrationDropDown from "../admin-activities/RegistrationDropdown";
 import { Button } from "../ui/button";
 import { useStore } from "@/store";
@@ -24,6 +24,7 @@ export default function UserCard({
   setIsGuestsOpen,
   isInCart,
   price,
+  isOnOverview,
 }) {
   const setCurrentGuest = useStore((state) => state.setCurrentGuest);
   const formattedPhone = phone.replace(
@@ -83,10 +84,11 @@ export default function UserCard({
             <p className="text-[14px] font-semibold">{price},00 dkk</p>
           )}
         </div>
-        {isRegistration && (
+        {(isRegistration || isOnOverview) && (
           <RegistrationDropDown
             user_id={user_id}
             registration_id={registration_id}
+            isOnOverview={isOnOverview}
           />
         )}
         {isGuest && (

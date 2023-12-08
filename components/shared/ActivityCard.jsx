@@ -7,15 +7,21 @@ import {
   Crosshair,
   CalendarDays,
   Clock,
+  Coins,
+  User,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/server";
 
 export default function ActivityCard({
   activity,
   isOnAdminPage,
   isOnFrontPage,
+  isRegistration,
+  registration,
 }) {
   const icon =
     activity.category === "jagt" ? (
@@ -75,10 +81,31 @@ export default function ActivityCard({
     return [year, day, monthNames[month]];
   }
 
+  async function deleteRegistration(FormData) {
+    "use server";
+    const cookieStore = cookies();
+    const supabase = createClient(cookieStore);
+
+    const activityId = FormData.get("activityId");
+
+    const { error } = await supabase
+      .from("registrations")
+      .delete()
+      .eq("activity_id", activityId);
+
+    if (error) {
+      console.log(error);
+    }
+  }
+
   const date = formatDateToArray(activity.date);
 
   return (
-    <Box maxWidth={`${isOnFrontPage ? 'min-w-[335px]' : ''} flex items-center gap-5`}>
+    <Box
+      maxWidth={`${
+        isOnFrontPage ? "min-w-[335px]" : ""
+      } flex items-center gap-5`}
+    >
       {!isOnAdminPage && (
         <article className="text-center font-bold w-[45px]">
           <h3 className="text-[12px] translate-y-1">{date[0]}</h3>
@@ -87,7 +114,27 @@ export default function ActivityCard({
         </article>
       )}
       <section className="w-full">
-        <Heading isTiny={true} title={activity.category} icon={icon} />
+        <div className="flex justify-between items-center">
+          <Heading isTiny={true} title={activity.category} icon={icon} />
+          {isRegistration && (
+            <article className="flex items-center gap-3">
+              <InfoIcon
+                value={`${registration.total_price},00 dkk`}
+                icon={<Coins className="w-4 h-4 opacity-70" />}
+              />
+              {registration.dogs !== 0 && registration.dogs && (
+                <InfoIcon
+                  value={registration.dogs}
+                  icon={<Dog className="w-4 h-4 opacity-70" />}
+                />
+              )}
+              <InfoIcon
+                value={registration.participants}
+                icon={<User className="w-4 h-4 opacity-70" />}
+              />
+            </article>
+          )}
+        </div>
         <Separator className="my-3" />
         {isOnAdminPage && (
           <h2 className="font-semibold text-[14px]">{activity.title}</h2>
@@ -126,6 +173,18 @@ export default function ActivityCard({
             <Link href={`/admin/aktiviteter/rediger-aktivitet/${activity.id}`}>
               <Button>Se mere</Button>
             </Link>
+          ) : isRegistration ? (
+            <div>
+              <Link className="mr-3" href={`/aktiviteter/${activity.id}`}>
+                <Button>Læs mere</Button>
+              </Link>
+              <form action={deleteRegistration} className="inline">
+                <input type="hidden" name="activityId" value={activity.id} />
+                <Button type="submit" variant="destructive">
+                  Meld afbud
+                </Button>
+              </form>
+            </div>
           ) : (
             <Link href={`/aktiviteter/${activity.id}`}>
               <Button>Læs mere</Button>
@@ -134,5 +193,14 @@ export default function ActivityCard({
         </div>
       </section>
     </Box>
+  );
+}
+
+function InfoIcon({ icon, value }) {
+  return (
+    <div className="flex items-center gap-1">
+      <p className="text-[10px] font-semibold">{value}</p>
+      <div>{icon}</div>
+    </div>
   );
 }

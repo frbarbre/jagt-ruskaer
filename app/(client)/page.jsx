@@ -29,7 +29,7 @@ export default async function Home({ searchParams }) {
     // getSession() returns the currently logged in user object(s)
   } = await supabase.auth.getSession();
 
-  //------------- DATA FOR 'AKTUELT' -------------
+  //------------- DATA FOR 'AKTUELT' AND 'KOMMENDE BEGIVENHEDER' -------------
 
   // attempting to get activity from supabase
 
@@ -97,7 +97,13 @@ export default async function Home({ searchParams }) {
       <Box className="flex w-full lg:max-w-[526px] min-h-screen flex-col items-center gap-3 pr-1 pb-0">
         <div className="flex justify-between items-center w-full pr-4">
           <Heading title={"Sidste nyt fra DJ"} icon={<Newspaper />} />
-          <Button variant={"outline"}>Se alle</Button>
+          <a
+            href="https://www.jaegerforbundet.dk/om-dj/dj-medier/nyhedsarkiv/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button variant={"outline"}>Se alle</Button>
+          </a>
         </div>
         <Suspense fallback={<RssSkeleton />}>
           <RssFeed />

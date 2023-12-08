@@ -11,6 +11,7 @@ export default async function RegistrationForm({
   maxDogs,
   maxParticipants,
   activityId,
+  activityCategory,
 }) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
@@ -39,8 +40,6 @@ export default async function RegistrationForm({
     .is("isPayed", false)
     .single();
 
-  console.log(currentRegistration.data);
-
   const currentDogs = registrations.data.reduce((acc, curr) => {
     return acc + curr.dogs;
   }, 0);
@@ -64,9 +63,7 @@ export default async function RegistrationForm({
                 <p className="text-s ">
                   Du er igang med at betale for aktiviteten
                 </p>
-                <Link
-                  href={`/betaling?activity_id=${currentRegistration.data.id}`}
-                >
+                <Link href={`/betaling?activity_id=${activityId}`}>
                   <Button className="w-max">
                     <CreditCard className="h-4 w-4 mr-2" />
                     Til betaling
@@ -78,7 +75,8 @@ export default async function RegistrationForm({
             <>
               {!currentUsers.includes(session.user.id) ? (
                 <>
-                  {currentParticipants < maxParticipants ? (
+                  {currentParticipants < maxParticipants ||
+                  maxParticipants === null ? (
                     <RegistrationClients
                       currentUser={data}
                       currentDogs={currentDogs}
@@ -87,6 +85,7 @@ export default async function RegistrationForm({
                       maxDogs={maxDogs}
                       maxParticipants={maxParticipants}
                       activityId={activityId}
+                      activityCategory={activityCategory}
                     />
                   ) : (
                     <div className="flex h-pay items-center justify-center">

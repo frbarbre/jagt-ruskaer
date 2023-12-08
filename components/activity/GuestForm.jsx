@@ -37,6 +37,7 @@ const FormSchema = z.object({
 });
 
 export default function GuestForm({
+  activityCategory,
   clients,
   setClients,
   setIsGuestsOpen,
@@ -46,6 +47,8 @@ export default function GuestForm({
     (state) => [state.currentGuest, state.setCurrentGuest],
     shallow
   );
+
+  console.log(activityCategory);
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -142,25 +145,27 @@ export default function GuestForm({
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="hasDiscount"
-            render={({ field }) => (
-              <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-                <div className="space-y-1 leading-none">
-                  <FormLabel>
-                    Gæsten deltager ikke aktivt jagten (50% pris)
-                  </FormLabel>
-                </div>
-              </FormItem>
-            )}
-          />
+          {activityCategory === "jagt" && (
+            <FormField
+              control={form.control}
+              name="hasDiscount"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>
+                      Gæsten deltager ikke aktivt jagten (50% pris)
+                    </FormLabel>
+                  </div>
+                </FormItem>
+              )}
+            />
+          )}
 
           <div className="flex flex-col gap-2 mt-3">
             <Button type="submit">

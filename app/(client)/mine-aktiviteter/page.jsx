@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import RegistrationCard from "@/components/my-activities/RegistrationCard";
 
 export default async function MyActivities() {
   const cookieStore = cookies();
@@ -29,7 +30,6 @@ export default async function MyActivities() {
     console.log(error);
   }
 
-  console.log(data);
   return (
     <Box>
       <div className="flex justify-between items-center">
@@ -41,6 +41,11 @@ export default async function MyActivities() {
       <p className="my-3">
         Her er en oversigt over dine tilmeldte aktiviteter.
       </p>
+      <div className="flex flex-col gap-4">
+        {data.map((registration) => (
+          <RegistrationCard registration={registration} />
+        ))}
+      </div>
     </Box>
   );
 }

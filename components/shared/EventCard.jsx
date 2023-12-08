@@ -17,11 +17,11 @@ export default function EventCard({ activity }) {
   }
 
   let timeFrom =
-    activity.timeFrom.split(":")[0] + ":" + activity.timeFrom.split(":")[1];
+    activity?.timeFrom?.split(":")[0] + ":" + activity?.timeFrom?.split(":")[1];
 
   let timeTo = null;
 
-  if (activity.timeTo) {
+  if (activity?.timeTo) {
     timeTo =
       activity.timeTo.split(":")[0] + ":" + activity.timeTo.split(":")[1];
   }
@@ -29,16 +29,16 @@ export default function EventCard({ activity }) {
   return (
     <Box className="flex items-center gap-3">
       <img
-        src={activity.image}
-        alt={activity.title}
+        src={activity?.image}
+        alt={activity?.title}
         className="w-[80px] h-[80px] object-cover rounded-md"
       />
       <article className="flex flex-col gap-2">
-        <h3 className="text-[14px] font-semibold">{activity.title}</h3>
+        <h3 className="text-[14px] font-semibold">{activity?.title}</h3>
 
         <div className="flex gap-1 items-center opacity-70">
           <CalendarDays className="w-4 h-4" />
-          <p className="text-[12px]">{formatDate(activity.date)}</p>
+          <p className="text-[12px]">{formatDate(activity?.date)}</p>
         </div>
 
         <div className="flex gap-1 items-center opacity-70">

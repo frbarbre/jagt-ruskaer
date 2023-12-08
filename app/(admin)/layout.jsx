@@ -49,7 +49,7 @@ export default async function RootLayout({ children }) {
       <RealtimeProvider session={session}>
         <body
           className={cn(
-            "min-h-screen bg-background font-sans antialiased",
+            "bg-background font-sans antialiased",
             fontSans.variable
           )}
         >

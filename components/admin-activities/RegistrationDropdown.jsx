@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   DropdownMenu,
@@ -7,14 +7,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Button } from '../ui/button';
+} from "@/components/ui/dropdown-menu";
+import { Button } from "../ui/button";
 
-import { MoreHorizontal } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { createClient } from '@supabase/supabase-js';
+import { MoreHorizontal } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@supabase/supabase-js";
 
-export default function RegistrationDropDown({ user_id, registration_id }) {
+export default function RegistrationDropDown({
+  user_id,
+  registration_id,
+  isOnOverview,
+}) {
   const router = useRouter();
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -42,9 +46,9 @@ export default function RegistrationDropDown({ user_id, registration_id }) {
 
   async function deleteRegistration() {
     const { data, error } = await supabase
-      .from('registrations')
+      .from("registrations")
       .delete()
-      .eq('id', registration_id);
+      .eq("id", registration_id);
     if (error) {
       console.log(error);
     } else {
@@ -67,9 +71,11 @@ export default function RegistrationDropDown({ user_id, registration_id }) {
           Kopier bruger ID
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={deleteRegistration}>
-          Slet tilmelding
-        </DropdownMenuItem>
+        {!isOnOverview && (
+          <DropdownMenuItem onClick={deleteRegistration}>
+            Slet tilmelding
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem onClick={editUser}>Rediger bruger</DropdownMenuItem>
         <DropdownMenuItem onClick={deleteUser}>Slet bruger</DropdownMenuItem>
       </DropdownMenuContent>

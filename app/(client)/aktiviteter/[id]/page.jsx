@@ -1,8 +1,8 @@
-import { createClient } from '@/utils/supabase/server';
-import { cookies } from 'next/headers';
-import ActivityWindow from '@/components/activity/ActivityWindow';
-import Box from '@/components/shared/Box';
-import RegistrationForm from '@/components/activity/RegistrationForm';
+import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
+import ActivityWindow from "@/components/activity/ActivityWindow";
+import Box from "@/components/shared/Box";
+import RegistrationForm from "@/components/activity/RegistrationForm";
 
 export default async function Activity({ params }) {
   const cookieStore = cookies();
@@ -11,9 +11,9 @@ export default async function Activity({ params }) {
   let mapJSON = null;
 
   const { data } = await supabase
-    .from('activities')
-    .select('*, registrations(*)')
-    .eq('id', params.id)
+    .from("activities")
+    .select("*, registrations(*)")
+    .eq("id", params.id)
     .single();
 
   if (data?.place_id) {
@@ -21,6 +21,7 @@ export default async function Activity({ params }) {
     const mapData = await fetch(mapUrl);
     mapJSON = await mapData.json();
   }
+  
 
   return (
     <section className="flex gap-6 w-full flex-col lg:flex-row">
@@ -34,6 +35,7 @@ export default async function Activity({ params }) {
           maxDogs={data.dogs}
           maxParticipants={data.participants}
           activityId={data.id}
+          activityCategory={data.category}
         />
       </Box>
     </section>
