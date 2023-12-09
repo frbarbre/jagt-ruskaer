@@ -1,19 +1,19 @@
-import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
-import User from "@/components/User";
-import { redirect } from "next/navigation";
-import Rss from "@/components/home/Rss";
-import Box from "@/components/shared/Box";
-import Current from "@/components/home/Current";
-import { Fragment, Suspense } from "react";
-import UpcomingEvents from "@/components/home/UpcomingEvents";
-import NewArticles from "@/components/home/NewArticles";
-import Heading from "@/components/shared/Heading";
-import { Button } from "@/components/ui/button";
-import { Newspaper } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
+import { createClient } from '@/utils/supabase/server';
+import { cookies } from 'next/headers';
+import User from '@/components/User';
+import { redirect } from 'next/navigation';
+import Rss from '@/components/home/Rss';
+import Box from '@/components/shared/Box';
+import Current from '@/components/home/Current';
+import { Fragment, Suspense } from 'react';
+import UpcomingEvents from '@/components/home/UpcomingEvents';
+import NewArticles from '@/components/home/NewArticles';
+import Heading from '@/components/shared/Heading';
+import { Button } from '@/components/ui/button';
+import { Newspaper } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 
 export default async function Home({ searchParams }) {
   // Initializing SupaBase with cookies to authorize the user from the server
@@ -21,7 +21,7 @@ export default async function Home({ searchParams }) {
   const supabase = createClient(cookieStore);
 
   // Fetching data from SupaBase
-  const { data } = await supabase.from("profiles").select();
+  const { data } = await supabase.from('profiles').select();
 
   // Fetching the current users data, with the getSession method from Supabase
   const {
@@ -36,8 +36,8 @@ export default async function Home({ searchParams }) {
   function getToday() {
     const date = new Date();
     const year = date.getFullYear();
-    const month = ("0" + (date.getMonth() + 1)).slice(-2); // Months are 0 based, so add 1 and format as 2 digits
-    const day = ("0" + date.getDate()).slice(-2); // Format as 2 digits
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are 0 based, so add 1 and format as 2 digits
+    const day = ('0' + date.getDate()).slice(-2); // Format as 2 digits
     return `${year}-${month}-${day}`;
   }
 
@@ -54,10 +54,10 @@ export default async function Home({ searchParams }) {
   // console.log(query)
 
   let query = await supabase
-    .from("activities")
+    .from('activities')
     .select()
-    .gte("date", today)
-    .order("date", { ascending: true })
+    .gte('date', today)
+    .order('date', { ascending: true })
     .limit(6);
 
   // data of the closest, future event for 'Aktuelt'
@@ -74,12 +74,12 @@ export default async function Home({ searchParams }) {
   if (session) {
     // Checking if the user is a Super Admin
     const { data } = await supabase
-      .from("profiles")
-      .select("isSuperAdmin, onboarded")
-      .eq("id", session.user.id);
+      .from('profiles')
+      .select('isSuperAdmin, onboarded')
+      .eq('id', session.user.id);
 
     if (!data[0].onboarded) {
-      redirect("/onboarding");
+      redirect('/onboarding');
     }
     // Setting the isSuperAdmin variable to true or false
     isSuperAdmin = data[0].isSuperAdmin;
@@ -94,15 +94,18 @@ export default async function Home({ searchParams }) {
         <NewArticles />
       </div>
       {/* The whole RSS feed on the right-hand side of the Home page */}
-      <Box className="flex w-full lg:max-w-[526px] min-h-screen flex-col items-center gap-3 pr-1 pb-0">
+      <Box
+        className="flex w-full lg:max-w-[526px] min-h-screen flex-col items-center gap-3"
+        padding={'pr-1 pb-0 pl-5 pt-5'}
+      >
         <div className="flex justify-between items-center w-full pr-4">
-          <Heading title={"Sidste nyt fra DJ"} icon={<Newspaper />} />
+          <Heading title={'Sidste nyt fra DJ'} icon={<Newspaper />} />
           <a
             href="https://www.jaegerforbundet.dk/om-dj/dj-medier/nyhedsarkiv/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Button variant={"outline"}>Se alle</Button>
+            <Button variant={'outline'}>Se alle</Button>
           </a>
         </div>
         <Suspense fallback={<RssSkeleton />}>
@@ -123,15 +126,15 @@ function RssSkeleton() {
               <div className="flex sm:flex-row flex-col gap-5 lg:flex-col xl:flex-row">
                 <Skeleton
                   className={
-                    "h-[176px] w-full sm:max-w-[270px] lg:max-w-none xl:max-w-[270px]"
+                    'h-[176px] w-full sm:max-w-[270px] lg:max-w-none xl:max-w-[270px]'
                   }
                 />
                 <div className="flex flex-col gap-5  sm:mt-0 w-full sm:justify-between xl:w-[193px]">
                   <Skeleton
-                    className={"h-[16px] w-[260px] xl:w-full xl:h-[32px]"}
+                    className={'h-[16px] w-[260px] xl:w-full xl:h-[32px]'}
                   />
-                  <Skeleton className={"h-[80px] w-full"} />
-                  <Skeleton className={"h-[16px] w-[180px]"} />
+                  <Skeleton className={'h-[80px] w-full'} />
+                  <Skeleton className={'h-[16px] w-[180px]'} />
                 </div>
               </div>
               <Separator className="last:hidden" />
@@ -147,8 +150,8 @@ async function RssFeed() {
   // -------------- RSS FEED FROM DJ ----------------
 
   // fetching the rss feed - using rssData and not data as in example
-  const rssData = await fetch("https://www.jaegerforbundet.dk/rss?t=1223", {
-    cache: "no-store",
+  const rssData = await fetch('https://www.jaegerforbundet.dk/rss?t=1223', {
+    cache: 'no-store',
   });
 
   const xml = await rssData.text();

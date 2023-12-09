@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useEffect, useState, Fragment } from "react";
-import Heading from "../shared/Heading";
-import { CalendarDays } from "lucide-react";
-import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { useEffect, useState, Fragment } from 'react';
+import Heading from '../shared/Heading';
+import { CalendarDays } from 'lucide-react';
+import { Button } from '../ui/button';
+import { Separator } from '../ui/separator';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default function Rss({ xml }) {
   const [isClient, setIsClient] = useState(false);
@@ -15,45 +15,45 @@ export default function Rss({ xml }) {
   }, []);
 
   let document = null;
-  if (typeof window !== "undefined") {
-    document = new DOMParser().parseFromString(xml, "text/xml");
+  if (typeof window !== 'undefined') {
+    document = new DOMParser().parseFromString(xml, 'text/xml');
   }
 
   let articles = [];
 
   if (document) {
-    const item = document.querySelectorAll("item");
+    const item = document.querySelectorAll('item');
     for (let i = 0; i < 8; i++) {
-      const title = item[i].querySelector("title").textContent;
-      const description = item[i].querySelector("description").textContent;
-      const link = item[i].querySelector("link").textContent;
-      const pubDate = item[i].querySelector("pubDate").textContent;
-      const guid = item[i].querySelector("guid").textContent;
-      const image = item[i].querySelector("enclosure").getAttribute("url");
+      const title = item[i].querySelector('title').textContent;
+      const description = item[i].querySelector('description').textContent;
+      const link = item[i].querySelector('link').textContent;
+      const pubDate = item[i].querySelector('pubDate').textContent;
+      const guid = item[i].querySelector('guid').textContent;
+      const image = item[i].querySelector('enclosure').getAttribute('url');
 
       //----------------- DATE --------------------
 
       // formatting the date
       const pubDateObject = new Date(pubDate);
-      let formattedPubDate = pubDateObject.toLocaleDateString("da-DK", {
-        weekday: "long",
-        day: "numeric",
-        month: "short",
-        year: "numeric",
+      let formattedPubDate = pubDateObject.toLocaleDateString('da-DK', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
       });
 
       // splitting the formatted date - parts is now an array
-      let parts = formattedPubDate.split(" ");
+      let parts = formattedPubDate.split(' ');
 
       // capitalizing the first letter of 'weekday' and 'month'
       parts[0] = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
       parts[3] = parts[3].charAt(0).toUpperCase() + parts[3].slice(1);
 
       // changing 'den' to 'd.'
-      parts[1] = "d.";
+      parts[1] = 'd.';
 
       // joining the parts back together
-      formattedPubDate = parts.join(" ");
+      formattedPubDate = parts.join(' ');
 
       //----------------- DATE END --------------------
 
@@ -72,9 +72,9 @@ export default function Rss({ xml }) {
   return (
     <>
       {isClient && (
-        <div className="flex flex-col gap-5 h-[1294px]">
+        <div className="flex flex-col gap-5 lg:h-[1294px]">
           <ScrollArea>
-            <div className="flex flex-col gap-5 pr-4 pb-5">
+            <div className="flex flex-col gap-5 pr-4">
               {articles?.map((article) => (
                 <Fragment key={article.guid}>
                   <a
