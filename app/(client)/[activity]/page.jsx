@@ -78,7 +78,7 @@ export default async function ActivityPage({ params }) {
     <div className="flex gap-6 flex-col-reverse lg:flex-row h-full">
       <div className="flex-1 flex flex-col-reverse lg:flex-col gap-6 lg:max-w-[866px] h-full">
         <Box className={"flex flex-col gap-5"}>
-          <Heading title={`${category}galleri`} icon={<Image />} />
+          <Heading title={`Galleri`} icon={<Image />} />
           <ImageSlider images={["/hundetræning.png", "/riffelskydning.png"]} />
         </Box>
         <Box className={"lg:h-messages"}>
