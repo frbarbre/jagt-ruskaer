@@ -13,7 +13,7 @@ export default async function ProfileSettings() {
   const { data } = await supabase
     .from('profiles')
     .select()
-    .eq('id', session.user.id);
+    .eq('id', session?.user?.id);
 
   return (
     <ProfileForm

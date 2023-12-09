@@ -126,7 +126,7 @@ function RssSkeleton() {
                     "h-[176px] w-full sm:max-w-[270px] lg:max-w-none xl:max-w-[270px]"
                   }
                 />
-                <div className="flex flex-col gap-5 mt-5 sm:mt-0 w-full sm:justify-between xl:w-[193px]">
+                <div className="flex flex-col gap-5  sm:mt-0 w-full sm:justify-between xl:w-[193px]">
                   <Skeleton
                     className={"h-[16px] w-[260px] xl:w-full xl:h-[32px]"}
                   />

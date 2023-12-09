@@ -1,5 +1,5 @@
-import Box from "@/components/shared/Box";
-import Heading from "./Heading";
+import Box from '@/components/shared/Box';
+import Heading from './Heading';
 import {
   Dog,
   Target,
@@ -9,12 +9,13 @@ import {
   Clock,
   Coins,
   User,
-} from "lucide-react";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "../ui/button";
-import Link from "next/link";
-import { cookies } from "next/headers";
-import { createClient } from "@/utils/supabase/server";
+} from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
+import { Button } from '../ui/button';
+import Link from 'next/link';
+import { cookies } from 'next/headers';
+import { createClient } from '@/utils/supabase/server';
+import ActivityDropdown from '@/components/shared/ActivityDropdown';
 
 export default function ActivityCard({
   activity,
@@ -22,15 +23,18 @@ export default function ActivityCard({
   isOnFrontPage,
   isRegistration,
   registration,
+  currentParticipants,
+  showParticipants,
+  showDelete,
 }) {
   const icon =
-    activity.category === "jagt" ? (
+    activity.category === 'jagt' ? (
       <Rabbit />
-    ) : activity.category === "flugtskydning" ? (
+    ) : activity.category === 'flugtskydning' ? (
       <Target />
-    ) : activity.category === "hundetræning" ? (
+    ) : activity.category === 'hundetræning' ? (
       <Dog />
-    ) : activity.category === "riffelskydning" ? (
+    ) : activity.category === 'riffelskydning' ? (
       <Crosshair />
     ) : (
       <Rabbit />
@@ -38,25 +42,25 @@ export default function ActivityCard({
 
   function formatDate(dateString) {
     const date = new Date(dateString);
-    let formattedDate = date.toLocaleString("da-DK", {
-      weekday: "short",
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
+    let formattedDate = date.toLocaleString('da-DK', {
+      weekday: 'short',
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
     });
-    let words = formattedDate.split(" ");
-    words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1) + " d.";
+    let words = formattedDate.split(' ');
+    words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1) + ' d.';
     words[2] = words[2].charAt(0).toUpperCase() + words[2].slice(1);
-    return words.join(" ");
+    return words.join(' ');
   }
-  const timeFromSplit = activity.timeFrom.split(":");
-  const timeFrom = timeFromSplit[0] + ":" + timeFromSplit[1];
+  const timeFromSplit = activity.timeFrom.split(':');
+  const timeFrom = timeFromSplit[0] + ':' + timeFromSplit[1];
 
   let timeTo = null;
 
   if (activity.timeTo) {
-    const timeToSplit = activity.timeTo.split(":");
-    timeTo = timeToSplit[0] + ":" + timeToSplit[1];
+    const timeToSplit = activity.timeTo.split(':');
+    timeTo = timeToSplit[0] + ':' + timeToSplit[1];
   }
 
   function formatDateToArray(dateString) {
@@ -64,38 +68,44 @@ export default function ActivityCard({
     const year = date.getFullYear().toString();
     const month = date.getMonth();
     const monthNames = [
-      "jan",
-      "feb",
-      "mar",
-      "apr",
-      "maj",
-      "jun",
-      "jul",
-      "aug",
-      "sep",
-      "okt",
-      "nov",
-      "dec",
+      'jan',
+      'feb',
+      'mar',
+      'apr',
+      'maj',
+      'jun',
+      'jul',
+      'aug',
+      'sep',
+      'okt',
+      'nov',
+      'dec',
     ];
-    const day = (date.getDate() < 10 ? "0" : "") + date.getDate();
+    const day = (date.getDate() < 10 ? '0' : '') + date.getDate();
     return [year, day, monthNames[month]];
   }
 
   async function deleteRegistration(FormData) {
-    "use server";
+    'use server';
     const cookieStore = cookies();
     const supabase = createClient(cookieStore);
 
-    const activityId = FormData.get("activityId");
+    const activityId = FormData.get('activityId');
 
     const { error } = await supabase
-      .from("registrations")
+      .from('registrations')
       .delete()
-      .eq("activity_id", activityId);
+      .eq('activity_id', activityId);
 
     if (error) {
       console.log(error);
     }
+  }
+
+  let isExpired = false;
+
+  if (activity.date < new Date().toISOString()) {
+    isExpired = true;
   }
 
   const date = formatDateToArray(activity.date);
@@ -103,7 +113,7 @@ export default function ActivityCard({
   return (
     <Box
       maxWidth={`${
-        isOnFrontPage ? "min-w-[335px]" : ""
+        isOnFrontPage ? 'min-w-[335px]' : ''
       } flex items-center gap-5`}
     >
       {!isOnAdminPage && (
@@ -116,6 +126,17 @@ export default function ActivityCard({
       <section className="w-full">
         <div className="flex justify-between items-center">
           <Heading isTiny={true} title={activity.category} icon={icon} />
+          <div className='flex items-center gap-4'>
+            {showParticipants && activity.participants && !isExpired && (
+              <div className="flex gap-1 items-center">
+                <User />
+                <p className="text-[10px] font-semibold">
+                  {currentParticipants}/{activity.participants}
+                </p>
+              </div>
+            )}
+            {showDelete && <ActivityDropdown activityId={activity.id} />}
+          </div>
           {isRegistration && (
             <article className="flex items-center gap-3">
               <InfoIcon
@@ -144,7 +165,7 @@ export default function ActivityCard({
             {activity.description}
           </p>
         )}
-        <div className="flex justify-between items-end">
+        <div className="flex justify-between items-end flex-wrap gap-3">
           <div>
             {!isOnAdminPage && (
               <h2 className="font-semibold text-[14px] mb-1">

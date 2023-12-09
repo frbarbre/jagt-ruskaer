@@ -17,19 +17,19 @@ export default function MobileNav() {
   const activityLinks = [
     {
       title: 'Jagt',
-      href: '/aktivitet/jagt',
+      href: '/jagt',
     },
     {
       title: 'Riffelskydning',
-      href: '/aktivitet/riffelskydning',
+      href: '/riffelskydning',
     },
     {
       title: 'Flugtskydning',
-      href: '/aktivitet/flugtskydning',
+      href: '/flugtskydning',
     },
     {
       title: 'Hundetræning',
-      href: '/aktivitet/hundetræning',
+      href: '/hundetraening',
     },
   ];
 

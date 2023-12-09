@@ -15,7 +15,7 @@ export default async function AdminActivities({ searchParams }) {
   let filter = searchParams.filter;
   let showPast = searchParams.past;
   let search = searchParams.search;
-  
+
   function getToday() {
     const date = new Date();
     const year = date.getFullYear();
@@ -26,7 +26,7 @@ export default async function AdminActivities({ searchParams }) {
 
   const today = getToday();
 
-  let query = supabase.from('activities').select();
+  let query = supabase.from('activities').select('*, registrations(*)');
 
   if (filter) {
     query = query.eq('category', filter);
@@ -54,13 +54,24 @@ export default async function AdminActivities({ searchParams }) {
         </div>
         <FilterMenu searchParams={searchParams} />
         <div className="grid grid-cols-fluid gap-5">
-          {data.map((activity) => (
-            <ActivityCard
-              isOnAdminPage={true}
-              key={activity.id}
-              activity={activity}
-            />
-          ))}
+          {data.map((activity) => {
+            let people = 0;
+
+            for (let i = 0; i < activity.registrations.length; i++) {
+              people += activity.registrations?.[i].participants;
+            }
+
+            return (
+              <ActivityCard
+                isOnAdminPage={true}
+                key={activity.id}
+                activity={activity}
+                currentParticipants={people}
+                showParticipants={true}
+                showDelete={true}
+              />
+            );
+          })}
         </div>
       </Box>
     </div>

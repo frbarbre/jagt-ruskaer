@@ -98,8 +98,6 @@ export default function CreateActivityForm({ position, placeId }) {
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
   const [autocomplete, setAutocomplete] = useState(null);
 
-  console.log(position);
-
   const timeStamp = new Date().getTime();
 
   useEffect(() => {
@@ -164,6 +162,14 @@ export default function CreateActivityForm({ position, placeId }) {
 
   const currentValues = form.watch();
 
+  useEffect(() => {
+    if (
+      currentValues.category !== 'hundetræning' &&
+      currentValues.category !== 'jagt'
+    ) {
+      form.setValue('dogs', '');
+    }
+  }, [currentValues.category]);
   // 2. Define a submit handler - Will run AFTER the zodResolver has validated the form (OPTIMUS FORM)
   // NOTICE - Async function
   async function onSubmit(values) {
@@ -171,6 +177,8 @@ export default function CreateActivityForm({ position, placeId }) {
     // ✅ This will be type-safe and validated.
     if (image) {
       setIsSubmitting(true);
+      let dogs = values.dogs === '' ? null : values.dogs;
+
       const { error } = await supabase.from('activities').insert({
         title: values.title,
         date: values.date,
@@ -178,7 +186,7 @@ export default function CreateActivityForm({ position, placeId }) {
         timeFrom: values.timeFrom,
         timeTo: values.timeTo === '' ? null : values.timeTo,
         participants: values.participants === '' ? null : values.participants,
-        dogs: values.dogs === '' ? null : values.dogs,
+        dogs: dogs,
         price: values.price === '' ? null : values.price,
         location: values.location,
         description: values.description,
@@ -358,24 +366,27 @@ export default function CreateActivityForm({ position, placeId }) {
                       </FormItem>
                     )}
                   />
-
-                  <FormField
-                    control={form.control}
-                    name="dogs"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Antal hunde</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="8"
-                            {...field}
-                            className="max-w-[115px]"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  {(currentValues.category === 'hundetræning' ||
+                    currentValues.category === 'jagt' ||
+                    currentValues.category === '') && (
+                    <FormField
+                      control={form.control}
+                      name="dogs"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Antal hunde</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="8"
+                              {...field}
+                              className="max-w-[115px]"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
                 </div>
                 <FormField
                   control={form.control}

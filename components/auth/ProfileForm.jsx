@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useState, useEffect } from 'react';
-import { UserPlus } from 'lucide-react';
+import { Trash2, UserPlus } from 'lucide-react';
 import UploadImage from '@/components/shared/UploadImage';
 
 const phoneRegex = new RegExp(
@@ -51,12 +51,14 @@ export default function ProfileForm({
   // initializing the router
   const router = useRouter();
 
+  const [image, setImage] = useState(avatar || '');
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({
     message: '',
     isActive: false,
   });
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // 1. Define your form.
   const form = useForm({
@@ -83,7 +85,7 @@ export default function ProfileForm({
         last_name: values.lastName,
         phone_number: values.phoneNumber,
         wantNewsletter: values.wantsNewsletter,
-        avatar_url: images[0]?.url,
+        avatar_url: isDeleting ? '' : images[0]?.url,
       })
       .eq('id', user_id);
     if (!error) {
@@ -95,6 +97,12 @@ export default function ProfileForm({
     } else {
       console.log(error);
     }
+  }
+
+  function removeImage() {
+    setImage('');
+    setImages([]);
+    setIsDeleting(true);
   }
 
   return (
@@ -115,15 +123,27 @@ export default function ProfileForm({
         Indtast oplysninger for at redigere{' '}
         {isAdminPage ? firstN + ' ' + lastN + 's' : 'din'} profil.
       </p>
-      <UploadImage
-        image={avatar || '/avatar-default.png'}
-        images={images}
-        setImages={setImages}
-        loading={loading}
-        setLoading={setLoading}
-        error={error}
-        setError={setError}
-      />
+      <div className="relative w-max mx-auto">
+        <UploadImage
+          image={image}
+          images={images}
+          setImages={setImages}
+          loading={loading}
+          setLoading={setLoading}
+          error={error}
+          setError={setError}
+          setIsDeleting={setIsDeleting}
+        />
+        {!isDeleting && (image !== '' || images[0]) && (
+          <Button
+            className="absolute top-1 right-1 bg-white px-2.5"
+            variant="outline"
+            onClick={removeImage}
+          >
+            <Trash2 className="w-4 h-4" />
+          </Button>
+        )}
+      </div>
       <Form {...form}>
         {/* form.handleSubmit() is from the 'React Hook Form' library */}
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">

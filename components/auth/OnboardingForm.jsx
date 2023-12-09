@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useState, useEffect } from 'react';
-import { UserPlus } from 'lucide-react';
+import { Trash2, UserPlus } from 'lucide-react';
 import UploadImage from '@/components/shared/UploadImage';
 
 const phoneRegex = new RegExp(
@@ -50,12 +50,14 @@ export default function OnboardingForm({
   // initializing the router
   const router = useRouter();
 
+  const [image, setImage] = useState(avatar || "");
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({
     message: '',
     isActive: false,
   });
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // 1. Define your form.
   const form = useForm({
@@ -95,6 +97,12 @@ export default function OnboardingForm({
     }
   }
 
+  function removeImage() {
+    setImage('');
+    setImages([]);
+    setIsDeleting(true);
+  }
+
   return (
     <section className="max-w-[471px] p-5 shadow-shad rounded-md border border-zinc-200">
       <div className="w-full items-center justify-between flex">
@@ -112,15 +120,27 @@ export default function OnboardingForm({
       <p className="text-zinc-700 my-5">
         Indtast oplysninger for at oprette din profil.
       </p>
-      <UploadImage
-        image={avatar || '/avatar-default.png'}
-        images={images}
-        setImages={setImages}
-        loading={loading}
-        setLoading={setLoading}
-        error={error}
-        setError={setError}
-      />
+      <div className="relative w-max mx-auto">
+        <UploadImage
+          image={image}
+          images={images}
+          setImages={setImages}
+          loading={loading}
+          setLoading={setLoading}
+          error={error}
+          setError={setError}
+          setIsDeleting={setIsDeleting}
+        />
+        {!isDeleting && (image !== '' || images.length !== 0) && (
+          <Button
+            className="absolute top-1 right-1 bg-white px-2.5"
+            variant="outline"
+            onClick={removeImage}
+          >
+            <Trash2 className="w-4 h-4" />
+          </Button>
+        )}
+      </div>
       <Form {...form}>
         {/* form.handleSubmit() is from the 'React Hook Form' library */}
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">

@@ -189,7 +189,7 @@ export const columns = [
             <DropdownMenuItem onClick={editUser}>
               Rediger bruger
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={deleteUser}>
+            <DropdownMenuItem className="text-red-600" onClick={deleteUser}>
               Slet bruger
             </DropdownMenuItem>
           </DropdownMenuContent>

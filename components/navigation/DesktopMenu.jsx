@@ -15,14 +15,12 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 
-
 //
 const components = [
   {
     title: 'Bestyrelsen',
     href: '/',
-    description:
-      'Bestyrelser er flotte i tøjet og har styr på det hele.',
+    description: 'Bestyrelser er flotte i tøjet og har styr på det hele.',
   },
   {
     title: 'Riffeludvalget',
@@ -93,7 +91,7 @@ export default function DesktopMenu() {
           <NavigationMenuTrigger>Aktiviteter</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-4 relative flex items-end">
+              <li className="row-span-4 relative flex items-end min-h-[159px]">
                 <NavigationMenuLink asChild>
                   <a
                     className="flex select-none flex-col justify-end rounded-md p-6 no-underline outline-none focus:shadow-md"
@@ -121,7 +119,7 @@ export default function DesktopMenu() {
                       <div className="mb-2 mt-4 text-lg font-medium capitalize text-white">
                         {activeActivity}
                       </div>
-                      <p className="text-sm leading-tight text-muted-foreground text-zinc-200">
+                      <p className="text-sm leading-tight text-muted-foreground text-zinc-200 overflow-hidden">
                         {activityText.text}
                       </p>
                     </div>
@@ -129,28 +127,28 @@ export default function DesktopMenu() {
                 </NavigationMenuLink>
               </li>
               <ListItem
-                href="/aktivitet/jagt"
+                href="/jagt"
                 title="Jagt"
                 onMouseOver={() => setActiveActivity('jagt')}
               >
                 {activityTexts[0].text}
               </ListItem>
               <ListItem
-                href="/aktivitet/riffelskydning"
+                href="/riffelskydning"
                 title="Riffelskydning"
                 onMouseOver={() => setActiveActivity('riffelskydning')}
               >
                 {activityTexts[1].text}
               </ListItem>
               <ListItem
-                href="/aktivitet/flugtskydning"
+                href="/flugtskydning"
                 title="Flugtskydning"
                 onMouseOver={() => setActiveActivity('flugtskydning')}
               >
                 {activityTexts[2].text}
               </ListItem>
               <ListItem
-                href="/aktivitet/Hundetræning"
+                href="/hundetraening"
                 title="Hundetræning"
                 onMouseOver={() => setActiveActivity('hundetræning')}
               >

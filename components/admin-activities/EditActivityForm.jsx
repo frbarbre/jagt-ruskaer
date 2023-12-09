@@ -4,7 +4,7 @@ import Box from '@/components/shared/Box';
 import Heading from '@/components/shared/Heading';
 import { createClient } from '@/utils/supabase/client';
 import { CalendarPlus, CalendarIcon, Loader2 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { format, set } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Calendar } from '@/components/ui/calendar';
@@ -172,6 +172,17 @@ export default function EditActivityForm({ activity, placeId }) {
       }
     }
   };
+
+  const currentValues = form.watch();
+
+  useEffect(() => {
+    if (
+      currentValues.category !== 'hundetræning' &&
+      currentValues.category !== 'jagt'
+    ) {
+      form.setValue('dogs', '');
+    }
+  }, [currentValues.category]);
 
   // 2. Define a submit handler - Will run AFTER the zodResolver has validated the form (OPTIMUS FORM)
   // NOTICE - Async function
@@ -362,23 +373,26 @@ export default function EditActivityForm({ activity, placeId }) {
                   )}
                 />
 
-                <FormField
-                  control={form.control}
-                  name="dogs"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Antal hunde</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="8"
-                          {...field}
-                          className="max-w-[115px]"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                {(currentValues.category === 'hundetræning' ||
+                  currentValues.category === 'jagt') && (
+                  <FormField
+                    control={form.control}
+                    name="dogs"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Antal hunde</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="8"
+                            {...field}
+                            className="max-w-[115px]"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
               </div>
               <FormField
                 control={form.control}

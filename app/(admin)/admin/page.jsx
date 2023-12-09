@@ -1,15 +1,15 @@
-import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { createClient } from '@/utils/supabase/server';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 // SHARED component imports
-import Heading from "@/components/shared/Heading";
-import Box from "@/components/shared/Box";
+import Heading from '@/components/shared/Heading';
+import Box from '@/components/shared/Box';
 
 // ADMIN component imports
-import ComingActivities from "@/components/admin-overview/ComingActivities";
-import LatestRegistrations from "@/components/admin-overview/LatestRegistrations";
-import NewestMembers from "@/components/admin-overview/NewestMembers";
+import ComingActivities from '@/components/admin-overview/ComingActivities';
+import LatestRegistrations from '@/components/admin-overview/LatestRegistrations';
+import NewestMembers from '@/components/admin-overview/NewestMembers';
 
 // ICON import
 
@@ -25,18 +25,18 @@ export default async function AdminPage() {
   function getToday() {
     const date = new Date();
     const year = date.getFullYear();
-    const month = ("0" + (date.getMonth() + 1)).slice(-2); // Months are 0 based, so add 1 and format as 2 digits
-    const day = ("0" + date.getDate()).slice(-2); // Format as 2 digits
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are 0 based, so add 1 and format as 2 digits
+    const day = ('0' + date.getDate()).slice(-2); // Format as 2 digits
     return `${year}-${month}-${day}`;
   }
 
   const today = getToday();
 
   let query = await supabase
-    .from("activities")
-    .select()
-    .gte("date", today)
-    .order("date", { ascending: true })
+    .from('activities')
+    .select('*, registrations(*)')
+    .gte('date', today)
+    .order('date', { ascending: true })
     .limit(5);
 
   // data of the 5 closest, future events following 'currentEvent'
@@ -47,10 +47,10 @@ export default async function AdminPage() {
   //--------------- DATA FOR 'NYESTE MEDLEMMER' ------------------
 
   let { data } = await supabase
-    .from("profiles")
+    .from('profiles')
     .select()
-    .eq("onboarded", true)
-    .order("created_at", { ascending: false })
+    .eq('onboarded', true)
+    .order('created_at', { ascending: false })
     .limit(3);
 
   let newestMembers = data;
@@ -60,7 +60,7 @@ export default async function AdminPage() {
   //--------------- DATA FOR 'SENESTE TILMELDINGER' ------------------
 
   // let regs = await supabase
-  //   .from("registrations")
+  //   .from('registrations')
   //   .select()
   //   .order('created_at', { ascending: false })
   //   .limit(3);

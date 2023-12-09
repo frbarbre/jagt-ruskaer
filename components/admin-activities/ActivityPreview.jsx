@@ -122,7 +122,7 @@ export default function ActivityPreview({ currentValues, image, position }) {
               <Skeleton className="h-[18px] w-[130px]" />
             )}
           </article>
-          <article className="flex flex-col gap-2">
+          <article className="flex flex-col gap-2 items-end">
             {currentValues.dogs !== "" ? (
               <article>
                 <div className="flex items-center opacity-70 justify-end">

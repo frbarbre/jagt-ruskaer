@@ -53,7 +53,7 @@ export default function Current({ currentEvent }) {
                 className='w-full h-[342px] object-cover rounded-[5px]'
             />
             <h2 className='text-xl font-semibold'>{currentEvent.title}</h2>
-            <p className='text-sm'>{currentEvent.description}</p>
+            <p className='text-sm h-10 overflow-hidden'>{currentEvent.description}</p>
             <div className='flex items-end justify-between'>
                 <div className='flex flex-col gap-2'>
                     <p className='text-xs opacity-70 flex'>

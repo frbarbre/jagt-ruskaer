@@ -13,6 +13,7 @@ export default function UploadImage({
   loading,
   setLoading,
   setError,
+  setIsDeleting,
 }) {
   return (
     <div className="flex justify-center mt-[48px] mb-[24px]">
@@ -20,24 +21,24 @@ export default function UploadImage({
         style={{
           backgroundImage: `url("${images[0]?.url || image}")`,
         }}
-        className="relative w-[151px] aspect-square bg-cover bg-no-repeat bg-center bg-light-purple rounded-full"
+        className="relative w-[151px] aspect-square bg-cover bg-no-repeat bg-center bg-light-purple rounded-md"
       >
         {!loading && (
           <>
-            {image === '' && images.length === 0 ? (
-              <div className="text-center absolute inset-0 flex items-center justify-center flex-col gap-[8px] pointer-events-none">
+            {(image === '' || !image) && images.length === 0 ? (
+              <div className="absolute inset-0 bg-black/20 rounded-md flex items-center justify-center flex-col gap-[8px] pointer-events-none">
                 <img
                   src="/image.png"
                   alt="upload-image"
                   width={32.5}
                   height={27.5}
                 />
-                <p className="text-primary-purple font-semibold text-[14px] tracking-[0.8px]">
+                <p className="text-white font-semibold text-[14px] tracking-[0.8px]">
                   +Upload Billede
                 </p>
               </div>
             ) : (
-              <div className="absolute inset-0 bg-black/20 rounded-full flex items-center justify-center flex-col gap-[8px] pointer-events-none">
+              <div className="absolute inset-0 bg-black/20 rounded-md flex items-center justify-center flex-col gap-[8px] pointer-events-none">
                 <img
                   src="/image.png"
                   alt="upload-image"
@@ -97,6 +98,7 @@ export default function UploadImage({
             setLoading(false);
             if (res) {
               setImages(res);
+              setIsDeleting(false);
             }
           }}
           onUploadError={(error) => {
