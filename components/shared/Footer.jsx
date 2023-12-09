@@ -33,7 +33,7 @@ export default async function Footer() {
   }
 
   return (
-    <footer className="bg-zinc-900 px-6 md:px-28">
+    <footer className="bg-zinc-900 px-6 md:px-28 mt-12">
       <div className="max-w-[404px] md:max-w-[1320px] mx-auto flex md:justify-between py-[48px] flex-col md:flex-row md:text-left text-center gap-11">
         <section className="text-white order-3 md:order-first">
           <img

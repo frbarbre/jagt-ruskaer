@@ -1,15 +1,21 @@
-import { Button } from '@/components/ui/button';
-import { createClient } from '@/utils/supabase/server';
-import { cookies } from 'next/headers';
-import Link from 'next/link';
+import { Button } from "@/components/ui/button";
+import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
+import Link from "next/link";
+import ActivityCalender from "@/components/activity-subpage/ActivityCalender";
+import Box from "@/components/shared/Box";
+import Heading from "@/components/shared/Heading";
+import { Image } from "lucide-react";
+import ImageSlider from "@/components/activity-subpage/ImageSlider";
+import Messages from "@/components/activity-subpage/Messages";
 
 export default async function ActivityPage({ params }) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
-  const routes = ['jagt', 'flugtskydning', 'hundetraening', 'riffelskydning'];
+  const routes = ["jagt", "flugtskydning", "hundetraening", "riffelskydning"];
 
   const category =
-    params.activity === 'hundetraening' ? 'hundetræning' : params.activity;
+    params.activity === "hundetraening" ? "hundetræning" : params.activity;
 
   if (!routes.includes(params.activity)) {
     return (
@@ -27,39 +33,63 @@ export default async function ActivityPage({ params }) {
   } = await supabase.auth.getSession();
 
   const { data, error } = await supabase
-    .from('messages')
-    .select('*, author:profiles(*)')
-    .eq('category', category)
-    .order('created_at', { ascending: false });
+    .from("messages")
+    .select("*, author:profiles(*), likes(*, author:profiles(*)))")
+    .eq("category", category)
+    .order("created_at", { ascending: false });
   if (error) {
     console.log(error);
   }
-  console.log(data);
 
-  async function insertMessage(FormData) {
-    'use server';
-    const cookieStore = cookies();
-    const supabase = createClient(cookieStore);
+  console.log(data[1]);
 
-    const user_id = FormData.get('user_id');
+  const currentUser = await supabase
+    .from("profiles")
+    .select()
+    .eq("id", session?.user?.id)
+    .single();
 
-    const { error } = await supabase
-      .from('messages')
-      .delete()
-      .eq('id', '504645a1-6c31-4c9f-8658-6e5d0fb09cc2');
-    if (error) {
-      console.log(error);
-    }
+  if (currentUser.error) {
+    console.log(currentUser.error);
+  }
+
+  function getToday() {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = ("0" + (date.getMonth() + 1)).slice(-2); // Months are 0 based, so add 1 and format as 2 digits
+    const day = ("0" + date.getDate()).slice(-2); // Format as 2 digits
+    return `${year}-${month}-${day}`;
+  }
+
+  const today = getToday();
+
+  const activities = await supabase
+    .from("activities")
+    .select()
+    .eq("category", category)
+    .gte("date", today)
+    .order("date", { ascending: true });
+
+  if (activities.error) {
+    console.log(activities.error);
   }
 
   return (
-    <div>
-      <h1>Activity page</h1>
-      <p>Activity id: {params.activity}</p>
-      <form action={insertMessage}>
-        <input type="hidden" name="user_id" value={session?.user?.id} />
-        <button type="submit">Submit</button>
-      </form>
+    <div className="flex gap-6 flex-col-reverse lg:flex-row h-full">
+      <div className="flex-1 flex flex-col-reverse lg:flex-col gap-6 lg:max-w-[866px] h-full">
+        <Box className={"flex flex-col gap-5"}>
+          <Heading title={`${category}galleri`} icon={<Image />} />
+          <ImageSlider images={["/hundetræning.png", "/riffelskydning.png"]} />
+        </Box>
+        <Box className={"lg:h-messages"}>
+          <Messages
+            category={category}
+            messages={data}
+            currentUser={currentUser.data}
+          />
+        </Box>
+      </div>
+      <ActivityCalender comingEvents={activities.data} category={category} />
     </div>
   );
 }

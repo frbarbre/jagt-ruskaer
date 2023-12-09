@@ -37,7 +37,7 @@ export default async function AdminPage() {
     .select('*, registrations(*)')
     .gte('date', today)
     .order('date', { ascending: true })
-    .limit(5);
+    .limit(8);
 
   // data of the 5 closest, future events following 'currentEvent'
   let comingEvents = query?.data;
@@ -59,13 +59,17 @@ export default async function AdminPage() {
 
   //--------------- DATA FOR 'SENESTE TILMELDINGER' ------------------
 
-  // let regs = await supabase
-  //   .from('registrations')
-  //   .select()
-  //   .order('created_at', { ascending: false })
-  //   .limit(3);
+  let regs = await supabase
+    .from('registrations')
+    .select("*, author:profiles(*), activity:activities(*)")
+    .eq('isPayed', true)
+    .order('created_at', { ascending: false })
+    .limit(5);
 
-  // let latestRegistrations = regs.data;
+  // latReg = latestRegistrations
+  let latReg = regs.data;
+
+  // console.log(latReg[0].author)
 
   //--------------------------------------------------------------
 
@@ -74,7 +78,7 @@ export default async function AdminPage() {
       <div className="flex gap-6 flex-col lg:flex-row max-w-screen">
         <div className="flex-1 w-full flex flex-col gap-6 items-center">
           <NewestMembers newestMembers={newestMembers} />
-          {/* <LatestRegistrations latestRegistrations={latestRegistrations} /> */}
+          <LatestRegistrations latReg={latReg} />
         </div>
         <ComingActivities comingEvents={comingEvents} />
       </div>

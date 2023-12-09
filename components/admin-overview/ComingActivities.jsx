@@ -1,4 +1,6 @@
-// Upcoming events on the home page
+
+
+// Upcoming events on the ADMIN overview page
 
 // SHARED component imports
 import Box from '@/components/shared/Box';
@@ -9,8 +11,12 @@ import ActivityCard from '@/components/shared/ActivityCard';
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
-// icon import
+// ICON component imports
 import { CalendarDays } from 'lucide-react';
+
+// NEXT component imports
+import Link from 'next/link';
+
 
 export default function ComingActivities({ comingEvents }) {
   let activities = comingEvents.map((activity) => {
@@ -31,14 +37,17 @@ export default function ComingActivities({ comingEvents }) {
   });
 
   return (
-    <Box className="w-full flex flex-col gap-3 overflow-auto px-0 pb-1 lg:max-w-[526px]">
+    <Box className="w-full flex flex-col gap-3 overflow-auto px-0 pb-1 lg:max-w-[526px] h-calender">
       <div className="flex justify-between px-5">
         <Heading title={'Kommende begivenheder'} icon={<CalendarDays />} />
-        <Button variant={'outline'}>Gå til aktiviteter</Button>
+        <Link href={'/admin/aktiviteter'}>
+          <Button variant={'outline'}>Gå til aktiviteter</Button>
+        </Link>
       </div>
       <ScrollArea>
         <div className="flex flex-col gap-5 pb-4 px-5">{activities}</div>
-        <ScrollBar orientation="horizontal" className="px-5" />
+        {/* TODO - tag stilling til om dette har en effekt eller om det bare er et lævn fra UpcomingEvents komponentet som bruges på forsiden */}
+        {/* <ScrollBar orientation="horizontal" className="px-5" /> */}
       </ScrollArea>
     </Box>
   );
