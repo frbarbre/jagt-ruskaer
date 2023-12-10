@@ -36,12 +36,10 @@ export default async function ActivityPage({ params }) {
     .from("messages")
     .select("*, author:profiles(*), likes(*, author:profiles(*)))")
     .eq("category", category)
-    .order("created_at", { ascending: false });
+    .order("updated_at", { ascending: false });
   if (error) {
     console.log(error);
   }
-
-  console.log(data[1]);
 
   const currentUser = await supabase
     .from("profiles")
@@ -81,7 +79,7 @@ export default async function ActivityPage({ params }) {
           <Heading title={`Galleri`} icon={<Image />} />
           <ImageSlider images={["/hundetræning.png", "/riffelskydning.png"]} />
         </Box>
-        <Box className={"lg:h-messages"}>
+        <Box className={"lg:min-h-messages lg:max-h-[400px]"} padding={"p-5 pr-1"}>
           <Messages
             category={category}
             messages={data}

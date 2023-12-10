@@ -24,7 +24,7 @@ export default function LatestRegistrations({ latReg }) {
 
 
     return (
-        <Box padding={'pb-0 pl-5 pt-5 pr-1'} className="flex flex-col gap-5 w-full h-registrations lg:max-w-[890px]">
+        <Box padding={'pb-0 pl-5 pt-5 pr-1'} className="flex flex-col gap-5 w-full lg:h-registrations lg:min-h-[400px] lg:max-w-[890px]">
             <Heading title={'The Honey Badger is fierce'} icon={<CalendarPlus />} />
             <ScrollArea>
                 <div className='flex flex-col gap-3 pb-3 pr-4'>

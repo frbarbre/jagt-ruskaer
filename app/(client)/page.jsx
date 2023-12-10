@@ -1,6 +1,5 @@
 import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
-import User from '@/components/User';
 import { redirect } from 'next/navigation';
 import Rss from '@/components/home/Rss';
 import Box from '@/components/shared/Box';
