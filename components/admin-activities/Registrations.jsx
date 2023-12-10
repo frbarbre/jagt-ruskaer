@@ -1,8 +1,15 @@
 import { User } from 'lucide-react';
 import Heading from '../shared/Heading';
 import UserCard from '../shared/UserCard';
+import AddUser from './AddUser';
 
-export default function Registrations({ registrations, maxParticipants }) {
+export default function Registrations({
+  registrations,
+  maxParticipants,
+  activity,
+  profiles,
+  currentDogs,
+}) {
   let people = 0;
 
   for (let i = 0; i < registrations.length; i++) {
@@ -11,13 +18,24 @@ export default function Registrations({ registrations, maxParticipants }) {
 
   return (
     <>
-      <Heading
-        icon={<User />}
-        title={`Tilmeldte ${
-          maxParticipants && `(${people}/${maxParticipants})`
-        }`}
-      />
-      <section className='flex flex-col gap-3 mt-5'>
+      <div className="flex items-center justify-between gap-4 flex-wrap">
+        <Heading
+          icon={<User />}
+          title={`Tilmeldte ${
+            maxParticipants && `(${people}/${maxParticipants})`
+          }`}
+        />
+        {maxParticipants > people && (
+          <AddUser
+            activity={activity}
+            profiles={profiles}
+            maxParticipants={maxParticipants}
+            currentParticipants={people}
+            currentDogs={currentDogs}
+          />
+        )}
+      </div>
+      <section className="flex flex-col gap-3 mt-5">
         {registrations.map((registration) => (
           <UserCard
             avatar={registration.profile.avatar_url}
