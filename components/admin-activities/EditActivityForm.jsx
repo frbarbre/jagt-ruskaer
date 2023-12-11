@@ -37,6 +37,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import { Autocomplete, useLoadScript } from "@react-google-maps/api";
+import { sendActivityChange } from "@/actions/email.actions";
 
 const numberRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([\s]?[0-9])+$/
@@ -211,13 +212,13 @@ export default function EditActivityForm({ activity, placeId }) {
     if (!error) {
       router.push("/admin/aktiviteter");
       // Send email to registered users
-      // await sendActivtyChange({
-      //   title: values.title,
-      //   date: values.date,
-      //   image: image ? image : activity.image,
-      //   link: `https://ruskaer.frederikbarbre.dk/aktiviteter/${activity.id}`,
-      //   activityId: activity.id,
-      // });
+      await sendActivityChange({
+        title: values.title,
+        date: values.date,
+        image: image ? image : activity.image,
+        link: `https://ruskaer.frederikbarbre.dk/aktiviteter/${activity.id}`,
+        activityId: activity.id,
+      });
     } else {
       console.log(error);
     }

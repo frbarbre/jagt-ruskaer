@@ -196,7 +196,10 @@ export const OrderConfirmation = ({
                     "$1 $2 $3 $4"
                   );
                   return (
-                    <Container className="border border-solid border-[#eaeaea] rounded my-5 mx-auto p-[20px] w-full">
+                    <Container
+                      className="border border-solid border-[#eaeaea] rounded my-5 mx-auto p-[20px] w-full"
+                      key={client.email}
+                    >
                       <Row>
                         <Column className="w-10 pr-4">
                           {client.avatar ? (
