@@ -98,7 +98,7 @@ export default async function Home({ searchParams }) {
         className="flex w-full lg:max-w-[526px] min-h-screen flex-col items-center gap-3"
         padding={"sm:pr-1 sm:pb-0 sm:pl-5 sm:pt-5"}
       >
-        <div className="flex justify-between items-center w-full sm:pr-4">
+        <div className="flex justify-between items-center w-full">
           <Heading title={"Sidste nyt fra DJ"} icon={<Newspaper />} />
           <a
             href="https://www.jaegerforbundet.dk/om-dj/dj-medier/nyhedsarkiv/"

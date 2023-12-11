@@ -39,14 +39,14 @@ export default function ComingActivities({ comingEvents }) {
       className="w-full flex flex-col gap-3 overflow-auto px-0 pb-1 lg:max-w-[526px] lg:min-h-[875px] lg:h-calender"
       isOuterBox={true}
     >
-      <div className="flex justify-between sm:px-5 flex-wrap gap-3">
+      <div className="flex justify-between flex-wrap gap-3">
         <Heading title={"Kommende begivenheder"} icon={<CalendarDays />} />
         <Link href={"/admin/aktiviteter"}>
           <Button variant={"outline"}>Gå til aktiviteter</Button>
         </Link>
       </div>
       <ScrollArea>
-        <div className="flex flex-col gap-5 sm:pb-4 sm:px-5">{activities}</div>
+        <div className="flex flex-col gap-5 sm:pb-4 ">{activities}</div>
         {/* TODO - tag stilling til om dette har en effekt eller om det bare er et lævn fra UpcomingEvents komponentet som bruges på forsiden */}
         {/* <ScrollBar orientation="horizontal" className="px-5" /> */}
       </ScrollArea>

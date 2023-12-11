@@ -34,7 +34,7 @@ export default function Messages({ category, messages, currentUser, session }) {
 
   return (
     <>
-      <div className="flex items-center justify-between sm:pr-4 mb-5 flex-wrap gap-3">
+      <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
         <Heading title={`Vigtige beskeder`} icon={<Megaphone />} />
         {isAuthorized && (
           <NewMessage category={category} currentUser={currentUser} />
@@ -110,7 +110,7 @@ async function Message({ message, currentUser, category }) {
     <Box className="flex gap-4 justify-between sm:items-center flex-col sm:flex-row relative">
       <div className="flex gap-3 items-center flex-wrap">
         <div
-          className={`h-2.5 w-2.5 rounded-full absolute top-1/2 -translate-y-1/2 sm:translate-y-0 right-5 sm:relative ${
+          className={`h-2.5 w-2.5 sm:right-0 rounded-full absolute top-1/2 -translate-y-1/2 sm:translate-y-0 right-5 sm:relative ${
             data.length > 0
               ? "bg-white"
               : message.user_id === currentUser.id
