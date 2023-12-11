@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import Box from '@/components/shared/Box';
-import Heading from '@/components/shared/Heading';
-import { createClient } from '@/utils/supabase/client';
-import { CalendarPlus, CalendarIcon, Loader2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { format } from 'date-fns';
-import { cn } from '@/lib/utils';
-import { Calendar } from '@/components/ui/calendar';
-import { Button } from '@/components/ui/button';
+import Box from "@/components/shared/Box";
+import Heading from "@/components/shared/Heading";
+import { createClient } from "@/utils/supabase/client";
+import { CalendarPlus, CalendarIcon, Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -17,27 +17,27 @@ import {
   FormLabel,
   FormMessage,
   FormDescription,
-} from '@/components/ui/form';
+} from "@/components/ui/form";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
-import * as z from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Textarea } from '@/components/ui/textarea';
-import { useRouter } from 'next/navigation';
-import ActivityPreview from '@/components/admin-activities/ActivityPreview';
-import { Autocomplete, useLoadScript } from '@react-google-maps/api';
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Textarea } from "@/components/ui/textarea";
+import { useRouter } from "next/navigation";
+import ActivityPreview from "@/components/admin-activities/ActivityPreview";
+import { Autocomplete, useLoadScript } from "@react-google-maps/api";
 
 const numberRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([\s]?[0-9])+$/
@@ -49,7 +49,7 @@ const timeRegex = new RegExp(
 
 const scriptOptions = {
   googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
-  libraries: ['places'],
+  libraries: ["places"],
 };
 
 const formSchema = z.object({
@@ -58,31 +58,31 @@ const formSchema = z.object({
   category: z.string().min(2),
   timeFrom: z
     .string()
-    .min(5, { message: 'Ugyldigt' })
-    .max(5, { message: 'Ugyldigt' })
-    .regex(timeRegex, 'Ugyldigt')
-    .includes(':', { message: 'Ugyldigt' }),
+    .min(5, { message: "Ugyldigt" })
+    .max(5, { message: "Ugyldigt" })
+    .regex(timeRegex, "Ugyldigt")
+    .includes(":", { message: "Ugyldigt" }),
   timeTo: z.union([
     z
       .string()
-      .min(5, { message: 'Ugyldigt' })
-      .max(5, { message: 'Ugyldigt' })
-      .regex(timeRegex, 'Ugyldigt')
-      .includes(':', { message: 'Ugyldigt' })
+      .min(5, { message: "Ugyldigt" })
+      .max(5, { message: "Ugyldigt" })
+      .regex(timeRegex, "Ugyldigt")
+      .includes(":", { message: "Ugyldigt" })
       .optional(),
-    z.literal(''),
+    z.literal(""),
   ]),
   participants: z.union([
-    z.string().regex(numberRegex, 'Skal være et tal').optional(),
-    z.literal(''),
+    z.string().regex(numberRegex, "Skal være et tal").optional(),
+    z.literal(""),
   ]),
   dogs: z.union([
-    z.string().regex(numberRegex, 'Skal være et tal').optional(),
-    z.literal(''),
+    z.string().regex(numberRegex, "Skal være et tal").optional(),
+    z.literal(""),
   ]),
   price: z.union([
-    z.string().regex(numberRegex, 'Skal være et tal').optional(),
-    z.literal(''),
+    z.string().regex(numberRegex, "Skal være et tal").optional(),
+    z.literal(""),
   ]),
   location: z.string().min(2),
   description: z.string().min(2),
@@ -101,7 +101,7 @@ export default function CreateActivityForm({ position, placeId }) {
   const timeStamp = new Date().getTime();
 
   useEffect(() => {
-    router.push('/admin/aktiviteter/opret-aktivitet');
+    router.push("/admin/aktiviteter/opret-aktivitet");
   }, []);
 
   const onLoad = (autocompleteObj) => {
@@ -118,17 +118,17 @@ export default function CreateActivityForm({ position, placeId }) {
     setImageError(null);
     setIsSubmitting(true);
     const { data, error } = await supabase.storage
-      .from('images')
+      .from("images")
       .upload(timeStamp + file?.name, e.target.files[0]);
     if (error) {
       console.log(error);
     } else {
       const { data } = supabase.storage
-        .from('images')
+        .from("images")
         .getPublicUrl(timeStamp + file.name);
       setImage(data.publicUrl);
       setIsSubmitting(false);
-      console.log('uploaded');
+      console.log("uploaded");
     }
   }
 
@@ -136,26 +136,26 @@ export default function CreateActivityForm({ position, placeId }) {
     // zodResolver will validate your form values against your schema - hover on it... Bish..
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: '',
-      date: '',
-      category: '',
-      timeFrom: '',
-      timeTo: '',
-      participants: '',
-      dogs: '',
-      price: '',
-      location: '',
-      description: '',
-      image: '',
+      title: "",
+      date: "",
+      category: "",
+      timeFrom: "",
+      timeTo: "",
+      participants: "",
+      dogs: "",
+      price: "",
+      location: "",
+      description: "",
+      image: "",
     },
   });
 
   const onPlaceChanged = (e) => {
     if (autocomplete) {
       const place = autocomplete.getPlace();
-      if ('place_id' in place) {
+      if ("place_id" in place) {
         router.push(`?place_id=${place.place_id}`);
-        form.setValue('location', place.formatted_address);
+        form.setValue("location", place.formatted_address);
       }
     }
   };
@@ -164,10 +164,10 @@ export default function CreateActivityForm({ position, placeId }) {
 
   useEffect(() => {
     if (
-      currentValues.category !== 'hundetræning' &&
-      currentValues.category !== 'jagt'
+      currentValues.category !== "hundetræning" &&
+      currentValues.category !== "jagt"
     ) {
-      form.setValue('dogs', '');
+      form.setValue("dogs", "");
     }
   }, [currentValues.category]);
   // 2. Define a submit handler - Will run AFTER the zodResolver has validated the form (OPTIMUS FORM)
@@ -177,17 +177,17 @@ export default function CreateActivityForm({ position, placeId }) {
     // ✅ This will be type-safe and validated.
     if (image) {
       setIsSubmitting(true);
-      let dogs = values.dogs === '' ? null : values.dogs;
+      let dogs = values.dogs === "" ? null : values.dogs;
 
-      const { error } = await supabase.from('activities').insert({
+      const { error } = await supabase.from("activities").insert({
         title: values.title,
         date: values.date,
         category: values.category,
         timeFrom: values.timeFrom,
-        timeTo: values.timeTo === '' ? null : values.timeTo,
-        participants: values.participants === '' ? null : values.participants,
+        timeTo: values.timeTo === "" ? null : values.timeTo,
+        participants: values.participants === "" ? null : values.participants,
         dogs: dogs,
-        price: values.price === '' ? null : values.price,
+        price: values.price === "" ? null : values.price,
         location: values.location,
         description: values.description,
         image: image,
@@ -195,19 +195,19 @@ export default function CreateActivityForm({ position, placeId }) {
       });
 
       if (!error) {
-        router.push('/admin/aktiviteter');
+        router.push("/admin/aktiviteter");
       } else {
         console.log(error);
       }
     } else {
-      setImageError('Du skal uploade et billede');
+      setImageError("Du skal uploade et billede");
     }
   }
 
   return (
     <section className="flex gap-5 h-full">
-      <Box maxWidth={'lg:max-w-[822px] w-full'}>
-        <Heading title={'Opret Aktivitet'} icon={<CalendarPlus />} />
+      <Box maxWidth={"lg:max-w-[822px] w-full"}>
+        <Heading title={"Opret Aktivitet"} icon={<CalendarPlus />} />
         <p className="opacity-70 my-5">Her kan der oprettes en aktivitet</p>
         <Form {...form}>
           {/* form.handleSubmit() is from the 'React Hook Form' library */}
@@ -243,14 +243,14 @@ export default function CreateActivityForm({ position, placeId }) {
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
-                              variant={'outline'}
+                              variant={"outline"}
                               className={cn(
-                                'w-full pl-3 text-left font-normal',
-                                !field.value && 'text-muted-foreground'
+                                "w-full pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
                               )}
                             >
                               {field.value ? (
-                                format(field.value, 'P')
+                                format(field.value, "P")
                               ) : (
                                 <span>Vælg en dato</span>
                               )}
@@ -265,7 +265,7 @@ export default function CreateActivityForm({ position, placeId }) {
                             onSelect={field.onChange}
                             disabled={(date) =>
                               date <= new Date() ||
-                              date < new Date('1900-01-01')
+                              date < new Date("1900-01-01")
                             }
                             initialFocus
                           />
@@ -366,9 +366,9 @@ export default function CreateActivityForm({ position, placeId }) {
                       </FormItem>
                     )}
                   />
-                  {(currentValues.category === 'hundetræning' ||
-                    currentValues.category === 'jagt' ||
-                    currentValues.category === '') && (
+                  {(currentValues.category === "hundetræning" ||
+                    currentValues.category === "jagt" ||
+                    currentValues.category === "") && (
                     <FormField
                       control={form.control}
                       name="dogs"
@@ -417,7 +417,7 @@ export default function CreateActivityForm({ position, placeId }) {
                       {isLoaded && (
                         <Autocomplete
                           onLoad={onLoad}
-                          fields={['place_id', 'formatted_address']}
+                          fields={["place_id", "formatted_address"]}
                           onPlaceChanged={onPlaceChanged}
                         >
                           <Input placeholder="Adresse" {...field} />
@@ -438,7 +438,7 @@ export default function CreateActivityForm({ position, placeId }) {
                     <FormControl>
                       <Textarea
                         placeholder="Skriv beskrivelse her..."
-                        className="resize-none"
+                        className="resize-none min-h-[200px]"
                         {...field}
                       />
                     </FormControl>
@@ -492,7 +492,7 @@ export default function CreateActivityForm({ position, placeId }) {
           </form>
         </Form>
       </Box>
-      <Box maxWidth={'w-full hidden max-w-[570px] lg:block'}>
+      <Box maxWidth={"w-full hidden max-w-[570px] lg:block"}>
         <ActivityPreview
           currentValues={currentValues}
           image={image}

@@ -453,7 +453,7 @@ export default function EditActivityForm({ activity, placeId }) {
                   <FormControl>
                     <Textarea
                       placeholder="Skriv beskrivelse her..."
-                      className="resize-none"
+                      className="resize-none min-h-[200px]"
                       {...field}
                     />
                   </FormControl>
