@@ -95,7 +95,7 @@ export default function ActivityPreview({ currentValues, image, position }) {
               <Skeleton className="h-[30px] w-[120px]" />
             )}
             {currentValues.description !== "" ? (
-              <p className="text-[12px] opacity/70 h-[40px] w-[150px] overflow-hidden break-before-right mb-1">
+              <p className="text-[12px] opacity/70 min-h-[40px] w-[90%] whitespace-pre-line overflow-hidden break-before-right mb-1">
                 {currentValues.description}
               </p>
             ) : (

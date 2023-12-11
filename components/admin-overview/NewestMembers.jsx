@@ -32,7 +32,7 @@ export default function NewestMembers({ newestMembers }) {
     <Box className="flex flex-col gap-5 w-full lg:max-w-[890px]">
       <div className="flex justify-between items-center">
         <Heading
-          title={"The Armadillo is half ball, half panzer"}
+          title={"Nyeste medlemmer"}
           icon={<UserCheck />}
         />
         <Link href={"/admin/medlemmer"}>

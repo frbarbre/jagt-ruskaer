@@ -1,7 +1,7 @@
-import { User } from 'lucide-react';
-import Heading from '../shared/Heading';
-import UserCard from '../shared/UserCard';
-import AddUser from './AddUser';
+import { User } from "lucide-react";
+import Heading from "../shared/Heading";
+import UserCard from "../shared/UserCard";
+import AddUser from "./AddUser";
 
 export default function Registrations({
   registrations,
@@ -22,10 +22,12 @@ export default function Registrations({
         <Heading
           icon={<User />}
           title={`Tilmeldte ${
-            maxParticipants && `(${people}/${maxParticipants})`
+            maxParticipants
+              ? `${maxParticipants && `${people}/${maxParticipants}`}`
+              : ""
           }`}
         />
-        {maxParticipants > people && (
+        {(maxParticipants > people || !maxParticipants) && (
           <AddUser
             activity={activity}
             profiles={profiles}

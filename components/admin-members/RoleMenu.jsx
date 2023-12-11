@@ -1,14 +1,14 @@
-import { createClient } from '@/utils/supabase/client';
-import { useEffect, useState } from 'react';
-import { UserCog } from 'lucide-react';
-import Heading from '../shared/Heading';
+import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState } from "react";
+import { UserCog } from "lucide-react";
+import Heading from "../shared/Heading";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { setClaim } from '@/utils/setClaim';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { setClaim } from "@/utils/setClaim";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -17,52 +17,52 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { useStore } from '@/store';
-import { useRouter } from 'next/navigation';
+} from "@/components/ui/select";
+import { useStore } from "@/store";
+import { useRouter } from "next/navigation";
 
 const formMessages = [
   {
-    role: 'bruger',
-    message: 'Brugerrollen har ingen specielle beføjelser',
+    role: "bruger",
+    message: "Brugerrollen har ingen specielle beføjelser",
   },
   {
-    role: 'jagt',
+    role: "jagt",
     message:
-      'Jagtrollen giver adgang til at lave vigtige beskeder på jagtundersiden',
+      "Jagtrollen giver adgang til at lave vigtige beskeder på jagtundersiden",
   },
   {
-    role: 'flugtskydning',
+    role: "flugtskydning",
     message:
-      'Flugtskydningsrollen giver adgang til at lave vigtige beskeder på flugtskydningsundersiden',
+      "Flugtskydningsrollen giver adgang til at lave vigtige beskeder på flugtskydningsundersiden",
   },
   {
-    role: 'riffelskydning',
+    role: "riffelskydning",
     message:
-      'Riffelskydningsrollen giver adgang til at lave vigtige beskeder på riffelskydningsundersiden',
+      "Riffelskydningsrollen giver adgang til at lave vigtige beskeder på riffelskydningsundersiden",
   },
   {
-    role: 'hundetræning',
+    role: "hundetræning",
     message:
-      'Hundetræningsrollen giver adgang til at lave vigtige beskeder på hundetræningsundersiden',
+      "Hundetræningsrollen giver adgang til at lave vigtige beskeder på hundetræningsundersiden",
   },
   {
-    role: 'admin',
+    role: "admin",
     message:
-      'Adminrollen giver adgang til adminpanelet, og alt hvad der følger med det.',
+      "Adminrollen giver adgang til adminpanelet, og alt hvad der følger med det.",
   },
 ];
 
 const FormSchema = z.object({
   role: z.string({
-    required_error: 'Du skal vælge en rolle',
+    required_error: "Du skal vælge en rolle",
   }),
 });
 
@@ -90,15 +90,15 @@ export default function RoleMenu({ user_id, setActive }) {
       router: router,
       supabase: supabase,
       uid: user_id,
-      claim: 'userrole',
+      claim: "userrole",
       value: data.role,
     });
-    if (data.role === 'admin') {
+    if (data.role === "admin") {
       setClaim({
         router: router,
         supabase: supabase,
         uid: user_id,
-        claim: 'claims_admin',
+        claim: "claims_admin",
         value: true,
       });
     } else {
@@ -106,7 +106,7 @@ export default function RoleMenu({ user_id, setActive }) {
         router: router,
         supabase: supabase,
         uid: user_id,
-        claim: 'claims_admin',
+        claim: "claims_admin",
         value: false,
       });
     }
@@ -116,9 +116,9 @@ export default function RoleMenu({ user_id, setActive }) {
   useEffect(() => {
     async function getData() {
       const { data, error } = await supabase
-        .from('profiles')
+        .from("profiles")
         .select()
-        .eq('id', user_id)
+        .eq("id", user_id)
         .single();
       setUser(data);
       if (error) {
@@ -130,9 +130,13 @@ export default function RoleMenu({ user_id, setActive }) {
 
   return (
     <div>
-      <Heading title={'Skift rolle'} icon={<UserCog />} />
+      <Heading title={"Skift rolle"} icon={<UserCog />} />
       <p className="opacity-70 my-5">
         Skift {user?.first_name} {user?.last_name}s rolle.
+        <br />{" "}
+        <span className="text-red-600 text-[12px]">
+          OBS: Brugeren skal logge ind og ud for at ændringen træder i kraft.
+        </span>
       </p>
       {user && (
         <Form {...form}>

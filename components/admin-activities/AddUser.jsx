@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import { Plus, UserPlus } from 'lucide-react';
-import { Button } from '../ui/button';
-import { useEffect, useState } from 'react';
-import Modal from '../shared/Modal';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Check, ChevronsUpDown } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { Plus, UserPlus } from "lucide-react";
+import { Button } from "../ui/button";
+import { useEffect, useState } from "react";
+import Modal from "../shared/Modal";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-import { Checkbox } from '@/components/ui/checkbox';
-import { cn } from '@/lib/utils';
+import { Checkbox } from "@/components/ui/checkbox";
+import { cn } from "@/lib/utils";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from '@/components/ui/command';
+} from "@/components/ui/command";
 import {
   Form,
   FormControl,
@@ -25,22 +25,22 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from "@/components/ui/form";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import Heading from '../shared/Heading';
-import { Separator } from '../ui/separator';
-import { createClient } from '@/utils/supabase/client';
+} from "@/components/ui/select";
+import Heading from "../shared/Heading";
+import { Separator } from "../ui/separator";
+import { createClient } from "@/utils/supabase/client";
 
 export default function AddUser({
   activity,
@@ -57,7 +57,7 @@ export default function AddUser({
         Tilføj medlem
       </Button>
       {showModal && (
-        <Modal maxWidth={'max-w-[520px]'} setActive={setShowModal}>
+        <Modal maxWidth={"max-w-[520px]"} setActive={setShowModal}>
           <AddUserForm
             activity={activity}
             profiles={profiles}
@@ -75,12 +75,12 @@ export default function AddUser({
 const FormSchema = z.object({
   profile: z
     .string({
-      required_error: 'Du skal vælge en bruger.',
+      required_error: "Du skal vælge en bruger.",
     })
-    .min(1, { message: 'Du skal vælge en bruger.' }),
+    .min(1, { message: "Du skal vælge en bruger." }),
   guest: z.boolean().default(false).optional(),
   dogs: z.string({
-    required_error: 'Vælg et antal hunde',
+    required_error: "Vælg et antal hunde",
   }),
   discount: z.boolean().optional().default(false),
 });
@@ -97,16 +97,16 @@ function AddUserForm({
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      profile: '',
+      profile: "",
       guest: false,
-      dogs: '0',
+      dogs: "0",
       discount: false,
     },
   });
 
   async function onSubmit(data) {
     console.log(data);
-    const { error } = await supabase.from('registrations').insert({
+    const { error } = await supabase.from("registrations").insert({
       activity_id: activity.id,
       user_id: data.profile,
       dogs: parseInt(data.dogs),
@@ -125,13 +125,13 @@ function AddUserForm({
   const currentValues = form.watch();
   useEffect(() => {
     if (!currentValues.guest) {
-      form.setValue('discount', false);
+      form.setValue("discount", false);
     }
   }, [currentValues.guest]);
 
   const maxDogs = activity.dogs;
 
-  const basePrice = activity.price;
+  const basePrice = activity.price || 0;
   let totalPrice = basePrice;
   if (currentValues.guest) {
     let discount = 2;
@@ -144,10 +144,10 @@ function AddUserForm({
 
   return (
     <>
-      <Heading title={'Tilføj medlem'} icon={<UserPlus />} />
+      <Heading title={"Tilføj medlem"} icon={<UserPlus />} />
       <p className="text-[12px] opacity-70 my-5">
-        Udfyld felterne nedenfor for at tilmelde en bruger til aktiviteten.{' '}
-        <br />{' '}
+        Udfyld felterne nedenfor for at tilmelde en bruger til aktiviteten.{" "}
+        <br />{" "}
         <span className="text-red-600">
           OBS: Denne handling springer over betalingen, det skal derfor løses
           internt
@@ -171,19 +171,19 @@ function AddUserForm({
                         variant="outline"
                         role="combobox"
                         className={cn(
-                          'justify-between w-full',
-                          !field.value && 'text-muted-foreground'
+                          "justify-between w-full",
+                          !field.value && "text-muted-foreground"
                         )}
                       >
                         {field.value
                           ? profiles.find(
                               (profile) => profile.id === field.value
                             )?.first_name +
-                            ' ' +
+                            " " +
                             profiles.find(
                               (profile) => profile.id === field.value
                             ).last_name
-                          : 'Vælg et medlem'}
+                          : "Vælg et medlem"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </FormControl>
@@ -198,15 +198,15 @@ function AddUserForm({
                             value={`${profile.first_name} ${profile.last_name}`}
                             key={profile.id}
                             onSelect={() => {
-                              form.setValue('profile', profile.id);
+                              form.setValue("profile", profile.id);
                             }}
                           >
                             <Check
                               className={cn(
-                                'mr-2 h-4 w-4',
+                                "mr-2 h-4 w-4",
                                 profile.id === field.value
-                                  ? 'opacity-100'
-                                  : 'opacity-0'
+                                  ? "opacity-100"
+                                  : "opacity-0"
                               )}
                             />
                             {profile.first_name} {profile.last_name}
@@ -277,7 +277,7 @@ function AddUserForm({
             />
           )}
 
-          {currentValues.guest && activity.category === 'jagt' && (
+          {currentValues.guest && activity.category === "jagt" && (
             <FormField
               control={form.control}
               name="discount"
@@ -307,7 +307,7 @@ function AddUserForm({
           <div className="flex flex-col gap-2">
             <Button type="submit">
               <UserPlus className="w-4 h-4 mr-2" />
-              Opret tilmeldning
+              Opret tilmelding
             </Button>
             <Button onClick={() => setShowModal(false)} variant="outline">
               Annuller

@@ -21,7 +21,6 @@ export default async function Activity({ params }) {
     const mapData = await fetch(mapUrl);
     mapJSON = await mapData.json();
   }
-  
 
   return (
     <section className="flex gap-6 w-full flex-col lg:flex-row">
@@ -31,6 +30,7 @@ export default async function Activity({ params }) {
       />
       <Box className="w-full lg:max-w-[530px]">
         <RegistrationForm
+          date={data.date}
           pricePerPerson={data.price}
           maxDogs={data.dogs}
           maxParticipants={data.participants}

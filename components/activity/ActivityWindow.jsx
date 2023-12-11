@@ -85,7 +85,7 @@ export default function ActivityWindow({ values, position }) {
 
             <h1 className="text-[20px] font-semibold">{values.title}</h1>
 
-            <p className="text-[12px] opacity/70 h-[40px] max-w-[300px] w-full overflow-hidden break-before-right mb-1">
+            <p className="text-[12px] opacity/70 min-h-[40px] max-w-[600px] white-space-preline w-full overflow-hidden break-before-right mb-1">
               {values.description}
             </p>
 

@@ -20,10 +20,25 @@ import {
 import * as React from "react";
 
 export const ActivityChange = ({
-  title = "Fællesjagt Flyvestation Karup Vest 18. dec 2023",
-  subtitle = "Klik her for at se aktiviteten",
+  title = "Fællesjagt Flyvestation Karup Vest",
+  date = "2024-01-17",
   image = "https://rujagt.dk/2023/20231203karupvest/album/slides/karupvest20231203001.jpg",
+  link = "https://ruskaer.frederikbarbre.dk/aktiviteter/468a6072-77da-4f94-857f-4e04daebf9da",
 }) => {
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    let formattedDate = date.toLocaleString("da-DK", {
+      weekday: "short",
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+    let words = formattedDate.split(" ");
+    words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1) + " d.";
+    words[2] = words[2].charAt(0).toUpperCase() + words[2].slice(1);
+    return words.join(" ");
+  }
+
   return (
     <Html>
       <Head>
@@ -60,11 +75,11 @@ export const ActivityChange = ({
         <Preview>{title}</Preview>
       </Head>
       <Tailwind>
-        <Body className="bg-white my-auto mx-auto font-sans">
+        <Body className="bg-white my-auto mx-auto font-sans text-black">
           <Container className="border border-solid border-[#eaeaea] rounded my-8 mx-auto p-[20px] w-[465px]">
             <Row className="mb-5">
               <Column align="left" className="w-8 ">
-                <Img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNhbGVuZGFyLXBsdXMiPjxwYXRoIGQ9Ik0yMSAxM1Y2YTIgMiAwIDAgMC0yLTJINWEyIDIgMCAwIDAtMiAydjE0YTIgMiAwIDAgMCAyIDJoOCIvPjxsaW5lIHgxPSIxNiIgeDI9IjE2IiB5MT0iMiIgeTI9IjYiLz48bGluZSB4MT0iOCIgeDI9IjgiIHkxPSIyIiB5Mj0iNiIvPjxsaW5lIHgxPSIzIiB4Mj0iMjEiIHkxPSIxMCIgeTI9IjEwIi8+PGxpbmUgeDE9IjE5IiB4Mj0iMTkiIHkxPSIxNiIgeTI9IjIyIi8+PGxpbmUgeDE9IjE2IiB4Mj0iMjIiIHkxPSIxOSIgeTI9IjE5Ii8+PC9zdmc+" />
+                <Img src="https://veffssiiyvoftgcnzkvy.supabase.co/storage/v1/object/public/images/1702297982364calendar-plus.png" />
               </Column>
               <Column
                 align="left"
@@ -74,26 +89,39 @@ export const ActivityChange = ({
               </Column>
             </Row>
             <Section>
-              {image && (
-                <Img
-                  src={image}
-                  width="400"
-                  height="370"
-                  alt="Vercel"
-                  className="mx-auto rounded w-full h-[250px] object-cover"
-                />
-              )}
+              <Img
+                src={image}
+                width="400"
+                height="370"
+                alt="Vercel"
+                className="mx-auto rounded w-full h-[250px] object-cover"
+              />
+
               <Text className="font-medium text-2xl pt-3">{title}</Text>
-              {subtitle && (
-                <a className="block w-max text-gray-800" href="">
-                  <Text className="font-regular text-lg">
-                    {subtitle}
-                  </Text>
-                </a>
-              )}
+              <Row>
+                <Column className="w-6">
+                  <Img
+                    src="https://veffssiiyvoftgcnzkvy.supabase.co/storage/v1/object/public/images/1702049671397calendar-days.png"
+                    alt="Calendar"
+                    className="w-4"
+                  />
+                </Column>
+                <Column align="left">{formatDate(date)}</Column>
+              </Row>
+              <Text>Der er sket en ændring i en aktivitet du er tilmeldt</Text>
+              <a
+                className="block w-max text-gray-800"
+                href={link}
+                target="_blank"
+              >
+                <Text className="font-regular text-lg">
+                  Klik her for at se aktiviteten
+                </Text>
+              </a>
+
               <Hr className="my-2 border-[#eaeaea]" />
               <Text className="font-regular whitespace-pre-line pt-8 text-center italic text-black">
-                {"De bedste hilsner"}
+                De bedste hilsner
               </Text>
               <Img
                 src="https://rujagt.dk/wp-content/uploads/2016/11/cropped-Rusk%C3%A6rJagtforening_Logo-1.png"

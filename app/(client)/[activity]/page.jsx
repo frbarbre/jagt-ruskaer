@@ -8,6 +8,8 @@ import Heading from "@/components/shared/Heading";
 import { Image } from "lucide-react";
 import ImageSlider from "@/components/activity-subpage/ImageSlider";
 import Messages from "@/components/activity-subpage/Messages";
+import { LogIn, SmilePlus } from "lucide-react";
+import { gallery } from '@/constants/index.js'
 
 export default async function ActivityPage({ params }) {
   const cookieStore = cookies();
@@ -16,6 +18,7 @@ export default async function ActivityPage({ params }) {
 
   const category =
     params.activity === "hundetraening" ? "hundetræning" : params.activity;
+
 
   if (!routes.includes(params.activity)) {
     return (
@@ -72,18 +75,27 @@ export default async function ActivityPage({ params }) {
     console.log(activities.error);
   }
 
+
+  // images
+
+  let images = gallery[category]
+
   return (
-    <div className="flex gap-6 flex-col-reverse lg:flex-row h-full">
+    <div className="flex gap-6 flex-col-reverse lg:flex-row h-full grid-container">
       <div className="flex-1 flex flex-col-reverse lg:flex-col gap-6 lg:max-w-[866px] h-full">
         <Box className={"flex flex-col gap-5"}>
           <Heading title={`Galleri`} icon={<Image />} />
-          <ImageSlider images={["/hundetræning.png", "/riffelskydning.png"]} />
+          <ImageSlider images={images} />
         </Box>
-        <Box className={"lg:min-h-messages lg:max-h-[400px]"} padding={"p-5 pr-1"}>
+        <Box
+          className={`lg:min-h-messages lg:max-h-[400px]`}
+          padding={"p-5 pr-1"}
+        >
           <Messages
             category={category}
             messages={data}
             currentUser={currentUser.data}
+            session={session}
           />
         </Box>
       </div>

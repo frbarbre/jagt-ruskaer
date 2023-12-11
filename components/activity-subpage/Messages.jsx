@@ -1,4 +1,4 @@
-import Heading from '../shared/Heading';
+import Heading from "../shared/Heading";
 import {
   Megaphone,
   ThumbsUp,
@@ -8,50 +8,73 @@ import {
   Check,
   Eye,
   EyeOff,
-} from 'lucide-react';
-import { ScrollArea } from '../ui/scroll-area';
-import { Button } from '../ui/button';
-import { Plus } from 'lucide-react';
-import Box from '../shared/Box';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { cookies } from 'next/headers';
-import { createClient } from '@/utils/supabase/server';
+} from "lucide-react";
+import { ScrollArea } from "../ui/scroll-area";
+import { Button } from "../ui/button";
+import { SmilePlus, LogIn } from "lucide-react";
+import Box from "../shared/Box";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/server";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import EditMessage from './EditMessage';
-import NewMessage from './NewMessage';
+} from "@/components/ui/tooltip";
+import EditMessage from "./EditMessage";
+import NewMessage from "./NewMessage";
+import Link from "next/link";
 
-export default function Messages({ category, messages, currentUser }) {
-  const isAdmin = currentUser?.role === 'admin';
+export default function Messages({ category, messages, currentUser, session }) {
+  const isAdmin = currentUser?.role === "admin";
   const isCategoryAdmin = currentUser?.role === `${category}`;
 
   const isAuthorized = isAdmin || isCategoryAdmin;
 
   return (
     <>
-      <div className="flex items-center justify-between pr-4">
+      <div className="flex items-center justify-between pr-4 mb-5">
         <Heading title={`Vigtige beskeder`} icon={<Megaphone />} />
         {isAuthorized && (
           <NewMessage category={category} currentUser={currentUser} />
         )}
       </div>
-      <ScrollArea>
-        <div className="flex flex-col gap-3 mt-5 lg:min-h-[328px] pr-4 lg:h-innerMessage">
-          {messages.map((message) => (
-            <Message
-              key={message.id}
-              message={message}
-              currentUser={currentUser}
-              category={category}
-            />
-          ))}
-          <div className="hidden lg:block h-5 text-[5px] text-white">hello</div>
+      {session ? (
+        <ScrollArea>
+          <div className="flex flex-col gap-3 lg:min-h-[322px] pr-4 lg:h-innerMessage">
+            {messages.map((message) => (
+              <Message
+                key={message.id}
+                message={message}
+                currentUser={currentUser}
+                category={category}
+              />
+            ))}
+            <div className="hidden lg:block h-5 text-[5px] text-white">
+              hello
+            </div>
+          </div>
+        </ScrollArea>
+      ) : (
+        <div className="lg:min-h-[360px] lg:h-innerMessage h-full flex justify-center items-center flex-col gap-5 my-6 lg:my-0">
+          <p>Du skal være logget ind for at se vigtige beskeder</p>
+          <div className="flex gap-3">
+            <Link href="/login">
+              <Button>
+                <LogIn className="w-4 h-4 mr-2" />
+                Login
+              </Button>
+            </Link>
+            <Link href="/signup">
+              <Button variant="outline">
+                <SmilePlus className="w-4 h-4 mr-2" />
+                Bliv medlem
+              </Button>
+            </Link>
+          </div>
         </div>
-      </ScrollArea>
+      )}
     </>
   );
 }
@@ -59,18 +82,18 @@ export default function Messages({ category, messages, currentUser }) {
 async function Message({ message, currentUser, category }) {
   function formatDate(dateString) {
     const options = {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     };
     const date = new Date(dateString);
     const formattedDate = date
-      .toLocaleDateString('da', options)
-      .replace(',', '');
-    const formattedDateSplit = formattedDate.split(' ');
-    const time = formattedDateSplit[3].replace('.', ':');
+      .toLocaleDateString("da", options)
+      .replace(",", "");
+    const formattedDateSplit = formattedDate.split(" ");
+    const time = formattedDateSplit[3].replace(".", ":");
     return `${time}, ${formattedDateSplit[0]} ${formattedDateSplit[1]} ${formattedDateSplit[2]}`;
   }
 
@@ -78,10 +101,10 @@ async function Message({ message, currentUser, category }) {
   const supabase = createClient(cookieStore);
 
   const { data } = await supabase
-    .from('likes')
+    .from("likes")
     .select()
-    .eq('message_id', message.id)
-    .eq('user_id', currentUser.id);
+    .eq("message_id", message.id)
+    .eq("user_id", currentUser.id);
 
   return (
     <Box className="flex gap-4 justify-between items-center">
@@ -89,10 +112,10 @@ async function Message({ message, currentUser, category }) {
         <div
           className={`h-2.5 w-2.5 rounded-full ${
             data.length > 0
-              ? 'bg-white'
+              ? "bg-white"
               : message.user_id === currentUser.id
-              ? 'bg-white'
-              : 'bg-blue-600'
+              ? "bg-white"
+              : "bg-blue-600"
           }`}
         />
         <Avatar className="cursor-pointer self-center justify-self-end z-20 relative md:w-11 md:h-11">
@@ -108,8 +131,8 @@ async function Message({ message, currentUser, category }) {
           </h2>
           <p>{message.message}</p>
           <p className="text-[12px] opacity-70 capitalize">
-            {formatDate(message.updated_at)}{' '}
-            {message.updated_at !== message.created_at && '(redigeret)'}
+            {formatDate(message.updated_at)}{" "}
+            {message.updated_at !== message.created_at && "(redigeret)"}
           </p>
         </div>
       </div>
@@ -122,7 +145,7 @@ async function Message({ message, currentUser, category }) {
           />
           <Delete message={message} />
         </div>
-      ) : currentUser?.role === 'admin' ? (
+      ) : currentUser?.role === "admin" ? (
         <div className="flex gap-3">
           <EditMessage
             message={message}
@@ -141,30 +164,30 @@ async function Message({ message, currentUser, category }) {
 
 function Like({ message, currentUser, data }) {
   async function likeMessage(FormData) {
-    'use server';
+    "use server";
     const cookieStore = cookies();
     const supabase = createClient(cookieStore);
-    const messageId = FormData.get('messageId');
-    const userId = FormData.get('userId');
+    const messageId = FormData.get("messageId");
+    const userId = FormData.get("userId");
 
     const { data } = await supabase
-      .from('likes')
+      .from("likes")
       .select()
-      .eq('message_id', messageId)
-      .eq('user_id', userId);
+      .eq("message_id", messageId)
+      .eq("user_id", userId);
 
     if (data.length > 0) {
       const { error } = await supabase
-        .from('likes')
+        .from("likes")
         .delete()
-        .eq('id', data[0].id);
+        .eq("id", data[0].id);
 
       if (error) {
         console.log(error);
       }
     } else {
       const { error } = await supabase
-        .from('likes')
+        .from("likes")
         .insert([{ message_id: messageId, user_id: userId }]);
 
       if (error) {
@@ -181,7 +204,7 @@ function Like({ message, currentUser, data }) {
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              className={`px-2.5 ${data.length > 0 && 'group'}`}
+              className={`px-2.5 ${data.length > 0 && "group"}`}
               variant="outline"
             >
               {data.length > 0 ? (
@@ -205,15 +228,15 @@ function Like({ message, currentUser, data }) {
 
 function Delete({ message }) {
   async function deleteMessage(FormData) {
-    'use server';
+    "use server";
     const cookieStore = cookies();
     const supabase = createClient(cookieStore);
-    const messageId = FormData.get('messageId');
+    const messageId = FormData.get("messageId");
 
     const { error } = await supabase
-      .from('messages')
+      .from("messages")
       .delete()
-      .eq('id', messageId);
+      .eq("id", messageId);
 
     if (error) {
       console.log(error);

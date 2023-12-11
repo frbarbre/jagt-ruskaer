@@ -7,7 +7,6 @@ import { CreditCard, ScrollText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Receipt from "@/components/order-confirmation/Receipt";
-import { sendOrderConfirmation } from "../../../actions/email.actions";
 
 export default async function OrderConfirmation({ searchParams }) {
   const cookieStore = cookies();

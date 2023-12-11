@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import Box from '@/components/shared/Box';
-import Heading from '@/components/shared/Heading';
-import { createClient } from '@/utils/supabase/client';
-import { Loader2, Mailbox, Send } from 'lucide-react';
-import { useRef, useState } from 'react';
-import { Button } from '@/components/ui/button';
+import Box from "@/components/shared/Box";
+import Heading from "@/components/shared/Heading";
+import { createClient } from "@/utils/supabase/client";
+import { Loader2, Mailbox, Send } from "lucide-react";
+import { useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -14,18 +14,19 @@ import {
   FormLabel,
   FormMessage,
   FormDescription,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import * as z from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Textarea } from '@/components/ui/textarea';
-import { sendNewsletter } from '@/actions/email.actions';
-import { useServerAction } from '@/hooks/useServerAction';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Textarea } from "@/components/ui/textarea";
+import { sendNewsletter } from "@/actions/email.actions";
+import { useServerAction } from "@/hooks/useServerAction";
+import NewsletterPreview from "@/components/newsletter/NewsletterPreview";
 
 const formSchema = z.object({
   title: z.string().min(2),
-  subtitle: z.union([z.string().min(2).optional(), z.literal('')]),
+  subtitle: z.union([z.string().min(2).optional(), z.literal("")]),
   message: z.string().min(2),
   image: z.string(),
 });
@@ -52,17 +53,17 @@ export default function Newsletter() {
     setImageError(null);
     setIsSubmitting(true);
     const { data, error } = await supabase.storage
-      .from('images')
+      .from("images")
       .upload(timeStamp + file?.name, e.target.files[0]);
     if (error) {
       console.log(error);
     } else {
       const { data } = supabase.storage
-        .from('images')
+        .from("images")
         .getPublicUrl(timeStamp + file.name);
       setImage(data.publicUrl);
       setIsSubmitting(false);
-      console.log('uploaded');
+      console.log("uploaded");
     }
   }
 
@@ -70,14 +71,14 @@ export default function Newsletter() {
     // zodResolver will validate your form values against your schema - hover on it... Bish..
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: '',
-      subtitle: '',
-      message: '',
-      image: '',
+      title: "",
+      subtitle: "",
+      message: "",
+      image: "",
     },
   });
 
-  const currentValues = form.getValues();
+  const currentValues = form.watch();
 
   // 2. Define a submit handler - Will run AFTER the zodResolver has validated the form (OPTIMUS FORM)
   // NOTICE - Async function
@@ -93,17 +94,17 @@ export default function Newsletter() {
     form.reset();
     if (image) {
       setImage(null);
-      fileReader.current.value = '';
-      fileReader.current.type = 'text';
-      fileReader.current.type = 'file';
+      fileReader.current.value = "";
+      fileReader.current.type = "text";
+      fileReader.current.type = "file";
       console.log(fileReader.current);
     }
   }
 
   return (
-    <section>
-      <Box maxWidth={'max-w-[822px]'}>
-        <Heading title={'Nyhedsbrev'} icon={<Mailbox />} />
+    <section className="flex flex-col lg:flex-row gap-6">
+      <Box maxWidth={"lg:max-w-[822px]"}>
+        <Heading title={"Nyhedsbrev"} icon={<Mailbox />} />
         <p className="opacity-70 my-5">
           Her kan du afsende et nyhedsbrev, alle brugere der har takket ja til
           nyhedsbrev vil modtage en email.
@@ -133,13 +134,13 @@ export default function Newsletter() {
                     </p>
                   )}
                   <FormDescription>
-                    Vælg et billede der er under 6mb, billeder i 16:9 format
+                    Vælg et billede der er under 6mb, billeder i 16:7 format
                     virker bedst.
                   </FormDescription>
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="title"
@@ -177,7 +178,7 @@ export default function Newsletter() {
                   <FormControl>
                     <Textarea
                       placeholder="Skriv besked her..."
-                      className="resize-none"
+                      className="resize-none h-[400px]"
                       {...field}
                     />
                   </FormControl>
@@ -202,6 +203,14 @@ export default function Newsletter() {
             </div>
           </form>
         </Form>
+      </Box>
+      <Box className={"flex-1"}>
+        <NewsletterPreview
+          image={image}
+          title={currentValues.title}
+          message={currentValues.message}
+          subtitle={currentValues.subtitle}
+        />
       </Box>
     </section>
   );

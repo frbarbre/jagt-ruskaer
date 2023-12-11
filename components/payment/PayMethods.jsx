@@ -48,7 +48,7 @@ function Method({ img, id, setPayMethod, payMethod }) {
   return (
     <div
       onClick={() => setPayMethod(id)}
-      className={`p-1 border-[2px] ${
+      className={`p-1 border-[2px] cursor-pointer ${
         payMethod === id ? " border-slate-400 rounded-sm" : "border-white"
       }`}
     >

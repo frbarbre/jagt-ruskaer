@@ -20,7 +20,7 @@ export default function ActivityCalender({ comingEvents, category }) {
   });
 
   return (
-    <Box className="w-full flex flex-col gap-3 overflow-auto px-0 pb-1 lg:max-w-[526px] lg:min-h-[836px] lg:h-calender lg:max-h-[1028px]">
+    <Box className="w-full flex flex-col gap-3 overflow-auto px-0 pb-1 lg:max-w-[526px] lg:min-h-[836px] lg:h-calender">
       <div className="flex justify-between px-5">
         <Heading title={`${category}kalender`} icon={<CalendarDays />} />
         <Link href={"/kalender"}>

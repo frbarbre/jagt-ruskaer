@@ -1,6 +1,12 @@
 import { cookies } from "next/headers";
 import Heading from "../shared/Heading";
-import { CalendarPlus, LogIn, SmilePlus, CreditCard } from "lucide-react";
+import {
+  CalendarPlus,
+  LogIn,
+  SmilePlus,
+  CreditCard,
+  CalendarDays,
+} from "lucide-react";
 import { createClient } from "@/utils/supabase/server";
 import RegistrationClients from "./RegistrationClients";
 import { Button } from "../ui/button";
@@ -12,6 +18,7 @@ export default async function RegistrationForm({
   maxParticipants,
   activityId,
   activityCategory,
+  date,
 }) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
@@ -52,89 +59,112 @@ export default async function RegistrationForm({
     (registration) => registration.user_id
   );
 
+  let isExpired = false;
+
+  if (date < new Date().toISOString()) {
+    isExpired = true;
+  }
+
+  console.log(isExpired);
+
   return (
     <>
       <Heading title={"Tilmelding"} icon={<CalendarPlus />} />
-      {session ? (
+      {isExpired ? (
+        <div className="flex flex-col h-pay items-center justify-center gap-4">
+          <p className="text-center">
+            Denne aktivitet er overstået <br />
+            Gå til kalenderen for at se kommende aktiviteter
+          </p>
+          <Button>
+            <CalendarDays className="h-4 w-4 mr-2" />
+            Gå til kalender
+          </Button>
+        </div>
+      ) : (
         <>
-          {currentRegistration.data ? (
-            <div className="flex h-pay items-center justify-center">
-              <div className="flex flex-col items-center my-6 gap-5">
-                <p className="text-s ">
-                  Du er igang med at betale for aktiviteten
-                </p>
-                <Link href={`/betaling?activity_id=${activityId}`}>
-                  <Button className="w-max">
-                    <CreditCard className="h-4 w-4 mr-2" />
-                    Til betaling
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          ) : (
+          {session ? (
             <>
-              {!currentUsers.includes(session.user.id) ? (
-                <>
-                  {currentParticipants < maxParticipants ||
-                  maxParticipants === null ? (
-                    <RegistrationClients
-                      currentUser={data}
-                      currentDogs={currentDogs}
-                      currentParticipants={currentParticipants}
-                      pricePerPerson={pricePerPerson}
-                      maxDogs={maxDogs}
-                      maxParticipants={maxParticipants}
-                      activityId={activityId}
-                      activityCategory={activityCategory}
-                    />
-                  ) : (
-                    <div className="flex h-pay items-center justify-center">
-                      <p className="text-s my-6">
-                        Der er ikke flere ledige pladser 😥
-                      </p>
-                    </div>
-                  )}
-                </>
-              ) : (
+              {currentRegistration.data ? (
                 <div className="flex h-pay items-center justify-center">
                   <div className="flex flex-col items-center my-6 gap-5">
                     <p className="text-s ">
-                      Du er allerede tilmeldt denne aktivitet 😎
+                      Du er igang med at betale for aktiviteten
                     </p>
-                    <Link href="/mine-aktiviteter">
+                    <Link href={`/betaling?activity_id=${activityId}`}>
                       <Button className="w-max">
-                        <CalendarPlus className="h-4 w-4 mr-2" />
-                        Vis tilmeldinger
+                        <CreditCard className="h-4 w-4 mr-2" />
+                        Til betaling
                       </Button>
                     </Link>
                   </div>
                 </div>
+              ) : (
+                <>
+                  {!currentUsers.includes(session.user.id) ? (
+                    <>
+                      {currentParticipants < maxParticipants ||
+                      maxParticipants === null ? (
+                        <RegistrationClients
+                          currentUser={data}
+                          currentDogs={currentDogs}
+                          currentParticipants={currentParticipants}
+                          pricePerPerson={pricePerPerson}
+                          maxDogs={maxDogs}
+                          maxParticipants={maxParticipants}
+                          activityId={activityId}
+                          activityCategory={activityCategory}
+                        />
+                      ) : (
+                        <div className="flex h-pay items-center justify-center">
+                          <p className="text-s my-6">
+                            Der er ikke flere ledige pladser 😥
+                          </p>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div className="flex h-pay items-center justify-center">
+                      <div className="flex flex-col items-center my-6 gap-5">
+                        <p className="text-s ">
+                          Du er allerede tilmeldt denne aktivitet 😎
+                        </p>
+                        <Link href="/mine-aktiviteter">
+                          <Button className="w-max">
+                            <CalendarPlus className="h-4 w-4 mr-2" />
+                            Vis tilmeldinger
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
             </>
+          ) : (
+            <div className="flex h-pay items-center justify-center">
+              <div className="flex flex-col items-center my-6 gap-5">
+                <p className="text-s ">
+                  Du skal logge ind for at tilmelde dig en aktivitet 🫡
+                </p>
+                <div className="flex gap-3 flex-wrap justify-center">
+                  <Link href="/login">
+                    <Button className="w-max">
+                      <LogIn className="h-4 w-4 mr-2" />
+                      Login
+                    </Button>
+                  </Link>
+                  <Link href="/sign-up">
+                    <Button variant="outline" className="w-max">
+                      <SmilePlus className="h-4 w-4 mr-2" />
+                      Bliv medlem
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
           )}
         </>
-      ) : (
-        <div className="flex h-pay items-center justify-center">
-          <div className="flex flex-col items-center my-6 gap-5">
-            <p className="text-s ">
-              Du skal logge ind for at tilmelde dig en aktivitet 🫡
-            </p>
-            <div className="flex gap-3 flex-wrap justify-center">
-              <Link href="/login">
-                <Button className="w-max">
-                  <LogIn className="h-4 w-4 mr-2" />
-                  Login
-                </Button>
-              </Link>
-              <Link href="/sign-up">
-                <Button variant="outline" className="w-max">
-                  <SmilePlus className="h-4 w-4 mr-2" />
-                  Bliv medlem
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
       )}
     </>
   );

@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { createClient } from '@/utils/supabase/client';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { HoverCard } from '@/components/ui/hover-card';
-import { LogOut } from 'lucide-react';
-import { CalendarIcon } from '@radix-ui/react-icons';
-import Link from 'next/link';
-import { AnimatePresence, motion as m } from 'framer-motion';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { HoverCard } from "@/components/ui/hover-card";
+import { LogOut } from "lucide-react";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
+import { AnimatePresence, motion as m } from "framer-motion";
 
 export default function ProfileMenu({ user, isAdminPage }) {
   const supabase = createClient();
@@ -23,20 +23,20 @@ export default function ProfileMenu({ user, isAdminPage }) {
 
   function formatDate(dateString) {
     const date = new Date(dateString);
-    return date.toLocaleString('default', { month: 'long', year: 'numeric' });
+    return date.toLocaleString("default", { month: "long", year: "numeric" });
   }
 
   function formatNumber(num) {
     return num
       .toString()
-      .split('')
+      .split("")
       .reverse()
-      .join('')
+      .join("")
       .match(/.{1,2}/g)
-      .join(' ')
-      .split('')
+      .join(" ")
+      .split("")
       .reverse()
-      .join('');
+      .join("");
   }
 
   return (
@@ -55,7 +55,7 @@ export default function ProfileMenu({ user, isAdminPage }) {
         {isMenuOpen && (
           <>
             <m.div
-              initial={{ scale: 0, transformOrigin: 'top right', opacity: 0 }}
+              initial={{ scale: 0, transformOrigin: "top right", opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
               className="absolute z-50 right-0 w-full top-[92px] bg-white shadow-shad rounded-md p-6 border border-zinc-200 md:max-w-[302px]"
@@ -92,13 +92,16 @@ export default function ProfileMenu({ user, isAdminPage }) {
                   {user.isSuperAdmin && (
                     <>
                       {isAdminPage ? (
-                        <Link href="/">
+                        <Link href="/" onClick={() => setIsMenuOpen(false)}>
                           <Button variant="outline" className="w-full">
                             Til forsiden
                           </Button>
                         </Link>
                       ) : (
-                        <Link href="/admin">
+                        <Link
+                          href="/admin"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
                           <Button variant="outline" className="w-full">
                             Admin Panel
                           </Button>
@@ -106,12 +109,18 @@ export default function ProfileMenu({ user, isAdminPage }) {
                       )}
                     </>
                   )}
-                  <Link href={'/mine-aktiviteter'}>
+                  <Link
+                    href={"/mine-aktiviteter"}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
                     <Button variant="outline" className="w-full">
                       Mine Aktiviteter
                     </Button>
                   </Link>
-                  <Link href={'/profil-indstillinger'}>
+                  <Link
+                    href={"/profil-indstillinger"}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
                     <Button variant="outline" className="w-full">
                       Profilindstillinger
                     </Button>
