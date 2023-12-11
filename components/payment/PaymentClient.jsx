@@ -117,7 +117,7 @@ export default function PaymentClient({
 
   return (
     <div className="flex flex-col-reverse lg:flex-row gap-6">
-      <Box maxWidth={"lg:max-w-[866px] w-full"}>
+      <Box maxWidth={"lg:max-w-[866px] w-full"} isOuterBox={true}>
         <div className="flex justify-between flex-wrap-reverse">
           <div className="flex items-center gap-4 mb-3 flex-wrap">
             <Button onClick={cancelReservation} className="hidden lg:flex">
@@ -141,7 +141,7 @@ export default function PaymentClient({
           activityId={searchParams.activity_id}
         />
       </Box>
-      <Box maxWidth={"lg:max-w-[526px] w-full h-full"}>
+      <Box maxWidth={"lg:max-w-[526px] w-full h-full"} isOuterBox={true}>
         <div className="flex items-center gap-4 mb-3 flex-wrap">
           <Button onClick={cancelReservation} className="lg:hidden">
             <ArrowLeft className="h-4 w-4 mr-2" />

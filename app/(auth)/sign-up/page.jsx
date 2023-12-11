@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { createClient } from '@/utils/supabase/client';
-import { useRouter } from 'next/navigation';
-import ProviderAuth from '@/components/auth/ProviderAuth';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { Button } from '@/components/ui/button';
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
+import ProviderAuth from "@/components/auth/ProviderAuth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -14,12 +14,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useState } from 'react';
-import { LogIn, ArrowLeft, SmilePlus } from 'lucide-react';
-import Or from '@/components/auth/Or';
-import Link from 'next/link';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { LogIn, ArrowLeft, SmilePlus } from "lucide-react";
+import Or from "@/components/auth/Or";
+import Link from "next/link";
 
 // Validation of input
 const formSchema = z.object({
@@ -36,17 +36,17 @@ export default function SignUp() {
 
   // State to validate if email and password is correct
   const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [message, setMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
+  const [message, setMessage] = useState("");
 
   // 1. Define your form.
   const form = useForm({
     // zodResolver will validate your form values against your schema - hover on it... Bish..
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
-      password: '',
-      confirmPassword: '',
+      email: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
@@ -66,7 +66,7 @@ export default function SignUp() {
       if (!error) {
         setError(false);
         setMessage(
-          'Tak for din tilmelding. Du vil modtage en mail med et link til at aktivere din konto.'
+          "Tak for din tilmelding. Du vil modtage en mail med et link til at aktivere din konto."
         );
       } else {
         setError(true);
@@ -74,13 +74,13 @@ export default function SignUp() {
       }
     } else {
       setError(true);
-      setErrorMessage('Adgangskoderne stemmer ikke overens');
+      setErrorMessage("Adgangskoderne stemmer ikke overens");
     }
   }
 
   return (
-    <section className="max-w-[471px] p-5 shadow-shad rounded-md border border-zinc-200">
-      <div className="w-full items-center justify-between flex">
+    <section className="max-w-[471px] sm:p-5 sm:shadow-shad rounded-md sm:border border-zinc-200">
+      <div className="w-full items-center justify-between flex flex-wrap gap-3">
         <Button onClick={() => router.back()} className="items-center flex">
           <ArrowLeft className="mr-2 h-4 w-4" />
           <span>Tilbage</span>
@@ -101,9 +101,9 @@ export default function SignUp() {
       </p>
       <Form {...form}>
         <div className="flex justify-between gap-[11px] flex-col xs:flex-row">
-          <ProviderAuth provider={'facebook'} />
-          <ProviderAuth provider={'google'} />
-          <ProviderAuth provider={'linkedin_oidc'} />
+          <ProviderAuth provider={"facebook"} />
+          <ProviderAuth provider={"google"} />
+          <ProviderAuth provider={"linkedin_oidc"} />
         </div>
         <Or />
         {/* form.handleSubmit() is from the 'React Hook Form' library */}
@@ -156,7 +156,7 @@ export default function SignUp() {
               {errorMessage}
             </p>
           )}
-          {message !== '' && (
+          {message !== "" && (
             <p className="text-[0.8rem] font-medium text-green-600 max-w-[360px]">
               {message}
             </p>
@@ -166,7 +166,7 @@ export default function SignUp() {
               <SmilePlus className="mr-2 h-4 w-4" /> <span>Bliv medlem</span>
             </Button>
             <Or />
-            <Link href={'/login'}>
+            <Link href={"/login"}>
               <Button className="w-full items-center" variant="outline">
                 <LogIn className="mr-2 h-4 w-4" /> <span>Login</span>
               </Button>

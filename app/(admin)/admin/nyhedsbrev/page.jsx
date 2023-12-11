@@ -103,7 +103,7 @@ export default function Newsletter() {
 
   return (
     <section className="flex flex-col lg:flex-row gap-6">
-      <Box maxWidth={"lg:max-w-[822px]"}>
+      <Box maxWidth={"lg:max-w-[822px]"} isOuterBox={true}>
         <Heading title={"Nyhedsbrev"} icon={<Mailbox />} />
         <p className="opacity-70 my-5">
           Her kan du afsende et nyhedsbrev, alle brugere der har takket ja til
@@ -204,7 +204,7 @@ export default function Newsletter() {
           </form>
         </Form>
       </Box>
-      <Box className={"flex-1"}>
+      <Box className={"flex-1 hidden lg:block"} isOuterBox={true}>
         <NewsletterPreview
           image={image}
           title={currentValues.title}

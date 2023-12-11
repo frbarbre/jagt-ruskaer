@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { createClient } from '@/utils/supabase/client';
-import { useRouter } from 'next/navigation';
-import ProviderAuth from '@/components/auth/ProviderAuth';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { Button } from '@/components/ui/button';
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
+import ProviderAuth from "@/components/auth/ProviderAuth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -14,12 +14,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useState } from 'react';
-import { LogIn, ArrowLeft, SmilePlus } from 'lucide-react';
-import Or from '@/components/auth/Or';
-import Link from 'next/link';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { LogIn, ArrowLeft, SmilePlus } from "lucide-react";
+import Or from "@/components/auth/Or";
+import Link from "next/link";
 
 // Validation of input
 const formSchema = z.object({
@@ -40,8 +40,8 @@ export default function Login() {
     // zodResolver will validate your form values against your schema - hover on it... Bish..
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
@@ -57,15 +57,15 @@ export default function Login() {
 
     if (!error) {
       setError(false);
-      router.push('/');
+      router.push("/");
     } else {
       setError(true);
     }
   }
 
   return (
-    <section className="max-w-[471px] p-5 shadow-shad rounded-md border border-zinc-200">
-      <div className="w-full items-center justify-between flex">
+    <section className="max-w-[471px] sm:p-5 sm:shadow-shad rounded-md sm:border border-zinc-200">
+      <div className="w-full items-center justify-between flex flex-wrap gap-3">
         <Button onClick={() => router.back()} className="items-center flex">
           <ArrowLeft className="mr-2 h-4 w-4" />
           <span>Tilbage</span>
@@ -86,9 +86,9 @@ export default function Login() {
       </p>
       <Form {...form}>
         <div className="flex justify-between gap-[11px] flex-col xs:flex-row">
-          <ProviderAuth provider={'facebook'} />
-          <ProviderAuth provider={'google'} />
-          <ProviderAuth provider={'linkedin_oidc'} />
+          <ProviderAuth provider={"facebook"} />
+          <ProviderAuth provider={"google"} />
+          <ProviderAuth provider={"linkedin_oidc"} />
         </div>
         <Or />
         {/* form.handleSubmit() is from the 'React Hook Form' library */}
@@ -129,7 +129,7 @@ export default function Login() {
               <LogIn className="mr-2 h-4 w-4" /> <span>Login</span>
             </Button>
             <Or />
-            <Link href={'/sign-up'}>
+            <Link href={"/sign-up"}>
               <Button className="w-full items-center" variant="outline">
                 <SmilePlus className="mr-2 h-4 w-4" /> <span>Bliv medlem</span>
               </Button>

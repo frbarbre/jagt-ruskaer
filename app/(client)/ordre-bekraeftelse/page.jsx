@@ -41,7 +41,7 @@ export default async function OrderConfirmation({ searchParams }) {
   }
 
   return (
-    <Box>
+    <Box isOuterBox={true}>
       <div className="flex justify-between items-center flex-wrap">
         <Heading title={"Ordrebekræftelse"} icon={<CreditCard />} />
         <Link href={"/"}>

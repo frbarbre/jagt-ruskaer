@@ -16,12 +16,13 @@ export default function LatestRegistrations({ latReg }) {
 
   return (
     <Box
+      isOuterBox={true}
       padding={"pb-0 pl-5 pt-5 pr-1"}
       className="flex flex-col gap-5 w-full lg:h-registrations lg:min-h-[400px] lg:max-w-[890px]"
     >
       <Heading title={"Seneste tilmeldinger"} icon={<CalendarPlus />} />
       <ScrollArea>
-        <div className="flex flex-col gap-3 pb-3 pr-4">{latestRegs}</div>
+        <div className="flex flex-col gap-3 pb-3 sm:pr-4">{latestRegs}</div>
       </ScrollArea>
     </Box>
   );

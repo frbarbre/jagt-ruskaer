@@ -49,9 +49,9 @@ export default async function EditActivity({ params, searchParams }) {
   );
 
   return (
-    <section className="flex gap-6 flex-col lg:flex-row">
+    <section className="flex gap-12 sm:gap-6 flex-col lg:flex-row">
       <EditActivityForm activity={data} placeId={placeId} />
-      <Box maxWidth={"w-full lg:max-w-[570px]"}>
+      <Box maxWidth={"w-full lg:max-w-[570px]"} isOuterBox={true}>
         <Registrations
           activity={data}
           registrations={registrations.data}

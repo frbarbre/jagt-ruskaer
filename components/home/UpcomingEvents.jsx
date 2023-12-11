@@ -26,16 +26,19 @@ export default function UpcomingEvents({ comingEvents }) {
   });
 
   return (
-    <Box className="w-full flex flex-col gap-3 overflow-auto px-0 pb-1 lg:max-w-[890px]">
-      <div className="flex justify-between px-5">
+    <Box
+      className="w-full flex flex-col gap-3 overflow-auto sm:px-0 sm:pb-1 lg:max-w-[890px]"
+      isOuterBox={true}
+    >
+      <div className="flex justify-between sm:px-5 flex-wrap">
         <Heading title={"Kommende begivenheder"} icon={<CalendarDays />} />
         <Link href={"/kalender"}>
           <Button variant={"outline"}>Se alle</Button>
         </Link>
       </div>
       <ScrollArea>
-        <div className="flex gap-5 pb-4 px-5">{activities}</div>
-        <ScrollBar orientation="horizontal" className="px-5" />
+        <div className="flex gap-5 pb-4 sm:px-5">{activities}</div>
+        <ScrollBar orientation="horizontal" className="sm:px-5" />
       </ScrollArea>
     </Box>
   );

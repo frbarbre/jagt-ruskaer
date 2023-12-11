@@ -72,7 +72,7 @@ export default function ActivityWindow({ values, position }) {
   }
   return (
     <section className="flex gap-5 flex-col w-full lg:max-w-[866px]">
-      <Box className="flex gap-5 flex-col">
+      <Box className="flex gap-5 flex-col" isOuterBox={true}>
         <img
           src={values?.image}
           alt="image"
@@ -147,7 +147,7 @@ export default function ActivityWindow({ values, position }) {
           </article>
         </section>
       </Box>
-      <Box maxWidth={"h-full flex flex-col gap-5"}>
+      <Box maxWidth={"h-full flex flex-col gap-5"} isOuterBox={true}>
         <Heading icon={<MapPinned />} title={"Kort"} />
         <GoogleMaps position={position} />
       </Box>

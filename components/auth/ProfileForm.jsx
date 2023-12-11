@@ -106,8 +106,8 @@ export default function ProfileForm({
   }
 
   return (
-    <section className="max-w-[471px] p-5 shadow-shad rounded-md border border-zinc-200">
-      <div className="w-full items-center justify-between flex">
+    <section className="max-w-[471px] sm:p-5 sm:shadow-shad rounded-md sm:border border-zinc-200">
+      <div className="w-full items-center justify-between flex flex-wrap gap-3">
         <div className="flex gap-2 items-center my-5">
           <UserPlus />
           <h1 className="text-xl font-semibold">Rediger Profil</h1>

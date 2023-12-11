@@ -29,12 +29,12 @@ export default function NewestMembers({ newestMembers }) {
   // console.log(newestMembers[0].last_name)
 
   return (
-    <Box className="flex flex-col gap-5 w-full lg:max-w-[890px]">
-      <div className="flex justify-between items-center">
-        <Heading
-          title={"Nyeste medlemmer"}
-          icon={<UserCheck />}
-        />
+    <Box
+      className="flex flex-col gap-5 w-full lg:max-w-[890px]"
+      isOuterBox={true}
+    >
+      <div className="flex justify-between items-center flex-wrap gap-3">
+        <Heading title={"Nyeste medlemmer"} icon={<UserCheck />} />
         <Link href={"/admin/medlemmer"}>
           <Button variant={"outline"}>Gå til medlemmer</Button>
         </Link>

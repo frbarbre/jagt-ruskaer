@@ -226,7 +226,7 @@ export default function EditActivityForm({ activity, placeId }) {
 
   return (
     <section className="lg:max-w-[822px] w-full">
-      <Box maxWidth={"w-full"}>
+      <Box maxWidth={"w-full"} isOuterBox={true}>
         <Heading title={"Rediger Aktivitet"} icon={<CalendarPlus />} />
         <p className="opacity-70 my-5">Her kan der redigeres en aktivitet</p>
         <Form {...form}>

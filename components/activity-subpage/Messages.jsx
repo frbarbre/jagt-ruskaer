@@ -34,7 +34,7 @@ export default function Messages({ category, messages, currentUser, session }) {
 
   return (
     <>
-      <div className="flex items-center justify-between pr-4 mb-5">
+      <div className="flex items-center justify-between sm:pr-4 mb-5 flex-wrap gap-3">
         <Heading title={`Vigtige beskeder`} icon={<Megaphone />} />
         {isAuthorized && (
           <NewMessage category={category} currentUser={currentUser} />
@@ -42,7 +42,7 @@ export default function Messages({ category, messages, currentUser, session }) {
       </div>
       {session ? (
         <ScrollArea>
-          <div className="flex flex-col gap-3 lg:min-h-[322px] pr-4 lg:h-innerMessage">
+          <div className="flex flex-col gap-3 lg:min-h-[322px] sm:pr-4 lg:h-innerMessage">
             {messages.map((message) => (
               <Message
                 key={message.id}
@@ -107,10 +107,10 @@ async function Message({ message, currentUser, category }) {
     .eq("user_id", currentUser.id);
 
   return (
-    <Box className="flex gap-4 justify-between items-center">
-      <div className="flex gap-3 items-center">
+    <Box className="flex gap-4 justify-between sm:items-center flex-col sm:flex-row relative">
+      <div className="flex gap-3 items-center flex-wrap">
         <div
-          className={`h-2.5 w-2.5 rounded-full ${
+          className={`h-2.5 w-2.5 rounded-full absolute top-1/2 -translate-y-1/2 sm:translate-y-0 right-5 sm:relative ${
             data.length > 0
               ? "bg-white"
               : message.user_id === currentUser.id
@@ -118,6 +118,7 @@ async function Message({ message, currentUser, category }) {
               : "bg-blue-600"
           }`}
         />
+
         <Avatar className="cursor-pointer self-center justify-self-end z-20 relative md:w-11 md:h-11">
           <AvatarImage src={message.author.avatar_url} />
           <AvatarFallback>
@@ -125,7 +126,7 @@ async function Message({ message, currentUser, category }) {
             {message.author.slast_name?.[0]}
           </AvatarFallback>
         </Avatar>
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 justify-center sm:justify-start">
           <h2 className="text-[14px] font-semibold">
             {message.author.first_name} {message.author.last_name}
           </h2>

@@ -118,14 +118,14 @@ export default function ActivityCard({
       } flex items-center gap-5`}
     >
       {!isOnAdminPage && (
-        <article className="text-center font-bold w-[45px]">
+        <article className="text-center font-bold w-[45px] hidden sm:block">
           <h3 className="text-[12px] translate-y-1">{date[0]}</h3>
           <h3 className="text-[30px]">{date[1]}</h3>
           <h3 className="uppercase text-[14px] -translate-y-1">{date[2]}</h3>
         </article>
       )}
       <section className="w-full">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center flex-wrap gap-3">
           <Heading isTiny={true} title={activity.category} icon={icon} />
           <div className="flex items-center gap-4">
             {showParticipants && activity.participants && !isExpired && (
@@ -166,52 +166,78 @@ export default function ActivityCard({
             {activity.description}
           </p>
         )}
-        <div className="flex justify-between items-end flex-wrap gap-3">
-          <div>
+        <div className="flex justify-between xs:items-end flex-col xs:flex-row gap-3 h-full">
+          <div className="flex gap-6 items-center sm:items-end w-full h-full">
             {!isOnAdminPage && (
-              <h2 className="font-semibold text-[14px] mb-1">
-                {activity.title}
-              </h2>
+              <article className="text-center font-bold w-[45px] sm:hidden">
+                <h3 className="text-[12px] translate-y-1">{date[0]}</h3>
+                <h3 className="text-[30px]">{date[1]}</h3>
+                <h3 className="uppercase text-[14px] -translate-y-1">
+                  {date[2]}
+                </h3>
+              </article>
             )}
-            {isOnAdminPage && (
-              <div className="flex gap-1 items-center opacity-70 mb-2">
-                <CalendarDays className="w-4 h-4" />
-                <p className="text-[12px]">{formatDate(activity.date)}</p>
+            <div className="flex w-full flex-col xs:flex-row xs:justify-between gap-3">
+              <div>
+                {!isOnAdminPage && (
+                  <h2 className="font-semibold text-[14px] mb-1">
+                    {activity.title}
+                  </h2>
+                )}
+                {isOnAdminPage && (
+                  <div className="flex gap-1 items-center opacity-70 mb-2">
+                    <CalendarDays className="w-4 h-4" />
+                    <p className="text-[12px]">{formatDate(activity.date)}</p>
+                  </div>
+                )}
+                <div className="flex gap-1 items-center opacity-70">
+                  <Clock className="w-4 h-4" />
+                  <p className="capitalize text-[12px]">
+                    {timeFrom}
+                    {timeTo && ` - ${timeTo}`}
+                  </p>
+                </div>
               </div>
-            )}
-            <div className="flex gap-1 items-center opacity-70">
-              <Clock className="w-4 h-4" />
-              <p className="capitalize text-[12px]">
-                {timeFrom}
-                {timeTo && ` - ${timeTo}`}
-              </p>
+              {isOnFrontPage ? (
+                <Link
+                  href={`/aktiviteter/${activity.id}`}
+                  className="xs:self-end"
+                >
+                  <Button>Læs mere</Button>
+                </Link>
+              ) : isOnAdminPage || isOnOverview ? (
+                <Link
+                  href={`/admin/aktiviteter/rediger-aktivitet/${activity.id}`}
+                  className="xs:self-end"
+                >
+                  <Button>Se mere</Button>
+                </Link>
+              ) : isRegistration ? (
+                <div className="xs:self-end flex flex-col sm:flex-row gap-3 xs:justify-end xs:items-end">
+                  <Link href={`/aktiviteter/${activity.id}`}>
+                    <Button>Læs mere</Button>
+                  </Link>
+                  <form action={deleteRegistration} className="inline">
+                    <input
+                      type="hidden"
+                      name="activityId"
+                      value={activity.id}
+                    />
+                    <Button type="submit" variant="destructive">
+                      Meld afbud
+                    </Button>
+                  </form>
+                </div>
+              ) : (
+                <Link
+                  href={`/aktiviteter/${activity.id}`}
+                  className="xs:self-end"
+                >
+                  <Button>Læs mere</Button>
+                </Link>
+              )}
             </div>
           </div>
-          {isOnFrontPage ? (
-            <Link href={`/aktiviteter/${activity.id}`}>
-              <Button>Læs mere</Button>
-            </Link>
-          ) : isOnAdminPage || isOnOverview ? (
-            <Link href={`/admin/aktiviteter/rediger-aktivitet/${activity.id}`}>
-              <Button>Se mere</Button>
-            </Link>
-          ) : isRegistration ? (
-            <div>
-              <Link className="mr-3" href={`/aktiviteter/${activity.id}`}>
-                <Button>Læs mere</Button>
-              </Link>
-              <form action={deleteRegistration} className="inline">
-                <input type="hidden" name="activityId" value={activity.id} />
-                <Button type="submit" variant="destructive">
-                  Meld afbud
-                </Button>
-              </form>
-            </div>
-          ) : (
-            <Link href={`/aktiviteter/${activity.id}`}>
-              <Button>Læs mere</Button>
-            </Link>
-          )}
         </div>
       </section>
     </Box>

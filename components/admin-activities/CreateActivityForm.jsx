@@ -206,7 +206,7 @@ export default function CreateActivityForm({ position, placeId }) {
 
   return (
     <section className="flex gap-5 h-full">
-      <Box maxWidth={"lg:max-w-[822px] w-full"}>
+      <Box maxWidth={"lg:max-w-[822px] w-full"} isOuterBox={true}>
         <Heading title={"Opret Aktivitet"} icon={<CalendarPlus />} />
         <p className="opacity-70 my-5">Her kan der oprettes en aktivitet</p>
         <Form {...form}>
@@ -492,7 +492,7 @@ export default function CreateActivityForm({ position, placeId }) {
           </form>
         </Form>
       </Box>
-      <Box maxWidth={"w-full hidden max-w-[570px] lg:block"}>
+      <Box maxWidth={"w-full hidden max-w-[570px] lg:block"} isOuterBox={true}>
         <ActivityPreview
           currentValues={currentValues}
           image={image}

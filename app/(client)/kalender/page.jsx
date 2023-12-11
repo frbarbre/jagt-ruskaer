@@ -38,7 +38,7 @@ export default async function Calender({ searchParams }) {
   const { data, error } = await query.order("date", { ascending: true });
 
   return (
-    <Box>
+    <Box isOuterBox={true}>
       <Heading title="Kalender" icon={<CalendarDays />} />
       <FilterMenu searchParams={searchParams} isCalender={true} />
       <div className="grid grid-cols-1 gap-5">

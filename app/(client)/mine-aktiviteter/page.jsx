@@ -32,8 +32,8 @@ export default async function MyActivities() {
   }
 
   return (
-    <Box>
-      <div className="flex justify-between items-center">
+    <Box isOuterBox={true}>
+      <div className="flex justify-between items-center flex-wrap gap-3">
         <Heading title={"Mine aktiviteter"} icon={<CalendarDays />} />
         <Link href={"/kalender"}>
           <Button variant="outline">Gå til kalender</Button>

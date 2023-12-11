@@ -28,7 +28,7 @@ export default async function Activity({ params }) {
         values={data}
         position={mapJSON?.result.geometry.location}
       />
-      <Box className="w-full lg:max-w-[530px]">
+      <Box className="w-full lg:max-w-[530px]" isOuterBox={true}>
         <RegistrationForm
           date={data.date}
           pricePerPerson={data.price}

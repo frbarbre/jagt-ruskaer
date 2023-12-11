@@ -1,10 +1,10 @@
-import { cookies } from 'next/headers';
-import { columns } from './columns';
-import { DataTable } from './data-table';
-import { createClient } from '@/utils/supabase/server';
-import Box from '@/components/shared/Box';
-import Heading from '@/components/shared/Heading';
-import { User } from 'lucide-react';
+import { cookies } from "next/headers";
+import { columns } from "./columns";
+import { DataTable } from "./data-table";
+import { createClient } from "@/utils/supabase/server";
+import Box from "@/components/shared/Box";
+import Heading from "@/components/shared/Heading";
+import { User } from "lucide-react";
 
 async function getData() {
   // Fetch data from your API here.
@@ -12,9 +12,9 @@ async function getData() {
   const supabase = createClient(cookieStore);
 
   const { data } = await supabase
-    .from('profiles')
+    .from("profiles")
     .select()
-    .order('created_at', { ascending: false });
+    .order("created_at", { ascending: false });
 
   return data.map((user) => {
     return {
@@ -35,8 +35,8 @@ export default async function Users() {
   const data = await getData();
 
   return (
-    <Box>
-      <Heading title={'Medlemmer'} icon={<User />} />
+    <Box isOuterBox={true}>
+      <Heading title={"Medlemmer"} icon={<User />} />
       <div className="mx-auto mt-5">
         <DataTable columns={columns} data={data} />
       </div>

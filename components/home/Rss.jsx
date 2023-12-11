@@ -74,7 +74,7 @@ export default function Rss({ xml }) {
       {isClient && (
         <div className="flex flex-col gap-5 lg:h-[1294px]">
           <ScrollArea>
-            <div className="flex flex-col gap-5 pr-4">
+            <div className="flex flex-col gap-5 sm:pr-4">
               {articles?.map((article) => (
                 <Fragment key={article.guid}>
                   <a

@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { createClient } from '@/utils/supabase/client';
-import { useRouter } from 'next/navigation';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -14,11 +14,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useState, useEffect } from 'react';
-import { Trash2, UserPlus } from 'lucide-react';
-import UploadImage from '@/components/shared/UploadImage';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useState, useEffect } from "react";
+import { Trash2, UserPlus } from "lucide-react";
+import UploadImage from "@/components/shared/UploadImage";
 
 const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
@@ -32,7 +32,7 @@ const formSchema = z.object({
     .string()
     .min(8)
     .max(8)
-    .regex(phoneRegex, 'Ikke et gyldigt telefonnummer'),
+    .regex(phoneRegex, "Ikke et gyldigt telefonnummer"),
   wantsNewsletter: z.boolean().optional().default(false),
 });
 
@@ -54,7 +54,7 @@ export default function OnboardingForm({
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({
-    message: '',
+    message: "",
     isActive: false,
   });
   const [isDeleting, setIsDeleting] = useState(false);
@@ -64,9 +64,9 @@ export default function OnboardingForm({
     // zodResolver will validate your form values against your schema - hover on it... Bish..
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: firstN || '',
-      lastName: lastN || '',
-      phoneNumber: phoneN || '',
+      firstName: firstN || "",
+      lastName: lastN || "",
+      phoneNumber: phoneN || "",
       wantsNewsletter: hasNewsletter || false,
     },
   });
@@ -78,7 +78,7 @@ export default function OnboardingForm({
     // ✅ This will be type-safe and validated.
 
     const { error } = await supabase
-      .from('profiles')
+      .from("profiles")
       .update({
         first_name: values.firstName,
         last_name: values.lastName,
@@ -88,9 +88,9 @@ export default function OnboardingForm({
         onboarded: true,
         created_at: new Date(),
       })
-      .eq('id', user_id);
+      .eq("id", user_id);
     if (!error) {
-      router.push('/');
+      router.push("/");
       console.log(values);
     } else {
       console.log(error);
@@ -98,14 +98,14 @@ export default function OnboardingForm({
   }
 
   function removeImage() {
-    setImage('');
+    setImage("");
     setImages([]);
     setIsDeleting(true);
   }
 
   return (
-    <section className="max-w-[471px] p-5 shadow-shad rounded-md border border-zinc-200">
-      <div className="w-full items-center justify-between flex">
+    <section className="max-w-[471px] sm:p-5 sm:shadow-shad rounded-md sm:border border-zinc-200">
+      <div className="w-full items-center justify-between flex flex-wrap gap-3">
         <div className="flex gap-2 items-center my-5">
           <UserPlus />
           <h1 className="text-xl font-semibold">Opret Profil</h1>
@@ -131,7 +131,7 @@ export default function OnboardingForm({
           setError={setError}
           setIsDeleting={setIsDeleting}
         />
-        {!isDeleting && (image !== '' || images.length !== 0) && (
+        {!isDeleting && (image !== "" || images.length !== 0) && (
           <Button
             className="absolute top-1 right-1 bg-white px-2.5"
             variant="outline"
