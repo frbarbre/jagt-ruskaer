@@ -30,7 +30,7 @@ export default function UpcomingEvents({ comingEvents }) {
       className="w-full flex flex-col gap-3 overflow-auto sm:px-0 sm:pb-1 lg:max-w-[890px]"
       isOuterBox={true}
     >
-      <div className="flex justify-between sm:px-5 flex-wrap">
+      <div className="flex justify-between sm:px-5 flex-wrap gap-3 mt-6 sm:mt-0">
         <Heading title={"Kommende begivenheder"} icon={<CalendarDays />} />
         <Link href={"/kalender"}>
           <Button variant={"outline"}>Se alle</Button>
