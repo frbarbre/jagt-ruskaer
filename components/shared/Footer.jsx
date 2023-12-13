@@ -1,8 +1,8 @@
-import { Checkbox } from '@/components/ui/checkbox';
-import { Separator } from '../ui/separator';
-import { cookies } from 'next/headers';
-import { createClient } from '@/utils/supabase/server';
-import SubmitFooter from './SubmitFooter';
+import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "../ui/separator";
+import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/server";
+import SubmitFooter from "./SubmitFooter";
 
 export default async function Footer() {
   const cookieStore = cookies();
@@ -13,20 +13,20 @@ export default async function Footer() {
   } = await supabase.auth.getSession();
 
   const { data } = await supabase
-    .from('profiles')
+    .from("profiles")
     .select()
-    .eq('id', session?.user?.id)
+    .eq("id", session?.user?.id)
     .single();
 
   async function setNewsletter(FormData) {
-    'use server';
+    "use server";
     const cookieStore = cookies();
     const supabase = createClient(cookieStore);
-    const checkBox = FormData.get('newsletter');
+    const checkBox = FormData.get("newsletter");
     const { error } = await supabase
-      .from('profiles')
-      .update({ wantNewsletter: checkBox === 'on' ? true : false })
-      .eq('id', session?.user?.id);
+      .from("profiles")
+      .update({ wantNewsletter: checkBox === "on" ? true : false })
+      .eq("id", session?.user?.id);
     if (error) {
       console.log(error);
     }
@@ -66,7 +66,10 @@ export default async function Footer() {
           <div className="flex items-center space-x-2 justify-center md:justify-start">
             {session ? (
               <>
-                <form className="flex gap-5 flex-col items-center md:items-start" action={setNewsletter}>
+                <form
+                  className="flex gap-5 flex-col items-center md:items-start"
+                  action={setNewsletter}
+                >
                   <div className="flex items-center gap-2">
                     <Checkbox
                       name="newsletter"

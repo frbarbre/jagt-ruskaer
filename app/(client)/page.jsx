@@ -105,7 +105,7 @@ export default async function Home({ searchParams }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Button variant={"outline"}>Se alle</Button>
+<Button variant={"outline"}>Se alle</Button>
           </a>
         </div>
         <Suspense fallback={<RssSkeleton />}>

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { ChevronsUpDown, MoreHorizontal } from 'lucide-react';
+import { ChevronsUpDown, MoreHorizontal } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,16 +10,16 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { createClient } from '@supabase/supabase-js';
-import { useRouter } from 'next/navigation';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useStore } from '@/store';
+} from "@/components/ui/dropdown-menu";
+import { createClient } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useStore } from "@/store";
 
 export const columns = [
   {
-    accessorKey: 'avatar',
-    header: '',
+    accessorKey: "avatar",
+    header: "",
     cell: ({ row }) => {
       const user = row.original;
 
@@ -38,12 +38,12 @@ export const columns = [
     },
   },
   {
-    accessorKey: 'fornavn',
+    accessorKey: "fornavn",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="-translate-x-[17px]"
         >
           Fornavn
@@ -53,12 +53,12 @@ export const columns = [
     },
   },
   {
-    accessorKey: 'efternavn',
+    accessorKey: "efternavn",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="-translate-x-[17px]"
         >
           Efternavn
@@ -68,12 +68,12 @@ export const columns = [
     },
   },
   {
-    accessorKey: 'email',
+    accessorKey: "email",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="-translate-x-[17px]"
         >
           Email
@@ -83,16 +83,16 @@ export const columns = [
     },
   },
   {
-    accessorKey: 'telefon',
-    header: 'Telefon',
+    accessorKey: "telefon",
+    header: "Telefon",
   },
   {
-    accessorKey: 'nyhedsbrev',
+    accessorKey: "nyhedsbrev",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="-translate-x-[17px]"
         >
           Nyhedsbrev
@@ -102,18 +102,18 @@ export const columns = [
     },
     cell: ({ row }) => {
       return (
-        <p className="capitalize">{row.original.nyhedsbrev ? 'ja' : 'nej'}</p>
+        <p className="capitalize">{row.original.nyhedsbrev ? "ja" : "nej"}</p>
       );
     },
   },
 
   {
-    accessorKey: 'rolle',
+    accessorKey: "rolle",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="-translate-x-[17px]"
         >
           Rolle
@@ -127,7 +127,7 @@ export const columns = [
   },
 
   {
-    id: 'valg',
+    id: "valg",
     cell: ({ row }) => {
       const user = row.original;
       const setIsRoleModalOpen = useStore((state) => state.setIsRoleModalOpen);
