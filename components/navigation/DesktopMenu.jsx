@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import Link from 'next/link';
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
-import { Rabbit, Dog, Target, Crosshair } from 'lucide-react';
+import * as React from "react";
+import Link from "next/link";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { Rabbit, Dog, Target, Crosshair } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -13,61 +13,61 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu';
+} from "@/components/ui/navigation-menu";
 
 //
 const components = [
   {
-    title: 'Bestyrelsen',
-    href: '/',
-    description: 'Bestyrelser er flotte i tøjet og har styr på det hele.',
+    title: "Bestyrelsen",
+    href: "/",
+    description: "Bestyrelser er flotte i tøjet og har styr på det hele.",
   },
   {
-    title: 'Riffeludvalget',
-    href: '/',
+    title: "Riffeludvalget",
+    href: "/",
     description:
-      'For sighted users to preview content available behind a link.',
+      "For sighted users to preview content available behind a link.",
   },
   {
-    title: 'Hundeudvalget',
-    href: '/',
+    title: "Hundeudvalget",
+    href: "/",
     description:
-      'Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.',
+      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
   },
   {
-    title: 'Flugtskydningsudvalget',
-    href: '/',
-    description: 'Visually or semantically separates content.',
+    title: "Flugtskydningsudvalget",
+    href: "/",
+    description: "Visually or semantically separates content.",
   },
   {
-    title: 'Nyjægerudvalget',
-    href: '/docs/primitives/tabs',
+    title: "Nyjægerudvalget",
+    href: "/docs/primitives/tabs",
     description:
-      'A set of layered sections of content—known as tab panels—that are displayed one at a time.',
+      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
   },
 ];
 
 const activityTexts = [
   {
-    activity: 'jagt',
-    text: 'Re-usable components built using Radix UI and Tailwind CSS.',
+    activity: "jagt",
+    text: "Naturoplevelser og spor i skovens dyb: Del jagtglæden med os",
   },
   {
-    activity: 'riffelskydning',
-    text: 'How to install dependencies and structure your app.',
+    activity: "riffelskydning",
+    text: "Præcision og fællesskab: Udforsk riffelskydning med os",
   },
   {
-    activity: 'flugtskydning',
-    text: 'Styles for headings, paragraphs, lists...etc',
+    activity: "flugtskydning",
+    text: "Tag sikringen af: Fællesskab og sjov ved flugtskydningsbanen",
   },
   {
-    activity: 'hundetræning',
-    text: 'How to install dependencies and structure your app.',
+    activity: "hundetræning",
+    text: "Styrk båndet med din jagtkammeret",
   },
 ];
 
 export default function DesktopMenu() {
-  const [activeActivity, setActiveActivity] = useState('jagt');
+  const [activeActivity, setActiveActivity] = useState("jagt");
   const activityText = activityTexts.find((a) => a.activity === activeActivity);
 
   return (
@@ -105,13 +105,13 @@ export default function DesktopMenu() {
                     />
                     <div className="bg-black/20 inset-0 absolute rounded-sm" />
                     <div className="relative z-10">
-                      {activeActivity === 'jagt' ? (
+                      {activeActivity === "jagt" ? (
                         <Rabbit className="h-6 w-6" color="#FFF" />
-                      ) : activeActivity === 'riffelskydning' ? (
+                      ) : activeActivity === "riffelskydning" ? (
                         <Crosshair className="h-6 w-6" color="#FFF" />
-                      ) : activeActivity === 'flugtskydning' ? (
+                      ) : activeActivity === "flugtskydning" ? (
                         <Target className="h-6 w-6" color="#FFF" />
-                      ) : activeActivity === 'hundetræning' ? (
+                      ) : activeActivity === "hundetræning" ? (
                         <Dog className="h-6 w-6" color="#FFF" />
                       ) : (
                         <Rabbit className="h-6 w-6" color="#FFF" />
@@ -129,28 +129,28 @@ export default function DesktopMenu() {
               <ListItem
                 href="/jagt"
                 title="Jagt"
-                onMouseOver={() => setActiveActivity('jagt')}
+                onMouseOver={() => setActiveActivity("jagt")}
               >
                 {activityTexts[0].text}
               </ListItem>
               <ListItem
                 href="/riffelskydning"
                 title="Riffelskydning"
-                onMouseOver={() => setActiveActivity('riffelskydning')}
+                onMouseOver={() => setActiveActivity("riffelskydning")}
               >
                 {activityTexts[1].text}
               </ListItem>
               <ListItem
                 href="/flugtskydning"
                 title="Flugtskydning"
-                onMouseOver={() => setActiveActivity('flugtskydning')}
+                onMouseOver={() => setActiveActivity("flugtskydning")}
               >
                 {activityTexts[2].text}
               </ListItem>
               <ListItem
                 href="/hundetraening"
                 title="Hundetræning"
-                onMouseOver={() => setActiveActivity('hundetræning')}
+                onMouseOver={() => setActiveActivity("hundetræning")}
               >
                 {activityTexts[3].text}
               </ListItem>
@@ -198,7 +198,7 @@ function ListItem({ className, title, onMouseOver, children, ...props }) {
       <NavigationMenuLink asChild>
         <a
           className={cn(
-            'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
             className
           )}
           {...props}
@@ -212,4 +212,4 @@ function ListItem({ className, title, onMouseOver, children, ...props }) {
     </li>
   );
 }
-ListItem.displayName = 'ListItem';
+ListItem.displayName = "ListItem";
