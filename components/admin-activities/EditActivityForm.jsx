@@ -195,7 +195,7 @@ export default function EditActivityForm({ activity, placeId }) {
       .from("activities")
       .update({
         title: values.title,
-        date: values.date,
+        date: new Date(values.date.getTime() + 1000 * 60 * 60 * 2),
         category: values.category,
         timeFrom: values.timeFrom,
         timeTo: values.timeTo === "" ? null : values.timeTo,

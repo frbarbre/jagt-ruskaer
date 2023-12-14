@@ -181,7 +181,7 @@ export default function CreateActivityForm({ position, placeId }) {
 
       const { error } = await supabase.from("activities").insert({
         title: values.title,
-        date: values.date,
+        date: new Date(values.date.getTime() + 1000 * 60 * 60 * 2),
         category: values.category,
         timeFrom: values.timeFrom,
         timeTo: values.timeTo === "" ? null : values.timeTo,
