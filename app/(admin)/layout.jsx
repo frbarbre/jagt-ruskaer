@@ -36,9 +36,10 @@ export default async function RootLayout({ children }) {
     const { data } = await supabase
       .from("profiles")
       .select("isSuperAdmin")
-      .eq("id", session.user.id);
+      .eq("id", session.user.id)
+      .single();
 
-    if (!data[0].isSuperAdmin) {
+    if (!data.isSuperAdmin) {
       redirect("/");
     }
   } else {

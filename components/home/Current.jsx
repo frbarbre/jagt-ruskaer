@@ -40,8 +40,12 @@ export default function Current({ currentEvent }) {
   let timeFrom = `${timeFromData?.[0]}:${timeFromData?.[1]}`;
 
   // time to
-  let timeToData = currentEvent.timeTo.split(":");
-  let timeTo = `${timeToData?.[0]}:${timeToData?.[1]}`;
+  let timeToData = null;
+
+  if (currentEvent.timeTo) {
+    timeToData = currentEvent.timeTo.split(":");
+    let timeTo = `${timeToData?.[0]}:${timeToData?.[1]}`;
+  }
 
   // ---------- TIME END ------------
 
@@ -64,7 +68,7 @@ export default function Current({ currentEvent }) {
           </p>
           <p className="text-xs opacity-70 flex">
             <Clock className="opacity-70 h-[14px] -ml-1" />
-            {timeFrom} - {timeTo}
+            {timeFrom} {timeToData && `- ${timeTo}`}
           </p>
         </div>
         {/* skal gå til /aktiviteter/'aktivitetens id' */}

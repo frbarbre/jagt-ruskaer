@@ -42,16 +42,6 @@ export default async function Home({ searchParams }) {
 
   const today = getToday();
 
-  // let query = await supabase
-  //   .from('activities')
-  //   .select()
-  //   .gte('date', today)
-  //   .order('date', { ascending: true })
-  //   .limit(1)
-  //   .single();
-
-  // console.log(query)
-
   let query = await supabase
     .from("activities")
     .select()
@@ -59,11 +49,17 @@ export default async function Home({ searchParams }) {
     .order("date", { ascending: true })
     .limit(6);
 
+  let currentEvent = null;
   // data of the closest, future event for 'Aktuelt'
-  let currentEvent = query?.data?.[0];
+  if (query?.data) {
+    currentEvent = query?.data?.[0];
+  }
 
+  let comingEvents = null;
   // data of the 5 closest, future events following 'currentEvent'
-  let comingEvents = query?.data?.slice(1);
+  if (query?.data?.length > 1) {
+    comingEvents = query?.data?.slice(1);
+  }
 
   //----------------------------------------------
 
@@ -88,8 +84,8 @@ export default async function Home({ searchParams }) {
     <div className="flex gap-6 flex-col lg:flex-row max-w-screen">
       {/* The left-hand side of the Home page - 'Aktuelt', 'Kommende begivenheder', 'Nyeste indlæg' */}
       <div className="flex-1 w-full flex flex-col gap-6 items-center">
-        <Current currentEvent={currentEvent} />
-        <UpcomingEvents comingEvents={comingEvents} />
+        {currentEvent && <Current currentEvent={currentEvent} />}
+        {comingEvents && <UpcomingEvents comingEvents={comingEvents} />}
         <NewArticles />
       </div>
       {/* The whole RSS feed on the right-hand side of the Home page */}
@@ -105,7 +101,7 @@ export default async function Home({ searchParams }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-<Button variant={"outline"}>Se alle</Button>
+            <Button variant={"outline"}>Se alle</Button>
           </a>
         </div>
         <Suspense fallback={<RssSkeleton />}>

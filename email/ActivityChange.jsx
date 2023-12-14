@@ -1,14 +1,11 @@
 import {
   Body,
-  Button,
   Column,
   Container,
   Head,
-  Heading,
   Hr,
   Html,
   Img,
-  Link,
   Preview,
   Row,
   Section,
@@ -33,6 +30,7 @@ export const ActivityChange = ({
       month: "short",
       year: "numeric",
     });
+    s;
     let words = formattedDate.split(" ");
     words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1) + " d.";
     words[2] = words[2].charAt(0).toUpperCase() + words[2].slice(1);
@@ -96,7 +94,6 @@ export const ActivityChange = ({
                 alt="Vercel"
                 className="mx-auto rounded w-full h-[250px] object-cover"
               />
-
               <Text className="font-medium text-2xl pt-3">{title}</Text>
               <Row>
                 <Column className="w-6">
@@ -118,7 +115,6 @@ export const ActivityChange = ({
                   Klik her for at se aktiviteten
                 </Text>
               </a>
-
               <Hr className="my-2 border-[#eaeaea]" />
               <Text className="font-regular whitespace-pre-line pt-8 text-center italic text-black">
                 De bedste hilsner
