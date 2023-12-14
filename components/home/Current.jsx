@@ -41,10 +41,11 @@ export default function Current({ currentEvent }) {
 
   // time to
   let timeToData = null;
+  let timeTo = null;
 
   if (currentEvent.timeTo) {
     timeToData = currentEvent.timeTo.split(":");
-    let timeTo = `${timeToData?.[0]}:${timeToData?.[1]}`;
+    timeTo = `${timeToData?.[0]}:${timeToData?.[1]}`;
   }
 
   // ---------- TIME END ------------
