@@ -56,13 +56,15 @@ export default function SignUp() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     if (values.password === values.confirmPassword) {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: values.email,
-        password: values.email,
+        password: values.password,
         options: {
           emailRedirectTo: `${origin}/auth/callback`,
         },
       });
+      console.log(values);
+      console.log(data);
       if (!error) {
         setError(false);
         setMessage(
@@ -74,6 +76,7 @@ export default function SignUp() {
       }
     } else {
       setError(true);
+      console.log(error);
       setErrorMessage("Adgangskoderne stemmer ikke overens");
     }
   }

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { HoverCard } from "@/components/ui/hover-card";
-import { LogOut } from "lucide-react";
+import { LogOut, Loader2 } from "lucide-react";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { AnimatePresence, motion as m } from "framer-motion";
@@ -15,8 +15,10 @@ export default function ProfileMenu({ user, isAdminPage }) {
   const supabase = createClient();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function signOut() {
+    setIsLoading(true);
     await supabase.auth.signOut();
     router.refresh();
   }
@@ -125,9 +127,17 @@ export default function ProfileMenu({ user, isAdminPage }) {
                       Profilindstillinger
                     </Button>
                   </Link>
-                  <Button onClick={signOut} className="w-full">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Sign Out
+                  <Button
+                    onClick={signOut}
+                    className="w-full"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <LogOut className="mr-2 h-4 w-4" />
+                    )}
+                    Log ud
                   </Button>
                 </div>
               </HoverCard>

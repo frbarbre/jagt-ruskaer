@@ -24,7 +24,7 @@ import Link from "next/link";
 // Validation of input
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8),
+  password: z.string().min(6),
 });
 
 export default function Login() {
@@ -50,13 +50,17 @@ export default function Login() {
   async function onSubmit(values) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    const { error } = await supabase.auth.signInWithPassword({
+
+    console.log(values);
+
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: values.email,
       password: values.password,
     });
 
     if (!error) {
       setError(false);
+      console.log(error);
       router.push("/");
     } else {
       setError(true);
