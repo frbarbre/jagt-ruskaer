@@ -22,6 +22,7 @@ export default function Delete({ message }) {
             className="px-2.5"
             variant="outline"
             onClick={() => runDeleteAction({ message: message })}
+            disabled={isDeleteRunning}
           >
             {isDeleteRunning ? (
               <Loader2 className="w-4 h-4 animate-spin" />
