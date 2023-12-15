@@ -179,7 +179,7 @@ export default function SignUp() {
               ) : (
                 <SmilePlus className="mr-2 h-4 w-4" />
               )}
-              <span>Login</span>
+              <span>Bliv medlem</span>
             </Button>
             <Or />
             <Link href={"/login"}>
