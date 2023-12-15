@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { LogIn, ArrowLeft, SmilePlus } from "lucide-react";
+import { LogIn, ArrowLeft, SmilePlus, Loader2 } from "lucide-react";
 import Or from "@/components/auth/Or";
 import Link from "next/link";
 
@@ -34,6 +34,7 @@ export default function Login() {
   const router = useRouter();
   // State to validate if email and password is correct
   const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // 1. Define your form.
   const form = useForm({
@@ -50,9 +51,7 @@ export default function Login() {
   async function onSubmit(values) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-
-    console.log(values);
-
+    setIsLoading(true);
     const { data, error } = await supabase.auth.signInWithPassword({
       email: values.email,
       password: values.password,
@@ -64,6 +63,7 @@ export default function Login() {
       router.push("/");
     } else {
       setError(true);
+      setIsLoading(false);
     }
   }
 
@@ -129,8 +129,17 @@ export default function Login() {
             </p>
           )}
           <div className="pt-5">
-            <Button type="submit" className="w-full items-center">
-              <LogIn className="mr-2 h-4 w-4" /> <span>Login</span>
+            <Button
+              type="submit"
+              className="w-full items-center"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <LogIn className="mr-2 h-4 w-4" />
+              )}
+              <span>Login</span>
             </Button>
             <Or />
             <Link href={"/sign-up"}>

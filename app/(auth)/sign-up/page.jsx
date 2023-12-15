@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { LogIn, ArrowLeft, SmilePlus } from "lucide-react";
+import { LogIn, ArrowLeft, SmilePlus, Loader2 } from "lucide-react";
 import Or from "@/components/auth/Or";
 import Link from "next/link";
 
@@ -38,6 +38,7 @@ export default function SignUp() {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   // 1. Define your form.
   const form = useForm({
@@ -56,6 +57,7 @@ export default function SignUp() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     if (values.password === values.confirmPassword) {
+      setIsLoading(true);
       const { data, error } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
@@ -70,7 +72,9 @@ export default function SignUp() {
         setMessage(
           "Tak for din tilmelding. Du vil modtage en mail med et link til at aktivere din konto."
         );
+        setIsLoading(false);
       } else {
+        setIsLoading(false);
         setError(true);
         setErrorMessage(error.message);
       }
@@ -165,8 +169,17 @@ export default function SignUp() {
             </p>
           )}
           <div className="pt-5">
-            <Button type="submit" className="w-full items-center">
-              <SmilePlus className="mr-2 h-4 w-4" /> <span>Bliv medlem</span>
+            <Button
+              type="submit"
+              className="w-full items-center"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <SmilePlus className="mr-2 h-4 w-4" />
+              )}
+              <span>Login</span>
             </Button>
             <Or />
             <Link href={"/login"}>
