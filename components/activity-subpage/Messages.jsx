@@ -16,15 +16,11 @@ import Box from "../shared/Box";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import EditMessage from "./EditMessage";
 import NewMessage from "./NewMessage";
 import Link from "next/link";
+import Like from "./Like";
+import Delete from "./Delete";
 
 export default function Messages({ category, messages, currentUser, session }) {
   const isAdmin = currentUser?.role === "admin";
@@ -160,105 +156,5 @@ async function Message({ message, currentUser, category }) {
         <Like message={message} currentUser={currentUser} data={data} />
       )}
     </Box>
-  );
-}
-
-function Like({ message, currentUser, data }) {
-  async function likeMessage(FormData) {
-    "use server";
-    const cookieStore = cookies();
-    const supabase = createClient(cookieStore);
-    const messageId = FormData.get("messageId");
-    const userId = FormData.get("userId");
-
-    const { data } = await supabase
-      .from("likes")
-      .select()
-      .eq("message_id", messageId)
-      .eq("user_id", userId);
-
-    if (data.length > 0) {
-      const { error } = await supabase
-        .from("likes")
-        .delete()
-        .eq("id", data[0].id);
-
-      if (error) {
-        console.log(error);
-      }
-    } else {
-      const { error } = await supabase
-        .from("likes")
-        .insert([{ message_id: messageId, user_id: userId }]);
-
-      if (error) {
-        console.log(error);
-      }
-    }
-  }
-
-  return (
-    <form action={likeMessage}>
-      <input type="hidden" name="messageId" value={message.id} />
-      <input type="hidden" name="userId" value={currentUser.id} />
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              className={`px-2.5 ${data.length > 0 && "group"}`}
-              variant="outline"
-            >
-              {data.length > 0 ? (
-                <>
-                  <Check className="w-4 h-4 group-hover:hidden" />
-                  <EyeOff className="w-4 h-4 hidden group-hover:block" />
-                </>
-              ) : (
-                <Eye className="w-4 h-4" />
-              )}
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            {data.length > 0 ? <p>Marker som ulæst</p> : <p>Marker som læst</p>}
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    </form>
-  );
-}
-
-function Delete({ message }) {
-  async function deleteMessage(FormData) {
-    "use server";
-    const cookieStore = cookies();
-    const supabase = createClient(cookieStore);
-    const messageId = FormData.get("messageId");
-
-    const { error } = await supabase
-      .from("messages")
-      .delete()
-      .eq("id", messageId);
-
-    if (error) {
-      console.log(error);
-    }
-  }
-
-  return (
-    <form action={deleteMessage}>
-      <input type="hidden" name="messageId" value={message.id} />
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button className="px-2.5" variant="outline">
-              <Trash2 className="w-4 h-4" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Slet besked</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    </form>
   );
 }

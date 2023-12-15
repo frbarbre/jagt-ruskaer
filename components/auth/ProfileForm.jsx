@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { createClient } from '@/utils/supabase/client';
-import { useRouter } from 'next/navigation';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -14,11 +14,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useState, useEffect } from 'react';
-import { Trash2, UserPlus } from 'lucide-react';
-import UploadImage from '@/components/shared/UploadImage';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { Trash2, UserPlus, Loader2 } from "lucide-react";
+import UploadImage from "@/components/shared/UploadImage";
 
 const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
@@ -32,7 +32,7 @@ const formSchema = z.object({
     .string()
     .min(8)
     .max(8)
-    .regex(phoneRegex, 'Ikke et gyldigt telefonnummer'),
+    .regex(phoneRegex, "Ikke et gyldigt telefonnummer"),
   wantsNewsletter: z.boolean().optional().default(false),
 });
 
@@ -51,23 +51,24 @@ export default function ProfileForm({
   // initializing the router
   const router = useRouter();
 
-  const [image, setImage] = useState(avatar || '');
+  const [image, setImage] = useState(avatar || "");
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({
-    message: '',
+    message: "",
     isActive: false,
   });
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // 1. Define your form.
   const form = useForm({
     // zodResolver will validate your form values against your schema - hover on it... Bish..
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: firstN || '',
-      lastName: lastN || '',
-      phoneNumber: phoneN || '',
+      firstName: firstN || "",
+      lastName: lastN || "",
+      phoneNumber: phoneN || "",
       wantsNewsletter: hasNewsletter || false,
     },
   });
@@ -77,30 +78,31 @@ export default function ProfileForm({
   async function onSubmit(values) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-
+    setIsSubmitting(true);
     const { error } = await supabase
-      .from('profiles')
+      .from("profiles")
       .update({
         first_name: values.firstName,
         last_name: values.lastName,
         phone_number: values.phoneNumber,
         wantNewsletter: values.wantsNewsletter,
-        avatar_url: isDeleting ? '' : images[0]?.url,
+        avatar_url: isDeleting ? "" : images[0]?.url,
       })
-      .eq('id', user_id);
+      .eq("id", user_id);
     if (!error) {
       if (isAdminPage) {
-        router.push('/admin/medlemmer');
+        router.push("/admin/medlemmer");
       } else {
-        router.push('/');
+        router.push("/");
       }
     } else {
+      setIsSubmitting(false);
       console.log(error);
     }
   }
 
   function removeImage() {
-    setImage('');
+    setImage("");
     setImages([]);
     setIsDeleting(true);
   }
@@ -120,8 +122,8 @@ export default function ProfileForm({
       </div>
 
       <p className="text-zinc-700 my-5">
-        Indtast oplysninger for at redigere{' '}
-        {isAdminPage ? firstN + ' ' + lastN + 's' : 'din'} profil.
+        Indtast oplysninger for at redigere{" "}
+        {isAdminPage ? firstN + " " + lastN + "s" : "din"} profil.
       </p>
       <div className="relative w-max mx-auto">
         <UploadImage
@@ -134,7 +136,7 @@ export default function ProfileForm({
           setError={setError}
           setIsDeleting={setIsDeleting}
         />
-        {!isDeleting && (image !== '' || images[0]) && (
+        {!isDeleting && (image !== "" || images[0]) && (
           <Button
             className="absolute top-1 right-1 bg-white px-2.5"
             variant="outline"
@@ -212,8 +214,17 @@ export default function ProfileForm({
           />
 
           <div className="pt-5">
-            <Button type="submit" className="w-full items-center">
-              <UserPlus className="mr-2 h-4 w-4" /> <span>Opdater Profil</span>
+            <Button
+              type="submit"
+              className="w-full items-center"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <UserPlus className="mr-2 h-4 w-4" />
+              )}
+              <span>Opdater Profil</span>
             </Button>
           </div>
         </form>

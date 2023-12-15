@@ -37,7 +37,7 @@ export default function UpcomingEvents({ comingEvents }) {
         </Link>
       </div>
       <ScrollArea>
-        <div className="flex gap-5 pb-4 sm:px-5 max-w-[335px]">
+        <div className="flex gap-5 sm:px-5 pb-4">
           {activities}
         </div>
         <ScrollBar orientation="horizontal" className="sm:px-5" />

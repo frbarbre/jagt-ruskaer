@@ -16,8 +16,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState, useEffect } from "react";
-import { Trash2, UserPlus } from "lucide-react";
+import { useState } from "react";
+import { Trash2, UserPlus, Loader2 } from "lucide-react";
 import UploadImage from "@/components/shared/UploadImage";
 
 const phoneRegex = new RegExp(
@@ -58,6 +58,7 @@ export default function OnboardingForm({
     isActive: false,
   });
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // 1. Define your form.
   const form = useForm({
@@ -77,6 +78,7 @@ export default function OnboardingForm({
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
+    setIsSubmitting(true);
     const { error } = await supabase
       .from("profiles")
       .update({
@@ -94,6 +96,7 @@ export default function OnboardingForm({
       console.log(values);
     } else {
       console.log(error);
+      setIsSubmitting(false);
     }
   }
 
@@ -209,8 +212,17 @@ export default function OnboardingForm({
           />
 
           <div className="pt-5">
-            <Button type="submit" className="w-full items-center">
-              <UserPlus className="mr-2 h-4 w-4" /> <span>Opret Profil</span>
+            <Button
+              type="submit"
+              className="w-full items-center"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <UserPlus className="mr-2 h-4 w-4" />
+              )}
+              <span>Opret Profil</span>
             </Button>
           </div>
         </form>

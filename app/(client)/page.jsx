@@ -19,9 +19,6 @@ export default async function Home({ searchParams }) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
-  // Fetching data from SupaBase
-  const { data } = await supabase.from("profiles").select();
-
   // Fetching the current users data, with the getSession method from Supabase
   const {
     data: { session },
@@ -91,7 +88,7 @@ export default async function Home({ searchParams }) {
       {/* The whole RSS feed on the right-hand side of the Home page */}
       <Box
         isOuterBox={true}
-        className="flex w-full lg:max-w-[526px] min-h-screen flex-col items-center gap-3"
+        className="flex w-full lg:max-w-[526px] min-h-screen flex-col items-center gap-3 sm:pr-1 sm:pb-0 sm:pl-5 sm:pt-5"
         padding={"sm:pr-1 sm:pb-0 sm:pl-5 sm:pt-5"}
       >
         <div className="flex justify-between items-center w-full">
@@ -100,6 +97,7 @@ export default async function Home({ searchParams }) {
             href="https://www.jaegerforbundet.dk/om-dj/dj-medier/nyhedsarkiv/"
             target="_blank"
             rel="noopener noreferrer"
+            className="pr-4"
           >
             <Button variant={"outline"}>Se alle</Button>
           </a>
