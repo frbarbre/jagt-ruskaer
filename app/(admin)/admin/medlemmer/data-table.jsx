@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 import {
   flexRender,
@@ -9,7 +9,7 @@ import {
   useReactTable,
   getSortedRowModel,
   getPaginationRowModel,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table";
 
 import {
   Table,
@@ -18,21 +18,21 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { ChevronDownIcon } from '@radix-ui/react-icons';
-import { useStore } from '@/store';
-import RoleMenu from '@/components/admin-members/RoleMenu';
-import Modal from '@/components/shared/Modal';
-import { shallow } from 'zustand/shallow';
+} from "@/components/ui/dropdown-menu";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { useStore } from "@/store";
+import RoleMenu from "@/components/admin-members/RoleMenu";
+import Modal from "@/components/shared/Modal";
+import { shallow } from "zustand/shallow";
 
 export function DataTable({ columns, data }) {
   const [sorting, setSorting] = useState([]);
@@ -65,23 +65,23 @@ export function DataTable({ columns, data }) {
   return (
     <div>
       {isRoleModalOpen && (
-        <Modal setActive={setIsRoleModalOpen} maxWidth={'max-w-[350px]'}>
+        <Modal setActive={setIsRoleModalOpen} maxWidth={"max-w-[350px]"}>
           <RoleMenu user_id={selectedUserId} setActive={setIsRoleModalOpen} />
         </Modal>
       )}
       <div className="flex items-center py-4">
         <Input
           placeholder="Søg efter emails..."
-          value={table.getColumn('email')?.getFilterValue() ?? ''}
+          value={table.getColumn("email")?.getFilterValue() ?? ""}
           onChange={(event) =>
-            table.getColumn('email')?.setFilterValue(event.target.value)
+            table.getColumn("email")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto group">
-              Kolonner{' '}
+              Kolonner{" "}
               <ChevronDownIcon className="w-4 h-4 ml-2 transition-transform group-data-[state=open]:rotate-180" />
             </Button>
           </DropdownMenuTrigger>
@@ -131,7 +131,7 @@ export function DataTable({ columns, data }) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
+                  data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

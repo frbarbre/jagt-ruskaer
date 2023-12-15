@@ -34,7 +34,7 @@ export default function Messages({ category, messages, currentUser, session }) {
 
   return (
     <>
-      <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
+      <div className="flex items-center justify-between mb-5 flex-wrap gap-3 pr-5">
         <Heading title={`Vigtige beskeder`} icon={<Megaphone />} />
         {isAuthorized && (
           <NewMessage category={category} currentUser={currentUser} />

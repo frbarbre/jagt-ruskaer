@@ -86,8 +86,8 @@ export default async function ActivityPage({ params }) {
           <ImageSlider images={images} />
         </Box>
         <Box
-          className={`lg:min-h-messages lg:max-h-[400px]`}
-          padding={"sm:p-5 sm:pr-1"}
+          className={`lg:min-h-messages lg:max-h-[400px] sm:pr-1`}
+          padding={"sm:p-5"}
           isOuterBox={true}
         >
           <Messages
