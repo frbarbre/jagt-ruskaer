@@ -97,7 +97,7 @@ export default async function Home({ searchParams }) {
             href="https://www.jaegerforbundet.dk/om-dj/dj-medier/nyhedsarkiv/"
             target="_blank"
             rel="noopener noreferrer"
-            className="pr-4"
+            className="sm:pr-4"
           >
             <Button variant={"outline"}>Se alle</Button>
           </a>
